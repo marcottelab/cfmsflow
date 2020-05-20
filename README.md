@@ -1,4 +1,11 @@
-This is the project directory for "A pan-plant protein complex map reveals deep conservation and novel assemblies"
+
+
+
+
+
+
+### Update this
+records: Records of commands run in course of analysis. Paths are local, but pattern can be used to compose commands in other systems
 
 accessory_files: Contains external files used during data analysis
 
@@ -10,11 +17,8 @@ training: Location for training models, and output annotated co-fractionation ma
  
 feature_selection: Location for running feature selection on training-set labeled feature matrix
 
-structure: 3D protein structures for paper figures
-
 gold_standard: Gold standard training and test interactions. Positive interactions were derived from CORUM protein complexes supplemented with known plant PPI, and negative interactions composed of random pairs present in full feature matrix
 
-records: Records of commands run in course of analysis. Paths are local, but pattern can be used to compose commands in other systems
 
 features: Location for calculated features from elution profiles. Not included in Zenodo due to size, but can be extracted from full feature_matrix
 
