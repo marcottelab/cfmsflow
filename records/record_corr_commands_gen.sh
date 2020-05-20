@@ -1,5 +1,5 @@
-REPS=$1
-PCM_DIR=$2
+PCM_DIR=$1
+REPS=$2
 
 # 5 reps for test, 
 # 100 reps for final iteration
