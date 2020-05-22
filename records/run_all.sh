@@ -2,36 +2,51 @@ PCM_DIR=/project/cmcwhite/github/protein_complex_maps
 EXP_PREFIX=wheat
 GOLD_COMPLEXES=gold_standards/allComplexesCore_photo_euktovirNOG_expansion.txt
 export PYTHONPATH=$PCM_DIR:$PYTHONPATH
-shopt -s nullglob # Makes it so can check for output files
 
-echo "run from protein_complexes_template base directory"
+
+
+
 
 echo "format input elutions"
 #bash records/record_format_elutions.sh
+
+# TODO: Add script to perform formatting check
+
+
+if [ -f "$(find "elutions/processed_elutions" -name "*.wide" | head -1)" ] 
+then    
+
+    #echo elutions/processed_elutions/*.feat
+    #ls elutions/processed_elutions/*.wide
+    echo -e "\e[35mElutions formatted (elutions/processed_elutions/*.wide)\e[39m"
+
+else
+    echo -e "\e[91mNo output files from formatting elutions were found (elutions/processed_elutions/*.wide)\e[39m"
+    echo -e "\e[91mExiting\e[39m"
+    exit 1
+fi
+#
 
 #####################
 echo "create correlation commands, default 5 replications with poisson noise, use up to 100 for final calculations"
 bash records/record_corr_commands_gen.sh $PCM_DIR 5
 
 echo "run correlation commands"
-cat records/record_corr_COMMANDS.sh | parallel -j30
+cat records/record_corr_COMMANDS.sh | parallel -j30 &> logs/corr_commands.log
 
-(find "elutions/processed_elutions" -name "*.feat" | head -1)
-echo "BLASDF"
 
 if [ -f "$(find "elutions/processed_elutions" -name "*.feat" | head -1)" ] 
 then    
 
     #echo elutions/processed_elutions/*.feat
-    ls elutions/processed_elutions/*.feat
-    echo "Features calculated (elutions/processed_elutions/*.feat)"
+    #ls elutions/processed_elutions/*.feat
+    echo -e "\e[35mFeatures calculated (elutions/processed_elutions/*.feat)\e[39m"
 
 else
-    echo "No output files from calculating features were found (elutions/processed_elutions/*.feat)"
-    echo "Exiting"
+    echo -e "\e[91mNo output files from calculating features were found (elutions/processed_elutions/*.feat)\e[39m"
+    echo -e "\e[91mExiting\e[39m"
     exit 1
 fi
-exit 1 
 #####################
 
 #####################
@@ -39,35 +54,33 @@ echo "make alphabetization commands"
 bash records/record_alphabetize_commands_gen.sh $PCM_DIR
 
 echo "run alphabetization commands"
-cat records/record_alphabetize_COMMANDS.sh | parallel -j30
+cat records/record_alphabetize_COMMANDS.sh | parallel -j30 &> logs/alphabetize_commands.log 
 
-
-if [ -f "$(echo elutions/processed_elutions/*.feat.ordered | head -1)" ] 
+if [ -f "$(find "elutions/processed_elutions" -name "*.feat.ordered" | head -1)" ] 
 then    
-    ls elutions/processed_elutions/*.feat.ordered
-    echo "Features ordered (elutions/processed_elutions/*.feat.ordered)"
+    #ls elutions/processed_elutions/*.feat.ordered
+    echo -e "\e[35mFeature IDs alphabetized (elutions/processed_elutions/*.feat.ordered\e[39m)"
 else
-    echo "No output files from alphabetizing feature IDs were found (elutions/processed_elutions/*.feat.ordered)"
-    echo "Exiting"
+    echo -e "\e[91mNo output files from alphabetizing feature IDs were found (elutions/processed_elutions/*.feat.ordered)\e[39m"
+    echo -e "\e[91mExiting\e[39m"
     exit 1
 fi
-
+exit 1
 ####################
 
 echo "make rescale commands for distance features"
 bash records/record_rescale_commands_gen.sh $PCM_DIR
 
 echo "run rescale commands for distance features"
-cat records/record_rescale_COMMANDS.sh | parallel -j30
+cat records/record_rescale_COMMANDS.sh | parallel -j30  &> logs/rescale_commands.log 
 
-
-if [ -f "$(echo elutions/processed_elutions/*.feat.rescale.ordered)" ] 
+if [ -f "$(find "elutions/processed_elutions" -name "*.feat.rescale.ordered" | head -1)" ] 
 then   
     ls elutions/processed_elutions/*.feat.rescale.ordered 
-    echo "Euclidean and Bray-Curtis features rescaled (elutions/processed_elutions/*.feat.rescale.ordered)"
+    echo -e "\e[35mEuclidean and Bray-Curtis features rescaled (elutions/processed_elutions/*.feat.rescale.ordered\e[39m)"
 else
-    echo "No output files from rescaling distance features were found (elutions/processed_elutions/*.feat.rescale.ordered)"
-    echo "Exiting"
+    echo -e "\e[91mNo output files from rescaling distance features were found (elutions/processed_elutions/*.feat.rescale.ordered\e[39m)"
+    echo -e "\e[91mExiting\e[39m"
     exit 1
 fi
 
