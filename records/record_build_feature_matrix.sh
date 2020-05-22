@@ -21,10 +21,10 @@ echo "Feature file: $FEAT_FILE"
 echo "Output file: $OUTPUT_FILE"
 echo "Stores an intermediate file every $STORE_INTERVAL features" 
 
-python $PCM_DIR/features/build_feature_matrix.py --input_pairs_list $FEAT_FILE --store_interval $STORE_INTERVAL --output_file $OUTPUT_FILE --sep ','
+python $PCM_DIR/protein_complex_maps/features/build_feature_matrix.py --input_pairs_list $FEAT_FILE --store_interval $STORE_INTERVAL --output_file $OUTPUT_FILE --sep ','
 
 
 # If fails midway, can restart by setting EXISTING MATRIX, and using the below command
-#python /project/cmcwhite/github/protein_complex_maps/protein_complex_maps/features/build_feature_matrix.py --prev_feature_matrix $EXISTING_MATRIX --input_pairs_list $FEAT_LIST --output_file $OUTPUT_FILE --store_interval $STORE_INTERVAL --sep ','
+#python $PCM_DIR/protein_complex_maps/features/build_feature_matrix.py --prev_feature_matrix $EXISTING_MATRIX --input_pairs_list $FEAT_LIST --output_file $OUTPUT_FILE --store_interval $STORE_INTERVAL --sep ','
 
 
