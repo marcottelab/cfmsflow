@@ -1,7 +1,9 @@
+#PATH_TO_ELUTIONS=
 PCM_DIR=/project/cmcwhite/github/protein_complex_maps
 EXP_PREFIX=text
 GOLD_COMPLEXES=gold_standards/allComplexesCore_photo_euktovirNOG_expansion.txt
-RUN_FORMAT=T
+RUN_FORMAT=F
+RUN_FEATURES=T
 RUN_CORR=T
 RUN_ALPHABETIZE=T
 RUN_RESCALE=T
