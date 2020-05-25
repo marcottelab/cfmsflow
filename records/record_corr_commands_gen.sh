@@ -1,13 +1,15 @@
+#! /bin/bash
 CONFIG=$1
 source $CONFIG
 
-###################
-#Code
-
 while read exp
         do for corr in pearsonR spearmanR euclidean braycurtis #xcorr
+           do 
 
-           do
+              rm logs/log_corr_${exp##*/}_${corr} 
+              rm logs/error_corr_${exp##*/}_${corr}
+
+
                if [ $ADD_POISSON_NOISE == "T" ]; then
 
                   if [[ -z $POISSON_REPS ]]; then

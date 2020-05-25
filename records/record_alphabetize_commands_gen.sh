@@ -1,9 +1,19 @@
-PCM_DIR=$1
+#! /bin/bash
+CONFIG=$1
+source $CONFIG
 
-for feat in elutions/processed_elutions/*feat
+while read exp
     do
-       echo "python $PCM_DIR/protein_complex_maps/features/alphabetize_pairs.py --feature_pairs $feat --outfile ${feat%.txt}.ordered --sep ','"
-    done > records/record_alphabetize_COMMANDS.sh  
+       for feat in ${exp%.wide}*feat
+      do
 
-# cat record_alphabetize_COMMANDS.sh > parallel -j 30
+           rm logs/log_alphabetize_${feat##*/}
+           rm logs/error_error_alphabetize_${exp##*/}
+ 
+           echo "python $PCM_DIR/protein_complex_maps/features/alphabetize_pairs.py --feature_pairs $feat --outfile ${feat}.ordered --sep ',' > logs/log_alphabetize_${feat##*/} 2> logs/error_alphabetize_${exp##*/}" 
+      done
+
+    done < $EXPLIST > records/record_alphabetize_COMMANDS.sh 
+
+# cat records/record_alphabetize_COMMANDS.sh | parallel -j30
 
