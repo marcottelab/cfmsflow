@@ -1,0 +1,33 @@
+#! /bin/bash
+CONFIG=$1
+source $CONFIG
+
+echo -e "\e[36mMake rescale commands for distance feature\e[39m"
+bash records/record_rescale_commands_gen.sh $CONFIG
+
+echo -e "\e[32mRun rescale commands for distance feature\e[39m"
+cat records/record_rescale_COMMANDS.sh | parallel -j30 --joblog alphabetize_status.log  &> logs/rescale_commands.log 
+
+# Remove empty error files (meaning no error)
+# Parallel returns an empty stderr by default
+find "logs" -maxdepth 1 -name "error_rescale*" -empty -delete
+
+#Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
+while read exp
+  do
+    if [ -f "$(find "logs" -maxdepth 1 -name "error_rescale*" | head -1)" ]
+      then
+        echo "Errors found while inverting scale of distance measures"
+        ls logs/error_rescale*
+        exit 1
+    fi
+  done < $EXPLIST
+
+if [ -f "$(find "elutions/processed_elutions" -maxdepth 1 -name "*.feat.rescale.ordered" | head -1)" ] 
+  then   
+    echo -e "\e[35mEuclidean and Bray-Curtis features rescaled (elutions/processed_elutions/*.feat.rescale.ordered\e[39m)"
+  else
+    echo -e "\e[91mNo output files from rescaling distance features were found (elutions/processed_elutions/*.feat.rescale.ordered\e[39m)"
+    echo -e "\e[91mExiting\e[39m"
+    exit 1
+fi

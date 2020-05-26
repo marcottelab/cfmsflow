@@ -1,0 +1,5 @@
+#! /bin/bash
+CONFIG=$1
+
+echo -e "\e[32mfeature matrix procession"
+bash records/record_feature_matrix_processing.sh  

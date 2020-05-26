@@ -1,0 +1,6 @@
+#! /bin/bash
+CONFIG=$1
+source $CONFIG
+
+echo -e "\e[32mformat gold standard\e[39m"
+bash records/record_gold_standards.sh $PCM_DIR $EXP_PREFIX $GOLD_COMPLEXES

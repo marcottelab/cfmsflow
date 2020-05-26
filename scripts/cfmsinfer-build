@@ -1,0 +1,10 @@
+#! /bin/bash
+CONFIG=$1
+source $CONFIG
+
+
+
+echo -e "\e[32mbuild feature matrix"
+bash records/record_build_feature_matrix.sh $CONFIG
+
+

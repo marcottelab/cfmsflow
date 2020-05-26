@@ -1,0 +1,79 @@
+#! /bin/bash
+CONFIG=$1
+source $CONFIG
+
+echo "EXPLIST=$EXPLIST"
+echo "PCM_DIR=$PCM_DIR"
+echo "ADD_POISSON_NOISE=$ADD_POISSON_NOISE"
+echo "POISSON_REPS=$POISSON_REPS"     
+
+###################
+#Error checking
+
+# Check if input files exist
+if [ -f "$(find "elutions/processed_elutions" -name "*.wide" | head -1)" ]
+    then
+
+        echo -e "\e[35mElutions formatted (elutions/processed_elutions/*.wide)\e[39m"
+    else
+        echo -e "\e[91mNo output files from formatting elutions were found (elutions/processed_elutions/*.wide)\e[39m"
+        echo -e "\e[91mExiting\e[39m"
+    exit 1
+fi
+
+if [[ -z $PCM_DIR ]]; then
+  echo 'PCM_DIR undefined in config file, should point to protein_complex_maps repository ex. PCM_DIR=/home/github/protein_complex_maps'
+  exit
+fi
+
+if [[ $ADD_POISSON_NOISE != [TF] ]]; then
+  echo "ADD_POISSON_NOISE must be set to T or F in config file"
+
+  echo 'Set ADD_POISSON_NOISE=T for count based input data, otherwise ADD_POISSON_NOISE=F for e.g. intensity data.'
+  exit 1
+fi
+###################
+
+###################
+#Code
+
+
+echo -e "\e[36mCreate correlation commands (records/record_corr_commands_gen.sh)\ndefault 5 replications with poisson noise, use up to 100 for final calculation\e[39m"
+
+
+bash records/record_corr_commands_gen.sh $CONFIG
+
+echo -e "\e[32mRun correlation commands (records/record_corr_COMMANDs.sh)"
+
+cat records/record_corr_COMMANDS.sh | parallel -j30 --joblog logs/corr_jobstatus.log &> logs/corr_commands.log
+
+echo -e "\e[34mLogged at logs/corr_commands.log\e[39m"
+
+# Remove empty error files (meaning no error)
+# Parallel returns an empty stderr by default
+find "logs" -maxdepth 1 -name "error_corr*" -empty -delete 
+
+
+#Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
+while read exp
+  do
+    if [ -f "$(find "logs" -maxdepth 1 -name "error_corr*" | head -1)" ]
+      then
+        echo "Errors found during calculation of following features"
+        ls logs/error_corr* 
+        exit 1
+    fi
+  done < $EXPLIST
+
+# Not technically necessary
+if [ -f "$(find "elutions/processed_elutions" -maxdepth 1 -name "*.feat" | head -1)" ] 
+then    
+
+    echo -e "\e[35mFeatures calculated (elutions/processed_elutions/*.feat)\e[39m"
+fi
+
+#else
+#    echo -e "\e[91mNo output files from calculating features were found (elutions/processed_elutions/*.feat)\e[39m"
+#    echo -e "\e[91mExiting\e[39m"
+#    exit 1
+#fi

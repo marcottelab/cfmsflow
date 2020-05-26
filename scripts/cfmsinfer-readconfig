@@ -1,0 +1,22 @@
+if [ ! -f "$CONFIG" ]
+  then
+
+      CONFIG=records/config.sh
+      if [ -f "$CONFIG" ]
+      then
+          source $CONFIG
+      else
+          echo -e  "\e[91mNo config script found\e[39m"
+          echo -e  "\e[91mExiting\e[39m"
+          exit 1
+     fi
+fi
+echo -e "\e[32mUsing config script $CONFIG\e[39m"
+cat $CONFIG
+export PYTHONPATH=$PCM_DIR:$PYTHONPATH
+
+if [[ -z $PCM_DIR ]]; then
+  echo 'One or more variables are undefined in config script'
+  echo 'Set Path to protein_complex_maps directory \$PCM_DIR, A prefix for this experiment \$EXP_PREFIX, and a file of gold standard complexes \$GOLD_COMPLEXES'
+  exit 1
+fi
