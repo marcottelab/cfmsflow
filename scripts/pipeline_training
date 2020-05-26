@@ -1,5 +1,11 @@
 set -e
 CONFIG=$1 
+
+if [ ! -f $CONFIG ]; then
+   echo "Please provide a config file"
+   exit 1
+fi
+
 source $CONFIG
 cat $CONFIG
 export PYTHONPATH=$PCM_DIR
