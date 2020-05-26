@@ -1,0 +1,22 @@
+set -e
+CONFIG=$1 
+source $CONFIG
+cat $CONFIG
+export PYTHONPATH=$PCM_DIR
+
+
+if [ "$RUN_BUILD_FEATMAT" == "T" ]; then
+    ./scripts/cfmsinfer-build $CONFIG
+fi
+
+if [ "$RUN_GOLDSTANDARD" == "T" ]; then
+    ./scripts/cfmsinfer-gold $CONFIG
+fi
+
+if [ "$RUN_LABEL_FEATMAT" == "T" ]; then
+    ./scripts/cfmsinfer-label $CONFIG
+fi
+
+if [ "$RUN_TRAIN" == "T" ]; then
+    ./scripts/cfmsinfer-train $CONFIG
+fi
