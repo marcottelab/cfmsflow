@@ -4,7 +4,7 @@ source $CONFIG
  
 echo -e "\e[36mMake alphabetization commands (records/record_alphabetize_commands_gen.sh"
 
-bash records/record_alphabetize_commands_gen.sh $CONFIG
+bash scripts/make_alphabetize_commands.sh $CONFIG
 
 echo -e "\e[32mRun alphabetization commands (records/record_alphabetize_COMMANDS.sh"
 

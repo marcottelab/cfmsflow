@@ -1,10 +1,48 @@
-#! /bin/bash
+#!/bin/bash
 CONFIG=$1
 source $CONFIG
 
+echo -e "\e[32mBuilding feature matrix\e[39m"
+
+if [ ! -n $FEAT_FILE ];then
+   echo "File listing filepaths of each feature to combine to feature matrix required. Set FEAT_FILE=filename in config file. This file can be generated with scripts/get_feature_names.sh "
+   exit 1
+fi
+
+if [ -n "$EXP_PREFIX" ]; then
+  OUTPUT_FILE=feature_matrix/${EXP_PREFIX}_feature_matrix.csv
+else
+  OUTPUT_FILE=feature_matrix/feature_matrix.csv
+fi
+
+rm -f logs/log_build_featmat 
+rm -f logs/error_build_featmat
+
+if [ ! -n $EXISTING_MATRIX ]; then
+
+  #set EXISTING_MATRIX to allow adding onto or replacing columns in existing feature matrix
+  echo "python $PCM_DIR/protein_complex_maps/features/build_feature_matrix.py --prev_feature_matrix $EXISTING_MATRIX --input_pairs_list $FEAT_FILE --output_file $OUTPUT_FILE --store_interval $STORE_INTERVAL --sep ','" > records/record_build_featmat.sh
+
+else
+
+  echo "python $PCM_DIR/protein_complex_maps/features/build_feature_matrix.py --input_pairs_list $FEAT_FILE --store_interval $STORE_INTERVAL --output_file $OUTPUT_FILE --sep ','" > records/record_build_featmat.sh
+fi
+
+bash records/record_build_featmat.sh > logs/log_build_featmat 2> logs/error_build_featmat
 
 
-echo -e "\e[32mbuild feature matrix"
-bash records/record_build_feature_matrix.sh $CONFIG
+# Remove empty error log
+find "logs" -maxdepth 1 -name "error_build_featmat" -empty -delete
+
+if [ -f logs/error_build_featmat ]; then
+  ls logs/error_build_featmat
+  echo -e "\e[91mError while building feature matrix\e[39m"
+  echo -e "\e[91mSee log at logs/error_build_featmat\e[39m"
+  exit 1
+else
+  echo -e "\e[35mFeature matrix built without errors ($OUTPUT_FILE)\e[39m"
+
+fi 
+
 
 

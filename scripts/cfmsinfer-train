@@ -2,12 +2,12 @@
 CONFIG=$1
 source $CONFIG
 
-echo -e "\e[32mfeature matrix procession"
+echo -e "\e[32mfeature matrix procession\e[39m"
 bash records/record_feature_matrix_processing.sh  
 
-echo -e "\e[32mfeature selection"
+echo -e "\e[32mfeature selection\e[39m"
 bash records/record_feature_selection.sh  
 
 
-echo -e "\e[36mtraining"
+echo -e "\e[36mtraining\e[39m"
 bash records/record_training.sh 

@@ -2,9 +2,9 @@ set -e
 CONFIG=$1
 echo $CONFIG 
 
-if [ -f $CONFIG ]; then
+if [ ! -f $CONFIG ]; then
    echo "Please provide a config file as the first command line argument to this script"
-   echo "Ex. bash scripts/pipeline_training.sh config.sh"
+   echo "Ex. bash scripts/pipeline_features.sh config.sh"
    exit 1
 fi
 

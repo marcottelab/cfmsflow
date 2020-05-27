@@ -3,7 +3,7 @@ CONFIG=$1
 source $CONFIG
 
 echo -e "\e[36mMake rescale commands for distance feature\e[39m"
-bash records/record_rescale_commands_gen.sh $CONFIG
+bash scripts/make_rescale_commands.sh $CONFIG
 
 echo -e "\e[32mRun rescale commands for distance feature\e[39m"
 cat records/record_rescale_COMMANDS.sh | parallel -j30 --joblog alphabetize_status.log  &> logs/rescale_commands.log 

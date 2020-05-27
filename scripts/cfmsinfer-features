@@ -33,7 +33,7 @@ if [ "$RUN_FORMAT" == "T" ]
 then
     rm elutions/processed_elutions/*wide
     
-    echo -e "\e[32mFormat input elutions (records/record_format_elutions.sh)\e39m"
+    echo -e "\e[32mFormat input elutions (records/record_format_elutions.sh)\e[39m"
     bash records/record_format_elutions.sh &> logs/format_elutions.log
     
     # TODO: Add script to perform formatting check

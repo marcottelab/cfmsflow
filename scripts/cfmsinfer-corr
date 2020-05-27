@@ -41,7 +41,7 @@ fi
 echo -e "\e[36mCreate correlation commands (records/record_corr_commands_gen.sh)\ndefault 5 replications with poisson noise, use up to 100 for final calculation\e[39m"
 
 
-bash records/record_corr_commands_gen.sh $CONFIG
+bash scripts/make_corr_commands.sh $CONFIG
 
 echo -e "\e[32mRun correlation commands (records/record_corr_COMMANDs.sh)"
 
@@ -65,7 +65,7 @@ while read exp
     fi
   done < $EXPLIST
 
-# Not technically necessary
+# Not technically necessary to be in if statement, because exit 1 hits before if any errors encountered
 if [ -f "$(find "elutions/processed_elutions" -maxdepth 1 -name "*.feat" | head -1)" ] 
 then    
 
