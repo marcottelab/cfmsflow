@@ -1,5 +1,46 @@
 #! /bin/bash
 CONFIG=$1
+source $CONFIG
+export PYTHONPATH=$PCM_DIR
 
 echo -e "\e[32mfeature matrix procession\e[39m"
-bash records/record_feature_matrix_processing.sh  
+
+if [ ! -f feature_matrix/${EXP_PREFIX}_feature_matrix.csv ];then
+   echo -e "\e[32m Expected feature matrix feature_matrix/${EXP_PREFIX}_feature_matrix.csv not found\e[39m"
+   exit 1
+fi
+
+
+# TODO Give option to substitute own positive and negative interactions
+if [[ ! -f gold_standards/pos_train.txt && ! -f gold_standards/neg_train.txt ]]; then
+   echo -e "\e[32m Required files gold_standards/pos_train.txt and gold_standards/neg_train.txt not found\e[39m"
+   exit 1
+fi
+  
+
+
+
+
+# Adding label of gold standard training complexes
+echo "python $PCM_DIR/protein_complex_maps/features/add_label.py --input_feature_matrix feature_matrix/${EXP_PREFIX}_feature_matrix.csv --input_positives gold_standards/pos_train.txt --input_negatives gold_standards/neg_train.txt --sep , --ppi_sep ' ' --id_column ID --output_file feature_matrix/${EXP_PREFIX}_feature_matrix.labeled --fillna 0 --id_sep ' '" > records/record_label_featmat.sh  
+
+# Get training labeled interactions
+echo "grep -v ",0.0$" feature_matrix/${EXP_PREFIX}_feature_matrix.labeled > feature_matrix/${EXP_PREFIX}_feature_matrix.labeled1" >> records/record_label_featmat.sh  
+ 
+bash records/record_label_featmat.sh  > logs/log_label_featmat 2> logs/error_label_featmat
+
+
+# Remove empty error log
+find "logs" -maxdepth 1 -name "error_label_featmat" -empty -delete
+
+if [ -f logs/error_label_featmat ]; then
+  ls logs/error_label_featmat
+  echo -e "\e[91mError while building feature matrix\e[39m"
+  echo -e "\e[91mSee log at logs/error_label_featmat\e[39m"
+  exit 1
+else
+  echo -e "\e[35mFeature matrix labeled without errors ($OUTPUT_FILE)\e[39m"
+
+fi 
+
+

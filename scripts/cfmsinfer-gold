@@ -27,8 +27,9 @@ echo "python $PCM_DIR/protein_complex_maps/preprocessing_util/complexes/split_co
 
 
 echo "for ppi in gold_standards/*ppis.txt
- do 
-   python $PCM_DIR/protein_complex_maps/features/alphabetize_pairs.py --feature_pairs \$ppi --outfile \${ppi%.txt}.ordered --sep '\t' 
+ do
+   sed -i 's/\t/ /' \$ppi 
+   python $PCM_DIR/protein_complex_maps/features/alphabetize_pairs.py --feature_pairs \$ppi --outfile \${ppi%.txt}.ordered --sep ' ' 
  done" >> records/record_gold_standard.sh
 
 
@@ -54,7 +55,7 @@ then
  
   echo "sort -R gold_standards/neg_pool.txt > gold_standards/neg_pool.randsort" >> records/record_gold_standard.sh 
 
-  echo "split --number=2 gold_standards/neg_pool.randsort && mv xaa gold_standards/neg_train_pool.txt && mv xab gold_standards/neg_test_pool.txt" >> records/record_gold_standard.sh
+  echo "split --number=l/2 gold_standards/neg_pool.randsort && mv xaa gold_standards/neg_train_pool.txt && mv xab gold_standards/neg_test_pool.txt" >> records/record_gold_standard.sh
 fi
 
 if [ -n $LIMIT_NEGATIVES ]
