@@ -2,6 +2,42 @@
 CONFIG=$1
 source $CONFIG
 
+echo -e "\e[36m Scanning classifiers and getting optimal parameters\e[39m"
 
-echo -e "\e[36mtraining\e[39m"
-bash records/record_training.sh 
+rm logs/error_scan*
+rm logs/log_scan*
+
+while read classifier
+do
+
+   echo "python /project/cmcwhite/github/run_TPOT/train_TPOT.py --training_data feature_matrix/${EXP_PREFIX}_feature_matrix.labeled1 --outfile training/tpot_${EXP_PREFIX}_${classifier##*.}.py --classifier_subset $classifier --id_cols 0 --generations $GENERATIONS --population_size $POPULATION --labels -1 1 --temp_dir training/tpot_${EXP_PREFIX}_${classifier##*.}.tmp  > logs/log_scan_${classifier##*.} 2> logs/error_scan_${classifier##*.}"
+
+
+done < $CLASSIFIERS_TO_SCAN > records/record_scan_COMMANDS.sh
+
+
+cat records/record_scan_COMMANDS.sh | parallel -j30 --joblog scan_status.log  &> logs/scan_commands.log 
+
+# Remove empty error files (meaning no error)
+# Parallel returns an empty stderr by default
+find "logs" -maxdepth 1 -name "error_scan*" -empty -delete
+
+#Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
+while read exp
+  do
+    if [ -f "$(find "logs" -maxdepth 1 -name "error_scan*" | head -1)" ]
+      then
+        echo "Errors found while inverting scale of distance measures"
+        ls logs/error_scan*
+        exit 1
+    fi
+  done < $EXPLIST
+
+if [ -f "$(find "training" -maxdepth 1 -name "tpot_{EXP_PREFIX}*py" | head -1)" ] 
+  then   
+    echo -e "\e[35mClassifiers scanned and tpot paramters found\e[39m)"
+  else
+    echo -e "\e[91mNo output files from classifier scan found (tpot_{EXP_PREFIX}*py)\e[39m)"
+    echo -e "\e[91mExiting\e[39m"
+    exit 1
+fi
