@@ -5,10 +5,10 @@
 
 Pull request need to make input_pairs_list not required
 /protein_complex_maps/features/build_feature_matrix.py
+<- Not an issue?
 
 
-
-
+#Already happened?
 Figure out where this blank is coming from
 ==> gold_standards/neg_test.txt <==
 ENOG411DPMX ENOG411DPN8
