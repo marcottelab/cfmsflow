@@ -1,0 +1,11 @@
+sklearn.ensemble.GradientBoostingClassifier
+sklearn.naive_bayes.BernoulliNB
+sklearn.tree.DecisionTreeClassifier
+sklearn.neighbors.KNeighborsClassifier
+sklearn.naive_bayes.GaussianNB
+sklearn.svm.LinearSVC
+sklearn.linear_model.LogisticRegression
+sklearn.naive_bayes.MultinomialNB
+sklearn.ensemble.RandomForestClassifier
+xgboost.XGBClassifier
+sklearn.ensemble.ExtraTreesClassifier

@@ -28,6 +28,13 @@ if [ "$RUN_LABEL_FEATMAT" == "T" ]; then
     ./scripts/cfmsinfer-label $CONFIG
 fi
 
+if [ "$RUN_SCAN" == "T" ]; then
+    ./scripts/cfmsinfer-scan $CONFIG
+fi
+
 if [ "$RUN_TRAIN" == "T" ]; then
     ./scripts/cfmsinfer-train $CONFIG
 fi
+
+
+
