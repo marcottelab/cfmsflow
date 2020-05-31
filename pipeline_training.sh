@@ -36,5 +36,9 @@ if [ "$RUN_TRAIN" == "T" ]; then
     ./scripts/cfmsinfer-train $CONFIG
 fi
 
+if [ "$RUN_SCORE" == "T" ]; then
+    ./scripts/cfmsinfer-score $CONFIG
+fi
+
 
 

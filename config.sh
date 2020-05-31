@@ -12,7 +12,8 @@ RUN_BUILD_FEATMAT=F
 RUN_GOLDSTANDARD=F
 RUN_LABEL_FEATMAT=F
 RUN_SCAN=F
-RUN_TRAIN=T
+RUN_TRAIN=F
+RUN_SCORE=T
 
 ######## Params for calculating features
 EXPLIST=explist.txt

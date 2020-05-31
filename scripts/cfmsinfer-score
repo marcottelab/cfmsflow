@@ -1,0 +1,37 @@
+#! /bin/bash
+CONFIG=$1
+source $CONFIG
+
+echo -e "\e[36m Scoring feature matrix with trained model\e[39m"
+
+rm -f logs/error_predict
+rm -f logs/log_predict
+
+echo "python /project/cmcwhite/github/run_TPOT/tpot_predict.py --datafile feature_matrix/${EXP_PREFIX}_feature_matrix.csv --serialized_model training/tpot_${EXP_PREFIX}_fitted_model.p --outfile training/tpot_${EXP_PREFIX}_scored.txt --id_cols 0"  > records/record_predict_COMMANDS.sh
+
+
+bash records/record_predict_COMMANDS.sh > logs/log_predict 2> logs/error_predict
+
+
+# Remove empty error files (meaning no error)
+# Parallel returns an empty stderr by default
+find "logs" -maxdepth 1 -name "error_predict" -empty -delete
+
+#Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
+
+# Doesn't need find, just check if exists TODO
+if [ -f "$(find "logs" -maxdepth 1 -name "error_predict" | head -1)" ]
+      then
+        echo "Errors found while predicting with model"
+        ls logs/error_predict
+        exit 1
+fi
+
+if [ -f "$(find "training" -maxdepth 1 -name "tpot_${EXP_PREFIX}_scored.txt" | head -1)" ] 
+  then   
+    echo -e "\e[35mFeature matrix scored with model\e[39m)"
+  else
+    echo -e "\e[91mNo output scores (expected training/tpot_${EXP_PREFIX}_scored.txt)\e[39m)"
+    echo -e "\e[91mExiting\e[39m"
+    exit 1
+fi
