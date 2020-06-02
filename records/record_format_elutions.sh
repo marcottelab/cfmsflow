@@ -1,1 +1,0 @@
-Rscript scripts/format_elutions_template.R

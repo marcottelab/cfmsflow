@@ -6,13 +6,13 @@ GEN_COMMANDS_ONLY=F
 
 ####### Choose steps to run, set to F to skip
 
-RUN_FEATURES=F
-RUN_GET_FEAT_FILE=F
-RUN_BUILD_FEATMAT=F
-RUN_GOLDSTANDARD=F
-RUN_LABEL_FEATMAT=F
-RUN_SCAN=F
-RUN_TRAIN=F
+RUN_FEATURES=T
+RUN_GET_FEAT_FILE=T
+RUN_BUILD_FEATMAT=T
+RUN_GOLDSTANDARD=T
+RUN_LABEL_FEATMAT=T
+RUN_SCAN=T
+RUN_TRAIN=T
 RUN_SCORE=F
 RUN_CLUSTER=T
 
@@ -30,7 +30,7 @@ FEAT_FILE=feature_matrix/features.txt
 STORE_INTERVAL=10
 
 ####### Params for creating gold standard interactions (cfmsinfer-gold)
-GOLD_COMPLEXES=gold_standards/allComplexesCore_photo_euktovirNOG_expansion.txt
+GOLD_COMPLEXES=accessory_files/allComplexesCore_photo_euktovirNOG_expansion.txt
 MERGE_THRESHOLD=0.6
 COMPLEX_SIZE_THRESHOLD=30
 LIMIT_NEGATIVES=20000
@@ -47,7 +47,7 @@ POPULATION=20
 
 ####### Params for interaction clustering (cfmsinfer-cluster)
 CUTOFF=1000
-THRESHOLD=0.5
+THRESHOLD=
 WALKTRAP_STEPS=4
 ANNOTATION_FILE=
 ELUTION_FILE=elutions/processed_elutions/head_all_expconcat_elut_expnormspeccounts.wide
