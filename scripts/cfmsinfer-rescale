@@ -9,7 +9,7 @@ echo -e "\e[32mRun rescale commands for distance feature\e[39m"
 
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
-  cat records/record_rescale_COMMANDS.sh | parallel -j30 --joblog rescale_status.log  &> logs/rescale_commands.log 
+  cat records/record_rescale_COMMANDS.sh | parallel -j30 --joblog logs/rescale_status.log  &> logs/rescale_commands.log 
   
   # Remove empty error files (meaning no error)
   # Parallel returns an empty stderr by default

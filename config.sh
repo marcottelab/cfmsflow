@@ -13,7 +13,7 @@ RUN_GOLDSTANDARD=T
 RUN_LABEL_FEATMAT=T
 RUN_SCAN=T
 RUN_TRAIN=T
-RUN_SCORE=F
+RUN_SCORE=T
 RUN_CLUSTER=T
 
 ######## Params for calculating features (cfmsinfer-features, cfmsinfer-rescale, cfmsinfer-alphabetize)
@@ -49,6 +49,6 @@ POPULATION=20
 CUTOFF=1000
 THRESHOLD=
 WALKTRAP_STEPS=4
-ANNOTATION_FILE=
-ELUTION_FILE=elutions/processed_elutions/head_all_expconcat_elut_expnormspeccounts.wide
+ANNOTATION_FILE=''
+ELUTION_FILE=elutions/processed_elutions/ex_all_expconcat_elut_expnormspeccounts.wide
 
