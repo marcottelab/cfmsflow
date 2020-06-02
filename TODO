@@ -1,3 +1,7 @@
+Add check of labeled matrix for any positive values? 
+
+Or filter gold standards positives first?
+
 Suppress warnings? from pandas
  
 change alphabetize check to work with new pandas

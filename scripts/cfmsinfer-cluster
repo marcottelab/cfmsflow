@@ -1,0 +1,38 @@
+#! /bin/bash
+CONFIG=$1
+source $CONFIG
+export PYTHONPATH=$PCM_DIR
+
+echo -e "\e[32mCluster interactions\e[39m"
+
+if [ ! -f training/tpot_${EXP_PREFIX}_scored.txt ];then
+   echo -e "\e[32m Expected scored interaction file training/tpot_${EXP_PREFIX}_scored.txt not found\e[39m"
+   exit 1
+fi
+
+
+rm -f logs/log_cluster
+rm -f logs/error_cluster
+
+echo "python $PCM_DIR/protein_complex_maps/postprocessing_util/diffusion_clustering.py --input_edges training/tpot_${EXP_PREFIX}_scored.txt --cutoff $CUTOFF --method walktrap --use_scores --steps $WALKTRAP_STEPS --input_elution $ELUTION_FILE --annotation_file $ANNOTATION_FILE --outfile training/tpot_${EXP_PREFIX}_scored_walktrap --header --id_cols ID --id_sep ' ' --weight_col P_1" > records/record_cluster.sh 
+  
+if [ $GEN_COMMANDS_ONLY != "T" ];then
+   
+  bash records/record_cluster.sh  > logs/log_cluster 2> logs/error_cluster
+  
+  
+  # Remove empty error log
+  find "logs" -maxdepth 1 -name "error_cluster" -empty -delete
+  
+  if [ -f logs/error_cluster ]; then
+    ls logs/error_cluster
+    echo -e "\e[91mError while clustering interactions\e[39m"
+    echo -e "\e[91mSee stdout log at logs/log_cluster\e[39m"
+    echo -e "\e[91mSee error log at logs/error_cluster\e[39m"
+    exit 1
+  else
+    echo -e "\e[35mInteractions clustered without errors (training/tpot_${EXP_PREFIX}_scored_walktrap )\e[39m"
+      
+  fi 
+fi    
+    
