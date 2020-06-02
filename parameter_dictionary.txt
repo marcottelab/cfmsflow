@@ -4,26 +4,31 @@ PCM_DIR=/project/cmcwhite/github/for_pullreqs/protein_complex_maps
 
 ####### Choose steps to run, set to F to skip
 
-RUN_FEATURES=F
+RUN_CORR=T
+RUN_ALPHABETIZE=T
+RUN_RESCALE=T
 RUN_GET_FEAT_FILE=F
 RUN_BUILD_FEATMAT=F
 RUN_GOLDSTANDARD=F
 RUN_LABEL_FEATMAT=F
 RUN_SCAN=F
 RUN_TRAIN=F
-RUN_SCORE=F
-RUN_CLUSTER=T
+RUN_SCORE=T
 
 ######## Params for calculating features (cfmsinfer-features, cfmsinfer-rescale, cfmsinfer-alphabetize)
 EXPLIST=explist.txt
+
+# If F, will skip RUN_CORR, RUN_ALPHABETIZE, and RUN_RESCALE
+RUN_FEATURES=T
+
 ADD_POISSON_NOISE=T
-SKIP_CORR=F
-SKIP_ALPHABETIZE=F
+
+# Times to rerun correlations with poisson noise. 5 reps to test, up to 100 reps used in previous complex maps
 POISSON_REPS=5
 
 
 ######## Params for building feature matrix (cfmsinfer-getfeatnames, cfmsinfer-build)
-EXP_PREFIX=testrun
+EXP_PREFIX=test
 FEAT_FILE=feature_matrix/features.txt
 STORE_INTERVAL=10
 
@@ -39,7 +44,7 @@ MAKE_NEGATIVES_FROM_INTERCOMPLEX=F
 TPOT_DIR=/project/cmcwhite/github/run_TPOT/
 
 # For cfmsinfer-scan only
-CLASSIFIERS_TO_SCAN=accessory_files/all_classifiers.txt
+CLASSIFIERS_TO_SCAN=training/all_classifiers.txt
 GENERATIONS=10
 POPULATION=20
 

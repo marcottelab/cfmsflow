@@ -11,6 +11,18 @@ source $CONFIG
 cat $CONFIG
 export PYTHONPATH=$PCM_DIR
 
+if [ "$RUN_FEATURES" == "T" ]; then
+
+    if [ "$SKIP_CORR" != "T" ]; then
+        ./scripts/cfmsinfer-corr $CONFIG
+    fi
+
+    if [ "$SKIP_ALPHABETIZE" != "T" ]; then
+        ./scripts/cfmsinfer-alphabetize $CONFIG
+    fi
+   
+    ./scripts/cfmsinfer-rescale $CONFIG
+fi
 
 if [ "$RUN_GET_FEAT_FILE" == "T" ]; then
     ./scripts/cfmsinfer-getfeatnames $CONFIG
@@ -38,6 +50,10 @@ fi
 
 if [ "$RUN_SCORE" == "T" ]; then
     ./scripts/cfmsinfer-score $CONFIG
+fi
+
+if [ "$RUN_CLUSTER" == "T" ]; then
+    ./scripts/cfmsinfer-cluster $CONFIG
 fi
 
 
