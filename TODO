@@ -1,3 +1,7 @@
+Suppress warnings? from pandas
+ 
+change alphabetize check to work with new pandas
+
 
 write make test train annotation script and add into pipeline
 
