@@ -19,12 +19,12 @@ fi
   
 
 # Adding label of gold standard training complexes
-echo "python $PCM_DIR/protein_complex_maps/features/add_label.py --input_feature_matrix feature_matrix/${EXP_PREFIX}.featmat --input_positives gold_standards/pos_train.txt --input_negatives gold_standards/neg_train.txt --sep , --ppi_sep ' ' --id_column ID --output_file feature_matrix/${EXP_PREFIX}_feature_matrix.labeled --fillna 0 --id_sep ' '" > records/record_label_featmat.sh  
+echo "python $PCM_DIR/protein_complex_maps/features/add_label.py --input_feature_matrix feature_matrix/${EXP_PREFIX}.featmat --input_positives gold_standards/pos_train.txt --input_negatives gold_standards/neg_train.txt --sep , --ppi_sep ' ' --id_column ID --output_file feature_matrix/${EXP_PREFIX}.featmat.labeled --fillna 0 --id_sep ' '" > records/record_label_featmat.sh  
 
 # Get training labeled interactions
 # Separate this part out
 # Need to format for tpot as well by replacing ID space with comma
-echo "grep -v ",0.0\$" feature_matrix/${EXP_PREFIX}_feature_matrix.labeled > feature_matrix/${EXP_PREFIX}_feature_matrix.labeled1" >> records/record_label_featmat.sh  
+echo "grep -v ",0.0\$" feature_matrix/${EXP_PREFIX}_featmat.labeled > feature_matrix/${EXP_PREFIX}.featmat.labeled1" >> records/record_label_featmat.sh  
  
 if [ $GEN_COMMANDS_ONLY != "T" ];then
   bash records/record_label_featmat.sh  > logs/log_label_featmat 2> logs/error_label_featmat
@@ -40,7 +40,7 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
     echo -e "\e[91mSee error log at logs/error_label_featmat\e[39m"
     exit 1
   else
-    echo -e "\e[35mFeature matrix labeled without errors (${EXP_PREFIX}_feature_matrix.labeled)\e[39m"
+    echo -e "\e[35mFeature matrix labeled without errors (${EXP_PREFIX}.featmat.labeled)\e[39m"
   
   fi 
 fi
