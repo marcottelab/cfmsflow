@@ -1,3 +1,11 @@
+for diffusion, let handle ID1 ID2\tP_1. Handle in diffusion clustering --split_index.
+
+
+
+
+
+
+
   --input_pairs_files PAIRS_FILES [PAIRS_FILES ...]
                         Filenames of pairs files, space separated string
   --input_pairs_list PAIRS_FILE_LIST
