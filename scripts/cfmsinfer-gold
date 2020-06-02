@@ -48,7 +48,7 @@ fi
 if [ "$MAKE_NEGATIVES_FROM_OBSERVED" = "T" ]
 then
   # Get all ID pairs from the feature matrix (remove header with tail)
-  echo "awk -F',' '{print \$1}' feature_matrix/${EXP_PREFIX}_feature_matrix.csv |  tail -n +2 > gold_standards/identifiers_infeatmat.txt" >> records/record_gold_standard.sh
+  echo "awk -F',' '{print \$1}' feature_matrix/${EXP_PREFIX}.featmat |  tail -n +2 > gold_standards/identifiers_infeatmat.txt" >> records/record_gold_standard.sh
   
   # Remove any interactions that are in the positive set
   echo "grep -vFf gold_standards/pos_train.txt gold_standards/identifiers_infeatmat.txt | grep -vFf gold_standards/pos_test.txt> gold_standards/neg_pool.txt" >> records/record_gold_standard.sh
@@ -76,23 +76,25 @@ fi
 rm -f logs/log_gold_standard
 rm -f logs/error_gold_standard
 
-bash records/record_gold_standard.sh > logs/log_gold_standard 2> logs/error_gold_standard 
- 
-# Remove empty error log
-find "logs" -maxdepth 1 -name "error_gold_standard" -empty -delete
+if [ $GEN_COMMANDS_ONLY != "T" ];then
 
-if [ -f logs/error_gold_standard ]; then
-  ls logs/error_gold_standard
-  echo -e "\e[91mError while building feature matrix\e[39m"
-  echo -e "\e[91mSee output log at logs/log_gold_standard\e[39m"
-  echo -e "\e[91mSee error log at logs/error_gold_standard\e[39m"
-
-  exit 1
-else
-  echo -e "\e[35mGold standard files made without errors (gold_standards/neg_train.txt, gold_standards/neg_test.txt, gold_standard/pos_train.txt, gold_standards/pos_test.txt)\e[39m"
-
+  bash records/record_gold_standard.sh > logs/log_gold_standard 2> logs/error_gold_standard 
+   
+  # Remove empty error log
+  find "logs" -maxdepth 1 -name "error_gold_standard" -empty -delete
+  
+  if [ -f logs/error_gold_standard ]; then
+    ls logs/error_gold_standard
+    echo -e "\e[91mError while building feature matrix\e[39m"
+    echo -e "\e[91mSee output log at logs/log_gold_standard\e[39m"
+    echo -e "\e[91mSee error log at logs/error_gold_standard\e[39m"
+  
+    exit 1
+  else
+    echo -e "\e[35mGold standard files made without errors (gold_standards/neg_train.txt, gold_standards/neg_test.txt, gold_standard/pos_train.txt, gold_standards/pos_test.txt)\e[39m"
+  
+  fi
 fi
-
 
 
 

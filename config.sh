@@ -2,6 +2,8 @@
 
 PCM_DIR=/project/cmcwhite/github/for_pullreqs/protein_complex_maps
 
+GEN_COMMANDS_ONLY=F
+
 ####### Choose steps to run, set to F to skip
 
 RUN_FEATURES=F

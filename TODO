@@ -1,34 +1,3 @@
-for diffusion, let handle ID1 ID2\tP_1. Handle in diffusion clustering --split_index.
 
-
-
-
-
-
-
-  --input_pairs_files PAIRS_FILES [PAIRS_FILES ...]
-                        Filenames of pairs files, space separated string
-  --input_pairs_list PAIRS_FILE_LIST
-                        File of pairs filenames, one per line
-
-Pull request need to make input_pairs_list not required
-/protein_complex_maps/features/build_feature_matrix.py
-<- Not an issue?
-
-
-#Already happened?
-Figure out where this blank is coming from
-==> gold_standards/neg_test.txt <==
-ENOG411DPMX ENOG411DPN8
-ENOG411DPNQ ENOG411DPPV
-ENOG411DPN6 ENOG411DPP9
-ENOG411DPNJ ENOG411DPNP
-ENOG411DPP5 ENOG411DPPS
-ENOG411DPNI ENOG411DPNQ
-ENOG411DPNI ENOG411DPNP
-ENOG411DPNJ
-ENOG411DPNP ENOG411DPNW
-ENOG411DPNJ ENOG411DPNW
-
-
+write make test train annotation script and add into pipeline
 
