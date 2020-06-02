@@ -10,10 +10,10 @@ echo -e "\e[36m Scanning classifiers and getting optimal parameters\e[39m"
 if [ -n $CLASSIFIERS_TO_SCAN ];then
   CLASSIFIERS_FORMATTED=$(cat $CLASSIFIERS_TO_SCAN | tr '\n' ' ')
 
-  echo "python /project/cmcwhite/github/run_TPOT/train_TPOT.py --training_data feature_matrix/${EXP_PREFIX}_feature_matrix.labeled1 --outfile training/tpot_${EXP_PREFIX}.py --classifier_subset $CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs 20 --generations $GENERATIONS --population_size $POPULATION --labels -1 1 --temp_dir training/tpot_${EXP_PREFIX}.tmp"   > records/record_scan.sh
+  echo "python /project/cmcwhite/github/run_TPOT/train_TPOT.py --training_data feature_matrix/${EXP_PREFIX}.featmat.labeled1 --outfile training/tpot_${EXP_PREFIX}.py --classifier_subset $CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs 20 --generations $GENERATIONS --population_size $POPULATION --labels -1 1 --temp_dir training/tpot_${EXP_PREFIX}.tmp"   > records/record_scan.sh
 
 else
-  echo "python /project/cmcwhite/github/run_TPOT/train_TPOT.py --training_data feature_matrix/${EXP_PREFIX}_feature_matrix.labeled1 --outfile training/tpot_${EXP_PREFIX}.py  --id_cols 0 --n_jobs 20 --generations $GENERATIONS --population_size $POPULATION --labels -1 1 --temp_dir training/tpot_${EXP_PREFIX}.tmp" > records/record_scan.sh
+  echo "python /project/cmcwhite/github/run_TPOT/train_TPOT.py --training_data feature_matrix/${EXP_PREFIX}.featmat.labeled1 --outfile training/tpot_${EXP_PREFIX}.py  --id_cols 0 --n_jobs 20 --generations $GENERATIONS --population_size $POPULATION --labels -1 1 --temp_dir training/tpot_${EXP_PREFIX}.tmp" > records/record_scan.sh
 
 fi
 
