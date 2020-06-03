@@ -18,7 +18,7 @@ else
 fi
 
 rm -f logs/log_build_featmat 
-rm -f logs/error_build_featmat
+rm -f errors/error_build_featmat
 
 if [ ! -n $EXISTING_MATRIX ]; then
 
@@ -33,16 +33,16 @@ fi
 
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
-  bash records/record_build_featmat.sh > logs/log_build_featmat 2> logs/error_build_featmat
+  bash records/record_build_featmat.sh > logs/log_build_featmat 2> errors/error_build_featmat
   
   
   # Remove empty error log
-  find "logs" -maxdepth 1 -name "error_build_featmat" -empty -delete
+  find "errors" -maxdepth 1 -name "error_build_featmat" -empty -delete
   
-  if [ -f logs/error_build_featmat ]; then
-    ls logs/error_build_featmat
+  if [ -f errors/error_build_featmat ]; then
+    ls errors/error_build_featmat
     echo -e "\e[91mError while building feature matrix\e[39m"
-    echo -e "\e[91mSee log at logs/error_build_featmat\e[39m"
+    echo -e "\e[91mSee log at errors/error_build_featmat\e[39m"
     exit 1
   else
     echo -e "\e[35mFeature matrix built without errors ($OUTPUT_FILE)\e[39m"

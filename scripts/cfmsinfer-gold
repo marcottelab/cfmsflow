@@ -74,20 +74,20 @@ fi
 
 
 rm -f logs/log_gold_standard
-rm -f logs/error_gold_standard
+rm -f errors/error_gold_standard
 
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
-  bash records/record_gold_standard.sh > logs/log_gold_standard 2> logs/error_gold_standard 
+  bash records/record_gold_standard.sh > logs/log_gold_standard 2> errors/error_gold_standard 
    
   # Remove empty error log
-  find "logs" -maxdepth 1 -name "error_gold_standard" -empty -delete
+  find "errors" -maxdepth 1 -name "error_gold_standard" -empty -delete
   
-  if [ -f logs/error_gold_standard ]; then
-    ls logs/error_gold_standard
+  if [ -f errors/error_gold_standard ]; then
+    ls errors/error_gold_standard
     echo -e "\e[91mError while building feature matrix\e[39m"
     echo -e "\e[91mSee output log at logs/log_gold_standard\e[39m"
-    echo -e "\e[91mSee error log at logs/error_gold_standard\e[39m"
+    echo -e "\e[91mSee error log at errors/error_gold_standard\e[39m"
   
     exit 1
   else

@@ -14,15 +14,15 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
   # Remove empty error files (meaning no error)
   # Parallel returns an empty stderr by default
   # TPOT error logs are not technically empty even if no error occurred
-  find "logs" -maxdepth 1 -name "error_rescale*" -empty -delete
+  find "errors" -maxdepth 1 -name "error_rescale*" -empty -delete
   
   #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
   while read exp
     do
-      if [ -f "$(find "logs" -maxdepth 1 -name "error_rescale*" | head -1)" ]
+      if [ -f "$(find "errors" -maxdepth 1 -name "error_rescale*" | head -1)" ]
         then
           echo "Errors found while inverting scale of distance measures"
-          ls logs/error_rescale*
+          ls errors/error_rescale*
           exit 1
       fi
     done < $EXPLIST

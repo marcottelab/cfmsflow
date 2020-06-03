@@ -4,27 +4,27 @@ source $CONFIG
 
 echo -e "\e[36m Scanning classifiers and getting optimal parameters\e[39m"
 
-rm -f logs/error_train
+rm -f errors/error_train
 rm -f logs/log_train
 
 echo "python /project/cmcwhite/github/run_TPOT/train_test_model2.py --training_infile feature_matrix/${EXP_PREFIX}_feature_matrix.labeled1 --exported_pipeline training/tpot_${EXP_PREFIX}.py --id_cols 0 --output_basename training/tpot_${EXP_PREFIX}"  > records/record_train_COMMANDS.sh
 
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
-  bash records/record_train_COMMANDS.sh > logs/log_train 2> logs/error_train
+  bash records/record_train_COMMANDS.sh > logs/log_train 2> errors/error_train
   
   
   # Remove empty error files (meaning no error)
   # Parallel returns an empty stderr by default
-  find "logs" -maxdepth 1 -name "error_train" -empty -delete
+  find "errors" -maxdepth 1 -name "error_train" -empty -delete
   
   #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
   
   # Doesn't need find, just check if exists TODO
-  if [ -f "$(find "logs" -maxdepth 1 -name "error_train" | head -1)" ]
+  if [ -f "$(find "errors" -maxdepth 1 -name "error_train" | head -1)" ]
         then
           echo "Errors found while training model"
-          ls logs/error_train
+          ls errors/error_train
           exit 1
   fi
   

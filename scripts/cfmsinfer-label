@@ -27,17 +27,17 @@ echo "python $PCM_DIR/protein_complex_maps/features/add_label.py --input_feature
 echo "grep -v ",0.0\$" feature_matrix/${EXP_PREFIX}.featmat.labeled > feature_matrix/${EXP_PREFIX}.featmat.labeled1" >> records/record_label_featmat.sh  
  
 if [ $GEN_COMMANDS_ONLY != "T" ];then
-  bash records/record_label_featmat.sh  > logs/log_label_featmat 2> logs/error_label_featmat
+  bash records/record_label_featmat.sh  > logs/log_label_featmat 2> errors/error_label_featmat
   
   
   # Remove empty error log
-  find "logs" -maxdepth 1 -name "error_label_featmat" -empty -delete
+  find "errors" -maxdepth 1 -name "error_label_featmat" -empty -delete
   
-  if [ -f logs/error_label_featmat ]; then
-    ls logs/error_label_featmat
+  if [ -f errors/error_label_featmat ]; then
+    ls errors/error_label_featmat
     echo -e "\e[91mError while building feature matrix\e[39m"
     echo -e "\e[91mSee stdout log at logs/log_label_featmat\e[39m"
-    echo -e "\e[91mSee error log at logs/error_label_featmat\e[39m"
+    echo -e "\e[91mSee error log at errors/error_label_featmat\e[39m"
     exit 1
   else
     echo -e "\e[35mFeature matrix labeled without errors (${EXP_PREFIX}.featmat.labeled)\e[39m"

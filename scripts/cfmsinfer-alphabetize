@@ -16,16 +16,16 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
   
   # Remove empty error files (meaning no error)
   # Parallel returns an empty stderr by default
-  find "logs" -maxdepth 1 -name "error_alpha*" -empty -delete
+  find "errors" -maxdepth 1 -name "error_alpha*" -empty -delete
   
   
   #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
   while read exp
     do
-      if [ -f "$(find "logs" -maxdepth 1 -name "error_alpha*" | head -1)" ]
+      if [ -f "$(find "errors" -maxdepth 1 -name "error_alpha*" | head -1)" ]
         then
           echo "Errors found while ordering identifiers of features"
-          ls logs/error_alpha*
+          ls errors/error_alpha*
           exit 1
       fi
     done < $EXPLIST

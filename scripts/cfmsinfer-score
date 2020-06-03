@@ -4,26 +4,26 @@ source $CONFIG
 
 echo -e "\e[36m Scoring feature matrix with trained model\e[39m"
 
-rm -f logs/error_score
+rm -f errors/error_score
 rm -f logs/log_score
 
 echo "python /project/cmcwhite/github/run_TPOT/tpot_predict.py --datafile feature_matrix/${EXP_PREFIX}.featmat --serialized_model training/tpot_${EXP_PREFIX}_fitted_model.p --outfile training/tpot_${EXP_PREFIX}_scored.txt --id_cols 0"  > records/record_score.sh
 
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
-  bash records/record_score.sh > logs/log_score 2> logs/error_score
+  bash records/record_score.sh > logs/log_score 2> errors/error_score
   
   # Remove empty error files (meaning no error)
   # Parallel returns an empty stderr by default
-  find "logs" -maxdepth 1 -name "error_score" -empty -delete
+  find "errors" -maxdepth 1 -name "error_score" -empty -delete
   
   #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
   
   # Doesn't need find, just check if exists TODO
-  if [ -f "$(find "logs" -maxdepth 1 -name "error_score" | head -1)" ]
+  if [ -f "$(find "errors" -maxdepth 1 -name "error_score" | head -1)" ]
         then
           echo "Errors found while using model to score interactions"
-          ls logs/error_score
+          ls errors/error_score
           exit 1
   fi
   
