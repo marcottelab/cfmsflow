@@ -10,30 +10,23 @@ echo -e "\e[32mRun rescale commands for distance feature\e[39m"
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
   cat records/record_rescale_COMMANDS.sh | parallel -j30 --joblog logs/rescale_status.log  &> logs/rescale_commands.log 
-  
-  # Remove empty error files (meaning no error)
-  # Parallel returns an empty stderr by default
-  # TPOT error logs are not technically empty even if no error occurred
-  find "errors" -maxdepth 1 -name "error_rescale*" -empty -delete
-  
-  #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
-  while read exp
-    do
-      if [ -f "$(find "errors" -maxdepth 1 -name "error_rescale*" | head -1)" ]
-        then
-          echo "Errors found while inverting scale of distance measures"
-          ls errors/error_rescale*
-          exit 1
-      fi
-    done < $EXPLIST
-  
-  if [ -f "$(find "elutions/processed_elutions" -maxdepth 1 -name "*.feat.rescale.ordered" | head -1)" ] 
-    then   
-      echo -e "\e[35mEuclidean and Bray-Curtis features rescaled (elutions/processed_elutions/*.feat.rescale.ordered\e[39m)"
-    else
-      echo -e "\e[91mNo output files from rescaling distance features were found (elutions/processed_elutions/*.feat.rescale.ordered\e[39m)"
-      echo -e "\e[91mExiting\e[39m"
-      exit 1
-  fi
 
-fi
+   echo -e "\e[34mLogged at logs/corr_commands.log, logs/corr_jobstatus.log\e[39m"
+
+  # Parallel returns empty stderrs by default, remove them
+  find "errors" -maxdepth 1 -name "error_rescale*" -empty -delete
+ 
+  # Parse parallel joblog to find nonzero exit codes
+  jobswitherrors=`bash scripts/check_joblog.sh logs/corr_jobstatus.log`
+
+  if [ -n "$jobswitherrors" ];then
+    echo -e "\e[91Errors found while inverting scale of following distance measures:\e[39m"
+    echo -e "\e[91mSee error logs at:\e[39m"
+    echo -e `echo $jobswitherrors | sed 's/ /\r/g'`
+    exit 1
+  else
+    echo -e "\e[35mEuclidean and Bray-Curtis features rescaled (elutions/processed_elutions/*.feat.rescale.ordered)\e[39m"
+  fi
+fi  
+
+

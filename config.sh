@@ -6,10 +6,10 @@ GEN_COMMANDS_ONLY=F
 
 ####### Choose steps to run, set to F to skip
 
-RUN_FEATURES=T
+RUN_FEATURES=F
 RUN_GET_FEAT_FILE=F
-RUN_BUILD_FEATMAT=F
-RUN_GOLDSTANDARD=F
+RUN_BUILD_FEATMAT=T
+RUN_GOLDSTANDARD=T
 RUN_LABEL_FEATMAT=F
 RUN_SCAN=F
 RUN_TRAIN=F
@@ -19,7 +19,7 @@ RUN_CLUSTER=F
 ######## Params for calculating features (cfmsinfer-features, cfmsinfer-rescale, cfmsinfer-alphabetize)
 EXPLIST=explist.txt
 ADD_POISSON_NOISE=T
-SKIP_CORR=T
+SKIP_CORR=F
 SKIP_ALPHABETIZE=F
 POISSON_REPS=5
 

@@ -35,14 +35,13 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
 
   bash records/record_build_featmat.sh > logs/log_build_featmat 2> errors/error_build_featmat
   
+  # Check for exit code of command 
+  status=$?
   
-  # Remove empty error log
-  find "errors" -maxdepth 1 -name "error_build_featmat" -empty -delete
-  
-  if [ -f errors/error_build_featmat ]; then
-    ls errors/error_build_featmat
+  if [ ! $status -eq 0 ]; then
     echo -e "\e[91mError while building feature matrix\e[39m"
-    echo -e "\e[91mSee log at errors/error_build_featmat\e[39m"
+    echo -e "\e[91mSee errors at errors/error_build_featmat\e[39m"
+
     exit 1
   else
     echo -e "\e[35mFeature matrix built without errors ($OUTPUT_FILE)\e[39m"

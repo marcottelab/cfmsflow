@@ -12,39 +12,21 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
 
   cat records/record_alphabetize_COMMANDS.sh | parallel -j30 --joblog logs/alphabetize_jobstatus.log &> logs/alphabetize_commands.log 
   
-  echo -e "\e[34mLogged at logs/alphabetize_commands.log\e[39m"
-  jobswitherrors=`tail -n +2 logs/alphabetize_jobstatus.log | awk -F'\t' '$7 != 0'`
-  echo $jobswitherrors | awk -F' ' '{print $NF}' 
-  
+  echo -e "\e[34mLogged at logs/alphabetize_commands.log, logs/alphabetize_jobstatus.log\e[39m"
 
-
-  #errorcodes=`awk -F'\t' '{print $7}' logs/alphabetize_jobstatus.log | tail -n +2 | grep -v "^0$"`
-  echo $errorcodes
-  errorlen=${#errorcodes}
-  echo $errorlen 
-  # Remove empty error files (meaning no error)
-  # Parallel returns an empty stderr by default
+  # Parallel returns empty stderrs by default, remove them
   find "errors" -maxdepth 1 -name "error_alpha*" -empty -delete
-  
-  
-  #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
- if [ "$errorlen" -gt 0 ]; then
-    echo "errorfound"
-
-    while read exp
-      do
-        if [ -f "$(find "errors" -maxdepth 1 -name "error_alpha*" | head -1)" ]
-          then
-            echo "Errors found while ordering identifiers of features"
-            ls errors/error_alpha*
-            exit 1
-        fi
-      done < $EXPLIST
+ 
+  # Parse parallel joblog to find nonzero exit codes
+  jobswitherrors=`bash scripts/check_joblog.sh logs/alphabetize_jobstatus.log`
+ 
+  if [ -n "$jobswitherrors" ];then 
+    echo -e "\e[91mErrors found while ordering identifiers of features\e[39m" 
+    echo -e "\e[91mSee error logs at:\e[39m"
+    echo -e `echo $jobswitherrors | sed 's/ /\r/g'`
+    exit 1
+  else
+    echo -e "\e[35mFeature IDs alphabetized (elutions/processed_elutions/*.feat.ordered\e[39m)"
   fi
-  
-  if [ -f "$(find "elutions/processed_elutions" -maxdepth 1 -name "*.feat.ordered" | head -1)" ] 
-  then    
-      echo -e "\e[35mFeature IDs alphabetized (elutions/processed_elutions/*.feat.ordered\e[39m)"
-  fi
-  
+ 
 fi
