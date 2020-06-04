@@ -20,19 +20,17 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
    
   bash records/record_cluster.sh  > logs/log_cluster 2> errors/error_cluster
   
-  
-  # Remove empty error log
-  find "errors" -maxdepth 1 -name "error_cluster" -empty -delete
-  
-  if [ -f errors/error_cluster ]; then
-    ls errors/error_cluster
+
+  # Check for exit code of command
+  status=$?
+
+  if [ ! $status -eq 0 ]; then
     echo -e "\e[91mError while clustering interactions\e[39m"
     echo -e "\e[91mSee stdout log at logs/log_cluster\e[39m"
     echo -e "\e[91mSee error log at errors/error_cluster\e[39m"
     exit 1
   else
     echo -e "\e[35mInteractions clustered without errors (training/tpot_${EXP_PREFIX}_scored_walktrap )\e[39m"
-      
-  fi 
-fi    
-    
+
+  fi
+fi

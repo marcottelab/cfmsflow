@@ -21,35 +21,19 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
 
   bash records/record_scan.sh > logs/log_scan 2> errors/error_scan
   
+  # Check for exit code of command
+  status=$?
+
   # Temp directories are very large
   rm -r training/*tmp
-  
-  # Remove empty error files (meaning no error)
-  # Parallel returns an empty stderr by default
-  find "errors" -maxdepth 1 -name "error_scan" -empty -delete
-  
-  #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
-  
-  # Cat to wc -l, not wc -l errors/error_scan
-  # Otherwise variable will have filename, not just number of lines
-  error_len=$(cat errors/error_scan | wc -l)
-  echo $error_len
-  if [ "$error_len" -gt 0 ]
-    then
-      echo $error_len 
-  
-      echo "Errors found while scanning classifiers"
-      ls errors/error_scan
-      exit 1
-  fi
-  
-  if [ -f "$(find "training" -maxdepth 1 -name "tpot_${EXP_PREFIX}.py" | head -1)" ] 
-    then   
-      echo -e "\e[35mClassifiers scanned and tpot parameters found\e[39m)"
-    else
-      echo -e "\e[91mNo output files from classifier scan found (tpot_${EXP_PREFIX}*py)\e[39m)"
-      echo -e "\e[91mExiting\e[39m"
-      exit 1
-  fi
 
+  if [ ! $status -eq 0 ]; then
+
+    echo "Errors found while scanning classifiers"
+    echo -e "\e[91mError while building feature matrix\e[39m"
+    echo -e "\e[91mSee errors at errors/error_build_featmat\e[39m"
+    exit 1
+  else
+    echo -e "\e[35mClassifiers scanned and tpot parameters found\e[39m)"
+  fi
 fi

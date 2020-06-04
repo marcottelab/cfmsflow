@@ -12,27 +12,17 @@ echo "python /project/cmcwhite/github/run_TPOT/tpot_predict.py --datafile featur
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
   bash records/record_score.sh > logs/log_score 2> errors/error_score
-  
-  # Remove empty error files (meaning no error)
-  # Parallel returns an empty stderr by default
-  find "errors" -maxdepth 1 -name "error_score" -empty -delete
-  
-  #Look for any errors and report. Error log is cleared out at each run so any new errors are from current run
-  
-  # Doesn't need find, just check if exists TODO
-  if [ -f "$(find "errors" -maxdepth 1 -name "error_score" | head -1)" ]
-        then
-          echo "Errors found while using model to score interactions"
-          ls errors/error_score
-          exit 1
+
+  # Check for exit code of command
+  status=$?
+
+  if [ ! $status -eq 0 ]; then
+    echo -e "\e[91mErrors found while using model to score interactions\e[39m"
+    echo -e "\e[91mSee stout at errors/error_score\e[39m"
+    echo -e "\e[91mSee errors at errors/error_score\e[39m"
+
+    exit 1
+  else
+    echo -e "\e[35mInteractions scored (training/tpot_${EXP_PREFIX}_scored.txt)\e[39m"
   fi
-  
-  if [ -f "$(find "training" -maxdepth 1 -name "tpot_${EXP_PREFIX}_scored.txt" | head -1)" ] 
-    then   
-      echo -e "\e[35mFeature matrix scored with model\e[39m)"
-    else
-      echo -e "\e[91mNo output scores (expected training/tpot_${EXP_PREFIX}_scored.txt)\e[39m)"
-      echo -e "\e[91mExiting\e[39m"
-      exit 1
-  fi
-fi
+fi 

@@ -1,11 +1,14 @@
+TODO Give option to substitute own positive and negative interactions
+
+Break up records and running of gold standard script into multiple records
+
 Add check of labeled matrix for any positive values? 
 
 Or filter gold standards positives first?
 
-Suppress warnings? from pandas
  
-change alphabetize check to work with new pandas
-
+# Change alphabetize check to work with new pandas
+# Rewrite alphabetize to parallelize very slow
 
 write make test train annotation script and add into pipeline
 

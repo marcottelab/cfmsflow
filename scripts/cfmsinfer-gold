@@ -26,6 +26,7 @@ echo "python $PCM_DIR/protein_complex_maps/preprocessing_util/complexes/split_co
 # Alphabetize training and test interactions. 
 
 
+
 echo "for ppi in gold_standards/*ppis.txt
  do
    sed -i 's/\t/ /' \$ppi 
@@ -71,32 +72,28 @@ fi
 
 
 
-
-
 rm -f logs/log_gold_standard
 rm -f errors/error_gold_standard
 
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 
   bash records/record_gold_standard.sh > logs/log_gold_standard 2> errors/error_gold_standard 
-   
-  # Remove empty error log
-  find "errors" -maxdepth 1 -name "error_gold_standard" -empty -delete
-  
-  if [ -f errors/error_gold_standard ]; then
-    ls errors/error_gold_standard
-    echo -e "\e[91mError while building feature matrix\e[39m"
+
+  # Check for exit code of command
+  status=$?
+
+  if [ ! $status -eq 0 ]; then
+    echo -e "\e[91mError while formatting goldstandards\e[39m"
     echo -e "\e[91mSee output log at logs/log_gold_standard\e[39m"
-    echo -e "\e[91mSee error log at errors/error_gold_standard\e[39m"
-  
+    echo -e "\e[91mSee errors at errors/error_gold_standard\e[39m"
     exit 1
   else
+
     echo -e "\e[35mGold standard files made without errors (gold_standards/neg_train.txt, gold_standards/neg_test.txt, gold_standard/pos_train.txt, gold_standards/pos_test.txt)\e[39m"
-  
+
   fi
 fi
-
-
+   
 
 # Make annotation file of which interactions are training and which are test
 

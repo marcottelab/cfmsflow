@@ -29,15 +29,13 @@ echo "grep -v ",0.0\$" feature_matrix/${EXP_PREFIX}.featmat.labeled > feature_ma
 if [ $GEN_COMMANDS_ONLY != "T" ];then
   bash records/record_label_featmat.sh  > logs/log_label_featmat 2> errors/error_label_featmat
   
-  
-  # Remove empty error log
-  find "errors" -maxdepth 1 -name "error_label_featmat" -empty -delete
-  
-  if [ -f errors/error_label_featmat ]; then
-    ls errors/error_label_featmat
+  # Check for exit code of command
+  status=$?
+
+  if [ ! $status -eq 0 ]; then 
     echo -e "\e[91mError while building feature matrix\e[39m"
-    echo -e "\e[91mSee stdout log at logs/log_label_featmat\e[39m"
-    echo -e "\e[91mSee error log at errors/error_label_featmat\e[39m"
+    echo -e "\e[91mSee stdout at logs/log_label_featmat\e[39m"
+    echo -e "\e[91mSee errors at errors/error_label_featmat\e[39m"
     exit 1
   else
     echo -e "\e[35mFeature matrix labeled without errors (${EXP_PREFIX}.featmat.labeled)\e[39m"
