@@ -9,7 +9,7 @@ while read exp
      LOGNAME=${LOGNAME%.wide}_${corr}
 
      rm -f logs/log_corr_$LOGNAME
-     rm -f logs/error_corr_$LOGNAME
+     rm -f errors/error_corr_$LOGNAME
 
 
      if [ $ADD_POISSON_NOISE == "T" ]
@@ -22,9 +22,9 @@ while read exp
          fi
 
 
-         echo "python $PCM_DIR/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr -r poisson_noise -i $POISSON_REPS $exp > logs/log_corr_${LOGNAME} 2> logs/error_corr_${LOGNAME}"
+         echo "python $PCM_DIR/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr -r poisson_noise -i $POISSON_REPS $exp > logs/log_corr_${LOGNAME} 2> errors/error_corr_${LOGNAME}"
        else
-         echo "python $PCM_DIR/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr $exp > logs/log_corr_${LOGNAME} 2> logs/error_corr_${LOGNAME}"
+         echo "python $PCM_DIR/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr $exp > logs/log_corr_${LOGNAME} 2> errors/error_corr_${LOGNAME}"
  
        fi
    
