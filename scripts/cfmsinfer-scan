@@ -30,8 +30,8 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
   if [ ! $status -eq 0 ]; then
 
     echo "Errors found while scanning classifiers"
-    echo -e "\e[91mError while building feature matrix\e[39m"
-    echo -e "\e[91mSee errors at errors/error_build_featmat\e[39m"
+    echo -e "\e[91mError while scanning classifiers\e[39m"
+    echo -e "\e[91mSee errors at errors/error_scan\e[39m"
     exit 1
   else
     echo -e "\e[35mClassifiers scanned and tpot parameters found\e[39m)"

@@ -33,7 +33,7 @@ if [ $GEN_COMMANDS_ONLY != "T" ];then
   status=$?
 
   if [ ! $status -eq 0 ]; then 
-    echo -e "\e[91mError while building feature matrix\e[39m"
+    echo -e "\e[91mError while adding labels\e[39m"
     echo -e "\e[91mSee stdout at logs/log_label_featmat\e[39m"
     echo -e "\e[91mSee errors at errors/error_label_featmat\e[39m"
     exit 1
