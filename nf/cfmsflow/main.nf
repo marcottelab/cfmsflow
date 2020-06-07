@@ -32,24 +32,27 @@ final_params = check_params(merged_params, version)
 // params.in = "$baseDir/data/sample.fa"
 
 
+params.input_dir = "/project/cmcwhite/pipelines/cfmsinfer/elutions/processed_elutions/"
+
 // Correlate
 process corr_process {
 
-  // Don't copy input file to work directory
-  scratch true
+  // copy input file to work directory
+  scratch false
+
+  publishDir params.input_dir
 
   tag { elut_id }
 
   input:
-  tuple elut_id,metric 
+  tuple elut_id,corr 
 
   output:
-  file('*head')
+  path "${elut_id.baseName}.${corr}.feat" 
 
   script:
   """
-
-  head ${elut_id}.${corr} > ${elut_id}.head
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id
   """
 } 
 
@@ -59,28 +62,29 @@ process alph_process {
   // Don't copy input file to work directory
   scratch true
 
-  tag { elut_id }
+  tag { feat }
 
   input:
-  file elut_id
+  path feat
 
   output:
-  tuple elut_id, file('*test')
+  path "${feat}.ordered" 
 
   script:
   """
-  head -2 $elut_id > ${elut_id}.test
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs $feat --outfile ${feat}.ordered --sep ',' --chunksize 10
+
   """
 } 
 
 
 workflow cfmsinfer_corr {
-  take: elutions_and_metrics
+  take: elutions_and_corrs
 
   main:
 
-    output_corrs = corr_process(elutions_and_metrics) 
-    //output_corrs = alph_process(output_corrs)
+    output_corrs = corr_process(elutions_and_corrs) 
+    output_corrs = alph_process(output_corrs)
 
   emit:
     output_corrs
@@ -97,14 +101,14 @@ workflow {
 
     Channel
        .from( "pearsonR", "spearmanR", "euclidean", "braycurtis" )
-       .set { metrics }
+       .set { corrs }
 
-     elutions.combine(metrics).set { elutions_and_metrics }
+     elutions.combine(corrs).set { elutions_and_corrs }
 
-     elutions_and_metrics.subscribe { println it }
+     elutions_and_corrs.subscribe { println it }
 
 
-      corrs = cfmsinfer_corr(elutions_and_metrics)
+      corrs = cfmsinfer_corr(elutions_and_corrs)
 
       corrs | view
 
