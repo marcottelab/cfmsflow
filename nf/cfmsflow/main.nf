@@ -34,23 +34,31 @@ final_params = check_params(merged_params, version)
 
 // Correlate
 process corr_process {
+
+  // Don't copy input file to work directory
+  scratch true
+
   tag { elut_id }
 
   input:
-  file elut_id
+  tuple elut_id,metric 
 
   output:
-  file('output_bla/*head')
+  file('*head')
 
   script:
   """
-  mkdir output_bla
-  head $elut_id > output_bla/${elut_id}.head
+
+  head ${elut_id}.${corr} > ${elut_id}.head
   """
 } 
 
 // Alphabetize id pairs
 process alph_process {
+
+  // Don't copy input file to work directory
+  scratch true
+
   tag { elut_id }
 
   input:
@@ -67,12 +75,12 @@ process alph_process {
 
 
 workflow cfmsinfer_corr {
-  take: elutions
+  take: elutions_and_metrics
 
   main:
 
-    output_corrs = corr_process(elutions) 
-    output_corrs = alph_process(output_corrs)
+    output_corrs = corr_process(elutions_and_metrics) 
+    //output_corrs = alph_process(output_corrs)
 
   emit:
     output_corrs
@@ -87,7 +95,16 @@ workflow {
       .fromPath( final_params.elutions_path, checkIfExists: true )
       .set { elutions }
 
-      corrs = cfmsinfer_corr(elutions)
+    Channel
+       .from( "pearsonR", "spearmanR", "euclidean", "braycurtis" )
+       .set { metrics }
+
+     elutions.combine(metrics).set { elutions_and_metrics }
+
+     elutions_and_metrics.subscribe { println it }
+
+
+      corrs = cfmsinfer_corr(elutions_and_metrics)
 
       corrs | view
 
