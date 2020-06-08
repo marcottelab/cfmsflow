@@ -29,18 +29,12 @@ help_or_version(merged_params, version)
 
 final_params = check_params(merged_params, version)
 
-// params.in = "$baseDir/data/sample.fa"
-
-
-params.input_dir = "/project/cmcwhite/pipelines/cfmsinfer/elutions/processed_elutions/"
 
 // Correlate
 process corr_process {
 
   // copy input file to work directory
-  scratch false
-
-  publishDir params.input_dir
+  scratch true
 
   tag { elut_id }
 
@@ -48,13 +42,46 @@ process corr_process {
   tuple elut_id,corr 
 
   output:
-  path "${elut_id.baseName}.${corr}.feat" 
+  // path "${elut_id.baseName}.${corr}.feat" 
+  tuple file("${elut_id.baseName}.${corr}.feat"),corr
 
   script:
   """
   python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id
   """
 } 
+
+// Invert distance measure scores
+process rescale_process {
+
+  // Don't copy input file to work directory
+  scratch true
+
+  tag { feat }
+
+  input:
+  tuple file(feat),corr 
+
+    
+  output:
+  path "${feat}.*scaled" 
+
+
+  script:
+  if (corr == "euclidean" || corr == "braycurtis")
+
+  """
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/normalize_features.py --input_feature_matrix $feat --output_filename ${feat}.rescaled --features $corr --min 0 --sep , --inverse
+
+  """
+
+  else
+  """
+  mv $feat ${feat}.unscaled
+  """
+
+
+}
 
 // Alphabetize id pairs
 process alph_process {
@@ -68,7 +95,7 @@ process alph_process {
   path feat
 
   output:
-  path "${feat}.ordered" 
+  path "${feat}.ordered"  
 
   script:
   """
@@ -78,12 +105,14 @@ process alph_process {
 } 
 
 
+// Calculate correlation and distance-based features
 workflow cfmsinfer_corr {
   take: elutions_and_corrs
 
   main:
 
     output_corrs = corr_process(elutions_and_corrs) 
+    output_corrs = rescale_process(output_corrs)
     output_corrs = alph_process(output_corrs)
 
   emit:
@@ -91,9 +120,36 @@ workflow cfmsinfer_corr {
 
 }
 
+// Combine features into a feature matrix
+
+//workflow cfmsinfer_build {
+
+//}
+
+// Build feature matrix from calculated features
+process build_process {
+
+  // Don't copy input file to work directory
+  scratch true
+
+  tag { features }
+
+  input:
+  file features
+
+  output:
+  path "featmat"  
+
+  script:
+
+  """
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/build_feature_matrix.py --input_pairs_files $features --store_interval 10 --output_file featmat --sep ','
+
+  """
+} 
+
 
 workflow {
-    // splitSequences(params.in) | reverse | view
 
     Channel
       .fromPath( final_params.elutions_path, checkIfExists: true )
@@ -105,14 +161,18 @@ workflow {
 
      elutions.combine(corrs).set { elutions_and_corrs }
 
-     elutions_and_corrs.subscribe { println it }
 
+     features = cfmsinfer_corr(elutions_and_corrs).collect()
+     features | view
 
-      corrs = cfmsinfer_corr(elutions_and_corrs)
+     build_process(features)
+        
 
-      corrs | view
 
 }
+
+
+
 
 workflow.onComplete {
   complete_message(final_params, workflow, version)
