@@ -19,7 +19,7 @@ fi
   
 
 # Adding label of gold standard training complexes
-echo "python $PCM_DIR/protein_complex_maps/features/add_label.py --input_feature_matrix feature_matrix/${EXP_PREFIX}.featmat --input_positives gold_standards/pos_train.txt --input_negatives gold_standards/neg_train.txt --sep , --ppi_sep ' ' --id_column ID --output_file feature_matrix/${EXP_PREFIX}.featmat.labeled --fillna 0 --id_sep ' ' --check_alphabetized " > records/record_label_featmat.sh  
+echo "python $PCM_DIR/protein_complex_maps/features/add_label.py --input_feature_matrix feature_matrix/${EXP_PREFIX}.featmat --input_positives gold_standards/pos_train.txt --input_negatives gold_standards/neg_train.txt --sep , --ppi_sep ' ' --id_column ID --output_file feature_matrix/${EXP_PREFIX}.featmat.labeled --fillna 0 --id_sep ' ' " > records/record_label_featmat.sh  
 
 # Get training labeled interactions
 # Separate this part out
