@@ -22,6 +22,8 @@ include { help_or_version } from './lib/params/params_utilities'
 
 include { cfmsinfer_corr } from './lib/modules/feature_workflows'
 include { build_featmat } from './lib/modules/featmat_processes'
+include { format_goldstandards} from './lib/modules/goldstandard_workflows' 
+
 
 
 
@@ -53,7 +55,10 @@ workflow {
      features = cfmsinfer_corr(elutions_and_corrs).collect()
      features | view
 
-     build_featmat(features)
+     featmat = build_featmat(features)
+
+     format_goldstandards(final_params.goldstandard, final_params.MERGE_THRESHOLD, final_params.COMPLEX_SIZE_THRESHOLD)
+
        
 
 }

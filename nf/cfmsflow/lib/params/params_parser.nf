@@ -11,8 +11,15 @@ def default_params(){
 
 
     params.feature_matrix = '/project/cmcwhite/pipelines/cfmsinfer/feature_matrix/testrun.featmat'
+    params.goldstandard_complexes = '/project/cmcwhite/pipelines/cfmsinfer/accessory_files/allComplexesCore_photo_euktovirNOG_expansion.txt'
+
+    params.merge_threshold=0.6
+    params.complex_size_threshold=30
+
+
     params.positive_labels = '/project/cmcwhite/pipelines/cfmsinfer/gold_standards/pos_train.txt'
     params.negative_labels =  '/project/cmcwhite/pipelines/cfmsinfer/gold_standards/neg_train.txt'
+
 
 
     params.output_dir = 'output_dir'
@@ -36,6 +43,14 @@ def check_params(Map params, String version) {
     final_params.elutions_path = input_dir + "/" + elution_pattern
 
     final_params.feature_matrix = file(params.feature_matrix)
+    final_params.goldstandard = file(params.goldstandard_complexes)
+
+    // Add check for numeric
+    final_params.MERGE_THRESHOLD = params.merge_threshold
+    final_params.COMPLEX_SIZE_THRESHOLD = params.complex_size_threshold
+
+
+
     // final_params.pos_train = file(params.pos_train)
     // final_params.neg_train = file(params.neg_train)
 

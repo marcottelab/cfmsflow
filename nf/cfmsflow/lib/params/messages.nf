@@ -19,6 +19,10 @@ def help_message() {
         --pos_train     Path to input labels	
         --neg_train     asdfasdfa
         --output_dir    Path to output dir
+        --merge_threshold MERGE_THRESHOLD Jaccard similarity threshold on which to merge
+        --complex_size_threshold Size threshold for complexes, throws out complexes
+
+
         Optional aruments:
         --read_polishing_adapter_file path to file containing sequences of adapaters to be trimmed from reads
 
