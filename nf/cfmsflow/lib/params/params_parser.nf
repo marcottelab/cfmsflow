@@ -15,11 +15,12 @@ def default_params(){
 
     params.merge_threshold=0.6
     params.complex_size_threshold=30
-
+    params.negatives_from_observed=true
+    params.negative_limit = 20000
 
     params.positive_labels = '/project/cmcwhite/pipelines/cfmsinfer/gold_standards/pos_train.txt'
     params.negative_labels =  '/project/cmcwhite/pipelines/cfmsinfer/gold_standards/neg_train.txt'
-
+   
 
 
     params.output_dir = 'output_dir'
@@ -48,8 +49,8 @@ def check_params(Map params, String version) {
     // Add check for numeric
     final_params.MERGE_THRESHOLD = params.merge_threshold
     final_params.COMPLEX_SIZE_THRESHOLD = params.complex_size_threshold
-
-
+    final_params.NEGATIVES_FROM_OBSERVED = params.negatives_from_observed
+    final_params.NEGATIVE_LIMIT=params.negative_limit
 
     // final_params.pos_train = file(params.pos_train)
     // final_params.neg_train = file(params.neg_train)

@@ -15,12 +15,22 @@ def help_message() {
 
         --input_dir     Path to input dir. This must be used in conjunction with fastq_pattern
         --elution_pattern The regular expression that will match input elution files e.g '*.wide'
+
+        --output_dir    Path to output dir
         --feature_matrix     Path to feature_matrix
+
+        Preset labels:
         --pos_train     Path to input labels	
         --neg_train     asdfasdfa
-        --output_dir    Path to output dir
-        --merge_threshold MERGE_THRESHOLD Jaccard similarity threshold on which to merge
-        --complex_size_threshold Size threshold for complexes, throws out complexes
+        --pos_test     Path to input labels	
+        --neg_test     asdfasdfa
+
+        Generate labels:
+        --goldstandard_complexes File of space separated complexes, one per line
+        --merge_threshold MERGE_THRESHOLD Jaccard similarity threshold on which to merge. Default = 0.6
+        --complex_size_threshold Size threshold for complexes, throws out complexes larger. Default = 30
+        --negatives_from_observed    Create negatives from observed proteins. Default = true 
+         --negative_limit Limit the number of negatives in the train an test sest to n. Default = 20000
 
 
         Optional aruments:

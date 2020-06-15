@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-// Correlate
+// Split into test and train
 process split_traintest {
 
   // copy input file to work directory
@@ -15,10 +15,11 @@ process split_traintest {
 
 
   output:
-  path "goldstandard_filt.train_ppis.txt", emit: 'postrain'
-  path "goldstandard_filt.test_ppis.txt", emit: 'postest'
-  path "goldstandard_filt.neg_train_ppis.txt", emit: 'negtrain'
-  path "goldstandard_filt.neg_test_ppis.txt", emit: 'negtest'
+  //path  "goldstandard_filt.*_ppis.txt"
+  path "goldstandard_filt.train_ppis.ordered", emit: 'postrain'
+  path "goldstandard_filt.test_ppis.ordered", emit: 'postest'
+  path "goldstandard_filt.neg_train_ppis.ordered", emit: 'negtrain'
+  path "goldstandard_filt.neg_test_ppis.ordered", emit: 'negtest'
 
 
 
@@ -30,5 +31,80 @@ process split_traintest {
    # Split complexes to training and test complexes 
    python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/split_complexes.py --input_complexes goldstandard_filt.txt
 
+
+   # Figure out where commas are coming from
+   sep=" " 
+   for gs in goldstandard_filt.*_ppis.txt;
+   do
+     sed -i 's/\t/ /' \$gs
+     python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs \$gs --outfile \${gs%.txt}.ordered --sep "\$sep" --chunksize 1000
+   done
+
   """
 }
+
+// Generate negatives from observed proteins
+process get_negatives_from_observed {
+
+  // copy input file to work directory
+  scratch false
+
+  tag { negative_from_observed }
+
+  input:
+  path featmat
+  path postrain
+  path postest
+
+
+  output:
+  path "negtrain", emit: 'negtrain'
+  path "negtest", emit: 'negtest'
+
+
+
+  script:
+  """
+  # "all ID pairs from the feature matrix (remove header with tail)"
+  awk -F',' '{print \$1}' $featmat |  tail -n +2 > identifiers_infeatmat
+
+  # "Remove any interactions that are in the positive set"
+  cat identifiers_infeatmat | grep -vFf $postrain | grep -vFf $postest > neg_pool
+
+  sort -R neg_pool > neg_pool.randsort                            
+
+  split --number=l/2 neg_pool.randsort && mv xaa negtrain && mv xab negtest
+
+  """
+
+}
+
+
+// Limit number of negatives in each set
+process limit_negatives {
+
+  // copy input file to work directory
+  scratch false
+
+  tag { negative_from_observed }
+
+  input:
+  path negtrain
+  path negtest
+  val NEGATIVE_LIMIT
+
+  output:
+  path "negtrain", emit: 'negtrain'
+  path "negtest", emit: 'negtest'
+
+  script:
+  """
+
+  sort -R $negtrain | head -$NEGATIVE_LIMIT > negtrain
+  sort -R $negtest | head -$NEGATIVE_LIMIT > negtest
+
+  """
+
+}
+
+
