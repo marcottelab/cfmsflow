@@ -7,7 +7,7 @@ echo -e "\e[36m Scanning classifiers and getting optimal parameters\e[39m"
 rm -f errors/error_train
 rm -f logs/log_train
 
-echo "python /project/cmcwhite/github/run_TPOT/train_test_model2.py --training_infile feature_matrix/${EXP_PREFIX}_feature_matrix.labeled1 --exported_pipeline training/tpot_${EXP_PREFIX}.py --id_cols 0 --output_basename training/tpot_${EXP_PREFIX}"  > records/record_train_COMMANDS.sh
+echo "python /project/cmcwhite/github/run_TPOT/train_test_model2.py --training_infile feature_matrix/${EXP_PREFIX}.featmat.labeled1 --exported_pipeline training/tpot_${EXP_PREFIX}.py --id_cols 0 --output_basename training/tpot_${EXP_PREFIX}"  > records/record_train_COMMANDS.sh
 
 if [ $GEN_COMMANDS_ONLY != "T" ];then
 

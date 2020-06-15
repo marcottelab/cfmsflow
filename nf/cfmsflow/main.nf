@@ -53,12 +53,11 @@ workflow {
 
 
      features = cfmsinfer_corr(elutions_and_corrs).collect()
-     features | view
 
      featmat = build_featmat(features)
 
-     format_goldstandards(final_params.goldstandard, final_params.MERGE_THRESHOLD, final_params.COMPLEX_SIZE_THRESHOLD)
-
+     labels = format_goldstandards(final_params.goldstandard, final_params.MERGE_THRESHOLD, final_params.COMPLEX_SIZE_THRESHOLD)
+     labels | view
        
 
 }

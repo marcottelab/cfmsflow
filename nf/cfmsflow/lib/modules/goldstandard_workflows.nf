@@ -12,9 +12,25 @@ workflow format_goldstandards {
 
   main:
 
-    labels = split_traintest(goldstandard,MERGE_THRESHOLD,COMPLEX_SIZE_THRESHOLD ) 
-    labels = alph_process(labels)
+    split_traintest(goldstandard,MERGE_THRESHOLD,COMPLEX_SIZE_THRESHOLD )
 
+ 
+    labels = alph_process(split_traintest.out.postrain, "'\\t'")
+    //labels
+    // .class
+    // .print
+    //split_traintest.out.class
+    
+
+    
+  //  Channel
+    //    .of( labels[0] )
+        //.set { labs }
+      //  .view()
+        //.map { alph_process() }
+
+
+       // .view()
   emit:
     labels
 

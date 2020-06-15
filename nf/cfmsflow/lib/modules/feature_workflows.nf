@@ -13,7 +13,9 @@ workflow cfmsinfer_corr {
 
     output_corrs = corr_process(elutions_and_corrs) 
     output_corrs = rescale_process(output_corrs)
-    output_corrs = alph_process(output_corrs)
+
+    output_corrs | view
+    output_corrs = alph_process(output_corrs, ",")
 
   emit:
     output_corrs
