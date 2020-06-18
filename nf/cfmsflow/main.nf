@@ -22,10 +22,9 @@ include { help_or_version } from './lib/params/params_utilities'
 
 include { cfmsinfer_corr } from './lib/modules/feature_workflows'
 include { build_featmat } from './lib/modules/featmat_processes'
-include { split_traintest } from './lib/modules/goldstandard_processes'
 include { format_goldstandards} from './lib/modules/goldstandard_workflows' 
-
-
+include { label_featmat } from './lib/modules/featmat_processes'
+include { get_labeled_rows } from './lib/modules/featmat_processes'
 
 
 // setup params
@@ -56,14 +55,17 @@ workflow {
      features = cfmsinfer_corr(elutions_and_corrs).collect()
 
      featmat = build_featmat(features)
-
      labels = format_goldstandards(final_params, featmat)
 
+     postrain = labels[0]
+     postrain | view
+     negtrain = labels[1]
+     postest = labels[2]
+     negtest = labels[3]
 
-     labels[0] | view
-     labels[1] | view
-     labels[2] | view
-     labels[3] | view
+     featmat_labeled = label_featmat(featmat, postrain, negtrain)
+     featmat_labeled1 = get_labeled_rows(featmat_labeled)
+
       
 
 }

@@ -22,7 +22,6 @@ process split_traintest {
   path "goldstandard_filt.neg_test_ppis.ordered", emit: 'negtest'
 
 
-
   script:
   """
    # Filter and organize subcomplexes
@@ -47,7 +46,7 @@ process split_traintest {
 process get_negatives_from_observed {
 
   // copy input file to work directory
-  scratch false
+  scratch true
 
   tag { negative_from_observed }
 
@@ -58,13 +57,14 @@ process get_negatives_from_observed {
 
 
   output:
-  path "negtrain", emit: 'negtrain'
-  path "negtest", emit: 'negtest'
+  path "negtrain.randsort", emit: 'negtrain'
+  path "negtest.randsort", emit: 'negtest'
 
 
 
   script:
   """
+  pwd
   # "all ID pairs from the feature matrix (remove header with tail)"
   awk -F',' '{print \$1}' $featmat |  tail -n +2 > identifiers_infeatmat
 
@@ -73,7 +73,11 @@ process get_negatives_from_observed {
 
   sort -R neg_pool > neg_pool.randsort                            
 
-  split --number=l/2 neg_pool.randsort && mv xaa negtrain && mv xab negtest
+  split --number=l/2 neg_pool.randsort 
+  mv xaa negtrain.randsort 
+  mv xab negtest.randsort
+  
+  head *
 
   """
 
@@ -83,10 +87,10 @@ process get_negatives_from_observed {
 // Limit number of negatives in each set
 process limit_negatives {
 
-  // copy input file to work directory
+  // Don't copy input file to work directory
   scratch false
 
-  tag { negative_from_observed }
+  tag { limit_negatives }
 
   input:
   path negtrain
@@ -99,9 +103,11 @@ process limit_negatives {
 
   script:
   """
+  head *    
 
   sort -R $negtrain | head -$NEGATIVE_LIMIT > negtrain
   sort -R $negtest | head -$NEGATIVE_LIMIT > negtest
+
 
   """
 
