@@ -25,7 +25,7 @@ include { build_featmat } from './lib/modules/featmat_processes'
 include { format_goldstandards} from './lib/modules/goldstandard_workflows' 
 include { label_featmat } from './lib/modules/featmat_processes'
 include { get_labeled_rows } from './lib/modules/featmat_processes'
-
+include { training } from './lib/modules/training_workflows'
 
 // setup params
 default_params = default_params()
@@ -66,8 +66,8 @@ workflow {
      featmat_labeled = label_featmat(featmat, postrain, negtrain)
      featmat_labeled1 = get_labeled_rows(featmat_labeled)
 
-      
-
+     scored_interactions = training(final_params, featmat_labeled1, featmat) 
+     scored_interactions | view
 }
 
 

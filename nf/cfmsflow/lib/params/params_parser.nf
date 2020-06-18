@@ -22,6 +22,10 @@ def default_params(){
     params.negative_labels =  '/project/cmcwhite/pipelines/cfmsinfer/gold_standards/neg_train.txt'
    
 
+    params.classifiers_to_scan = '/project/cmcwhite/pipelines/cfmsinfer/accessory_files/classifier_subset.txt'
+    params.generations = 10
+    params.population = 20
+    params.n_jobs = 20
 
     params.output_dir = 'output_dir'
     return params
@@ -51,6 +55,12 @@ def check_params(Map params, String version) {
     final_params.COMPLEX_SIZE_THRESHOLD = params.complex_size_threshold
     final_params.NEGATIVES_FROM_OBSERVED = params.negatives_from_observed
     final_params.NEGATIVE_LIMIT=params.negative_limit
+    final_params.classifiers_to_scan = params.classifiers_to_scan
+    final_params.GENERATIONS = params.generations
+    final_params.POPULATION = params.population
+    final_params.N_JOBS = params.n_jobs
+
+
 
     // final_params.pos_train = file(params.pos_train)
     // final_params.neg_train = file(params.neg_train)
