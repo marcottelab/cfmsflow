@@ -1,0 +1,13 @@
+Clean up params
+
+Add option to plot or not
+
+Add path to githubs to params
+
+Figure out how to export from modules
+
+# This was probably from accidentally using var instead of val in process..
+Figure out how to deal with getting params into processes
+
+Add options for when to generate golg standard
+

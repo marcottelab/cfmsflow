@@ -26,6 +26,10 @@ include { format_goldstandards} from './lib/modules/goldstandard_workflows'
 include { label_featmat } from './lib/modules/featmat_processes'
 include { get_labeled_rows } from './lib/modules/featmat_processes'
 include { training } from './lib/modules/training_workflows'
+include { cfmsinfer_eval } from './lib/modules/eval_processes'
+include { get_FDR_cutoff } from './lib/modules/cluster_processes'
+
+
 
 // setup params
 default_params = default_params()
@@ -51,23 +55,32 @@ workflow {
 
      elutions.combine(corrs).set { elutions_and_corrs }
 
-
      features = cfmsinfer_corr(elutions_and_corrs).collect()
 
      featmat = build_featmat(features)
      labels = format_goldstandards(final_params, featmat)
 
      postrain = labels[0]
-     postrain | view
      negtrain = labels[1]
      postest = labels[2]
      negtest = labels[3]
 
      featmat_labeled = label_featmat(featmat, postrain, negtrain)
+
      featmat_labeled1 = get_labeled_rows(featmat_labeled)
 
      scored_interactions = training(final_params, featmat_labeled1, featmat) 
      scored_interactions | view
+
+ 
+     precisionrecall = cfmsinfer_eval(scored_interactions, postrain, negtrain, postest, negtest)
+
+
+     // This step should be optional based on presence of FDR_cutoff
+     scoreval = get_FDR_cutoff(precisionrecall[0], final_params.FDR_CUTOFF)
+
+
+
 }
 
 

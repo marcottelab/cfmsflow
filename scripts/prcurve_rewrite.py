@@ -4,8 +4,7 @@ import argparse
 #import pickle
 import pandas as pd
 #import itertools as it
-
-from collections import Counter #for averaging dictionary values
+#from collections import Counter #for averaging dictionary values
 import pandas as pd #for averaging dictionary values
 
 from sklearn.metrics import precision_recall_curve
@@ -44,14 +43,14 @@ def main():
     parser.add_argument("--ppi_sep", action="store", required=False,
                                     help="If ppi identifiers are separated")
     parser.add_argument("--labels_delim", action = "store", required = False, default = "\t",                                                                                    help="separator for input positives and negatives")
-    parser.add_argument("--plot", action="store_true", dest="plot", required=False, default=False,
+    parser.add_argument("--plot",  dest="plot", required=False, default=False,choices=('True','False'),
                                     help="Plot pr plot")
  
 
     args = parser.parse_args()
 
-
-    if args.plot == True:
+    # Not using bool due to argparse handling bools
+    if args.plot == 'True':
         import matplotlib as mpl
         mpl.use('Agg')
         import matplotlib.mlab as mlab
@@ -64,12 +63,13 @@ def main():
         
 
     output_pr_table = pd.DataFrame()
-    output_roc_table = pd.DataFrame()
+    #output_roc_table = pd.DataFrame()
 
 
     # Parse and organize results  
     for result_file in args.results_wprob:
 
+        print(result_file)
         if args.header:
             results = pd.read_csv(result_file, sep = args.results_delim, engine='python') 
         else:
@@ -98,12 +98,14 @@ def main():
         for i in range(len(args.positives)):
     
            positives = pd.read_csv(args.positives[i], header = None, names = ["ID1", "ID2"], sep = args.labels_delim, engine='python')
+           print(positives)
     
            positives['numlabel'] = 1
     
            negatives = pd.read_csv(args.negatives[i], header = None, names = ["ID1", "ID2"], sep = args.labels_delim, engine='python')
            negatives['numlabel'] = -1
-       
+           print(negatives)       
+
            labels = pd.concat([positives,negatives])
            labels['ID'] = labels.apply(lambda row : frozenset([row['ID1'], row['ID2']]), axis = 1)
     
@@ -115,16 +117,18 @@ def main():
      
            labelled_results= results.join(labels,  how = "inner", rsuffix = "_2")
            precision, recall, thresholds = precision_recall_curve(labelled_results.numlabel, labelled_results.prob)
-           FPR, TPR, roc_thresholds = roc_curve(labelled_results.numlabel, labelled_results.prob)
+           #FPR, TPR, roc_thresholds = roc_curve(labelled_results.numlabel, labelled_results.prob)
     
    
            pr_table = pd.DataFrame({'Recall':recall, 'Precision':precision, 'threshold':np.append(thresholds, np.array([1])), 'label':args.labels[i], 'file':result_file })
+           pr_table['FDR'] = 1 - pr_table['Precision']
+ 
 
            output_pr_table = output_pr_table.append(pr_table)
  
-           if args.plot == True:
+           if args.plot == 'True':
                line, = plt.plot(recall, precision, label=args.labels[i])
-    if args.plot == True:
+    if args.plot == 'True':
         plt.xlabel('Recall')
         plt.ylabel('Precision')
         plt.ylim([0.0, 1.05])

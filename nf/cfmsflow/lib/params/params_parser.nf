@@ -29,13 +29,17 @@ def default_params(){
 
     params.walktrap_steps = 3
     params.annotation_file = '/project/cmcwhite/pipelines/cfmsinfer/accessory_files/virNOG_collapse_annotations.txt'
-    params.fdr_cutoff = 0.5
+
+    params.plot_pr = 'False'
+    params.fdr_cutoff = 0.2
 
     params.output_dir = 'output_dir'
     return params
 }
 
 def check_params(Map params, String version) { 
+
+    // Add option to skip plotting prcurve 
     // set up input directory
     def final_params = [:]
 
@@ -67,7 +71,7 @@ def check_params(Map params, String version) {
     final_params.WALKTRAP_STEPS = params.walktrap_steps
     final_params.annotation_file = params.annotation_file
     final_params.FDR_CUTOFF = params.fdr_cutoff
-
+    final_params.plot_pr = params.plot_pr
 
     // final_params.pos_train = file(params.pos_train)
     // final_params.neg_train = file(params.neg_train)
