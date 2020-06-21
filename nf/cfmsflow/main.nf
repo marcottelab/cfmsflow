@@ -27,7 +27,8 @@ include { label_featmat } from './lib/modules/featmat_processes'
 include { get_labeled_rows } from './lib/modules/featmat_processes'
 include { training } from './lib/modules/training_workflows'
 include { cfmsinfer_eval } from './lib/modules/eval_processes'
-include { get_FDR_cutoff } from './lib/modules/cluster_processes'
+include { get_FDR_threshold } from './lib/modules/cluster_processes'
+include { cluster } from './lib/modules/cluster_processes'
 
 
 
@@ -77,7 +78,8 @@ workflow {
 
 
      // This step should be optional based on presence of FDR_cutoff
-     scoreval = get_FDR_cutoff(precisionrecall[0], final_params.FDR_CUTOFF)
+     scorethreshold = get_FDR_threshold(precisionrecall[0], final_params.FDR_CUTOFF)
+     clustering = cluster(scored_interactions, scorethreshold[0], final_params)
 
 
 
