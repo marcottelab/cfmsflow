@@ -27,6 +27,10 @@ def default_params(){
     params.population = 20
     params.n_jobs = 20
 
+    params.walktrap_steps = 3
+    params.annotation_file = '/project/cmcwhite/pipelines/cfmsinfer/accessory_files/virNOG_collapse_annotations.txt'
+    params.fdr_cutoff = 0.5
+
     params.output_dir = 'output_dir'
     return params
 }
@@ -59,7 +63,10 @@ def check_params(Map params, String version) {
     final_params.GENERATIONS = params.generations
     final_params.POPULATION = params.population
     final_params.N_JOBS = params.n_jobs
-
+     
+    final_params.WALKTRAP_STEPS = params.walktrap_steps
+    final_params.annotation_file = params.annotation_file
+    final_params.FDR_CUTOFF = params.fdr_cutoff
 
 
     // final_params.pos_train = file(params.pos_train)
