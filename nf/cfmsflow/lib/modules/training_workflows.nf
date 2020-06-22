@@ -13,7 +13,7 @@ workflow training {
 
   main:
 
-    pipeline = cfmsinfer_scan(featmat_labeled1, final_params.classifiers_to_scan, final_params.GENERATIONS, final_params.POPULATION, final_params.N_JOBS)
+    pipeline = cfmsinfer_scan(featmat_labeled1, final_params.classifiers_to_scan, final_params.generations, final_params.population, final_params.n_jobs)
  
     model = cfmsinfer_train(pipeline, featmat_labeled1)
 

@@ -15,7 +15,7 @@ include { complete_message } from './lib/params/messages'
 include { error_message } from './lib/params/messages'
 
 
-include { default_params } from './lib/params/params_parser'
+//include { default_params } from './lib/params/params_parser'
 include { check_params } from './lib/params/params_parser'
 
 include { help_or_version } from './lib/params/params_utilities'
@@ -27,38 +27,33 @@ include { label_featmat } from './lib/modules/featmat_processes'
 include { get_labeled_rows } from './lib/modules/featmat_processes'
 include { training } from './lib/modules/training_workflows'
 include { cfmsinfer_eval } from './lib/modules/eval_processes'
-include { get_FDR_threshold } from './lib/modules/cluster_processes'
+include { get_fdr_threshold } from './lib/modules/cluster_processes'
 include { cluster } from './lib/modules/cluster_processes'
 
 
 
 // setup params
-default_params = default_params()
-merged_params = default_params + params
+//default_params = default_params()
+//merged_params = default_params + params
 
 // help and version messages
-help_or_version(merged_params, version)
+//help_or_version(merged_params, version)
 
-final_params = check_params(merged_params, version)
+//final_params = check_params(merged_params, version)
 
-
+help_or_version(params, version)
+final_params = check_params(params, version)
 
 
 workflow {
+      
 
-    Channel
-      .fromPath( final_params.elutions_path, checkIfExists: true )
-      .set { elutions }
 
-    Channel
-       .from( "pearsonR", "spearmanR", "euclidean", "braycurtis" )
-       .set { corrs }
 
-     elutions.combine(corrs).set { elutions_and_corrs }
-
-     features = cfmsinfer_corr(elutions_and_corrs).collect()
+     features = cfmsinfer_corr(final_params)
 
      featmat = build_featmat(features)
+
      labels = format_goldstandards(final_params, featmat)
 
      postrain = labels[0]
@@ -78,7 +73,7 @@ workflow {
 
 
      // This step should be optional based on presence of FDR_cutoff
-     scorethreshold = get_FDR_threshold(precisionrecall[0], final_params.FDR_CUTOFF)
+     scorethreshold = get_fdr_threshold(precisionrecall[0], final_params.fdr_cutoff)
      clustering = cluster(scored_interactions, scorethreshold[0], final_params)
 
 
