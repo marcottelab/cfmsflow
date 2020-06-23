@@ -1,0 +1,42 @@
+
+{
+
+  "entrypoint": "calsdfc_features",
+  "exitpoint": "cluster",
+
+  "help": false,
+  "version": false,
+  "input_dir": "/project/cmcwhite/pipelines/cfmsinfer/elutions/processed_elutions",
+  "elution_pattern": "*.wide",
+
+
+  "existing_feature_matrix": "/project/cmcwhite/pipelines/cfmsinfer/feature_matrix/testrun.featmat",
+  "goldstandard_complexes": "/project/cmcwhite/pipelines/cfmsinfer/accessory_files/allComplexesCore_photo_euktovirNOG_expansion.txt",
+
+  "merge_threshold": 0.6,
+  "complex_size_threshold": 30,
+  "negatives_from_observed": true,
+  "negative_limit": 20000,
+
+  "postrain": "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/pos_train.txt",
+  "negtrain":  "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/neg_train.txt",
+  "postest": "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/pos_test.txt",
+  "negtest":  "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/neg_test.txt",
+   
+
+
+  "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsinfer/accessory_files/classifier_subset.txt",
+  "generations": 10,
+  "population": 20,
+  "n_jobs": 20,
+
+  "walktrap_steps": 3,
+  "annotation_file": "/project/cmcwhite/pipelines/cfmsinfer/accessory_files/virNOG_collapse_annotations.txt",
+  "elution_file": "",
+
+  "plot_pr": "False",
+  "fdr_cutoff": 0.2,
+  "output_dir": "output_dir"
+}
+
+

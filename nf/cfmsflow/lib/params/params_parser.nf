@@ -18,7 +18,7 @@ def check_params(Map params, String version) {
 
     final_params.elutions_path = input_dir + "/" + elution_pattern
 
-    final_params.feature_matrix = file(params.feature_matrix)
+    //final_params.feature_matrix = file(params.feature_matrix)
     //final_params.goldstandard = file(params.goldstandard_complexes)
 
     // Add check for numeric
