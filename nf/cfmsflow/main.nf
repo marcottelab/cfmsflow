@@ -48,34 +48,48 @@ final_params = check_params(params, version)
 workflow {
       
 
+     if (final_params.entrypoint <= 1) {
+
+         features = cfmsinfer_corr(final_params)
+     }
 
 
-     features = cfmsinfer_corr(final_params)
+     if (final_params.entrypoint <= 2) {
+         featmat = build_featmat(features)
+     }
 
-     featmat = build_featmat(features)
 
-     labels = format_goldstandards(final_params, featmat)
+     if (final_params.generate_labels == true){
+         labels = format_goldstandards(final_params, featmat)
+         postrain = labels[0]
+         negtrain = labels[1]
+         postest = labels[2]
+         negtest = labels[3]
 
-     postrain = labels[0]
-     negtrain = labels[1]
-     postest = labels[2]
-     negtest = labels[3]
+     }
 
-     featmat_labeled = label_featmat(featmat, postrain, negtrain)
+     if (final_params.entrypoint <= 3) {
+         featmat_labeled = label_featmat(featmat, postrain, negtrain)
+     }
 
-     featmat_labeled1 = get_labeled_rows(featmat_labeled)
 
-     scored_interactions = training(final_params, featmat_labeled1, featmat) 
-     scored_interactions | view
 
- 
-     precisionrecall = cfmsinfer_eval(scored_interactions, postrain, negtrain, postest, negtest)
+     if (final_params.entrypoint <= 4) {
+         featmat_labeled1 = get_labeled_rows(featmat_labeled)
+         scored_interactions = training(final_params, featmat_labeled1, featmat) 
+     }
 
+     if (final_params.entrypoint <= 5) {    
+         precisionrecall = cfmsinfer_eval(scored_interactions, postrain, negtrain, postest, negtest)
+     }
 
      // This step should be optional based on presence of FDR_cutoff
-     scorethreshold = get_fdr_threshold(precisionrecall[0], final_params.fdr_cutoff)
-     clustering = cluster(scored_interactions, scorethreshold[0], final_params)
 
+     if (final_params.entrypoint <= 6) {    
+   
+         scorethreshold = get_fdr_threshold(precisionrecall[0], final_params.fdr_cutoff)
+         clustering = cluster(scored_interactions, scorethreshold[0], final_params)
+    }
 
 
 }
