@@ -9,10 +9,7 @@ process cfmsinfer_scan {
 
   input:
   path featmat_labeled1
-  path classifiers_to_scan
-  val GENERATIONS
-  val POPULATION
-  val N_JOBS
+  val final_params
 
 
   output:
@@ -23,10 +20,10 @@ process cfmsinfer_scan {
   script:
 
   """
-  CLASSIFIERS_FORMATTED=\$(cat $classifiers_to_scan | tr '\n' ' ')
+  CLASSIFIERS_FORMATTED=\$(cat $final_params.classifiers_to_scan | tr '\n' ' ')
 
   mkdir tpot.tmp
-  python /project/cmcwhite/github/run_TPOT/train_TPOT.py --training_data featmat_labeled1 --outfile pipeline.py --classifier_subset \$CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs 20 --generations $GENERATIONS --population_size $POPULATION --labels -1 1 --temp_dir training/tpot.tmp
+  python /project/cmcwhite/github/run_TPOT/train_TPOT.py --training_data featmat_labeled1 --outfile pipeline.py --classifier_subset \$CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs $final_params.n_jobs --generations $final_params.generations --population_size $final_params.population --labels -1 1 --temp_dir training/tpot.tmp
 
   """
 }

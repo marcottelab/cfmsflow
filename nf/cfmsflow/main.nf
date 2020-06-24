@@ -46,48 +46,75 @@ final_params = check_params(params, version)
 
 
 workflow {
-      
 
-     if (final_params.entrypoint <= 1) {
 
+     ////   Get or load features (entrypoint = 1 to start with elution profiles, entrypoint = 2 to load)    
+     if (final_params.entrypoint == 1) {
          features = cfmsinfer_corr(final_params)
      }
+     else if (final_params.entrypoint == 2) {
+         Channel
+          .fromPath( final_params.features_path, checkIfExists: true )
+          .set { features }    
 
-
-     if (final_params.entrypoint <= 2) {
-         featmat = build_featmat(features)
      }
 
 
+     ////   Get or load feature matrix ( entrypoint = 3 to load) 
+     if (final_params.entrypoint <=2 && final_params.exitpoint >= 2) {
+         featmat = build_featmat(features, final_params)
+     }
+     else if (final_params.entrypoint == 3){
+          featmat = final_params.feature_matrix_entrypoint3
+     }
+
+
+     //// Get or load gold standards (generate_labels = true to generate)
      if (final_params.generate_labels == true){
-         labels = format_goldstandards(final_params, featmat)
+         labels = format_goldstandards(featmat, final_params)
          postrain = labels[0]
          negtrain = labels[1]
          postest = labels[2]
          negtest = labels[3]
 
      }
-
-     if (final_params.entrypoint <= 3) {
-         featmat_labeled = label_featmat(featmat, postrain, negtrain)
+     else {
+         postrain = final_params.postrain
+         negtrain = final_params.negtrain
+         postest = final_params.postest
+         negtest = final_params.negtest
      }
 
 
 
-     if (final_params.entrypoint <= 4) {
-         featmat_labeled1 = get_labeled_rows(featmat_labeled)
-         scored_interactions = training(final_params, featmat_labeled1, featmat) 
+     //// Get or load labeled feature matrix ( entrypoint = 4 to load)
+     if (final_params.entrypoint <= 3 && final_params.exitpoint >= 3) {
+         featmat_labeled = label_featmat(featmat, postrain, negtrain, final_params)
      }
 
-     if (final_params.entrypoint <= 5) {    
-         precisionrecall = cfmsinfer_eval(scored_interactions, postrain, negtrain, postest, negtest)
+     else if (final_params.entrypoint == 4){
+          featmat_labeled = final_params.feature_matrix_entrypoint4
+
      }
 
-     // This step should be optional based on presence of FDR_cutoff
 
-     if (final_params.entrypoint <= 6) {    
-   
-         scorethreshold = get_fdr_threshold(precisionrecall[0], final_params.fdr_cutoff)
+
+     //// Get or load scored interactions ( entrypoint = 5 to load)
+     if (final_params.entrypoint <= 4 && final_params.exitpoint >=4) {
+
+         featmat_labeled1 = get_labeled_rows(featmat_labeled, final_params)
+         scored_interactions = training(featmat_labeled1, featmat, final_params) 
+     }
+     else if(final_params.entrypoint == 5){
+
+         scored_interactions = final_params.scored_interactions_entrypoint5
+
+     }
+
+     //// Cluster scored interactions
+     if (final_params.exitpoint == 5) {    
+         precisionrecall = cfmsinfer_eval(scored_interactions, postrain, negtrain, postest, negtest, final_params)  
+         scorethreshold = get_fdr_threshold(precisionrecall[0], final_params.fdr_cutoff, final_params)
          clustering = cluster(scored_interactions, scorethreshold[0], final_params)
     }
 

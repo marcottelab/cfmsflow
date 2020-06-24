@@ -2,13 +2,17 @@
 // Build feature matrix from calculated features
 process build_featmat {
 
+
   // Don't copy input file to work directory
-  scratch true
+  scratch false
 
   tag { features }
 
   input:
   file features
+  val final_params
+
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   path "featmat"
@@ -33,6 +37,9 @@ process label_featmat {
   path featmat
   path positives
   path negatives
+  val final_params
+
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   path "featmat_labeled"
@@ -56,6 +63,9 @@ process get_labeled_rows {
 
   input:
   path featmat_labeled
+  val final_params
+
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   path "featmat_labeled1"

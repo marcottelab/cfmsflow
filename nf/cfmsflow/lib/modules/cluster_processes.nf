@@ -11,6 +11,9 @@ process get_fdr_threshold {
   input:
   path precisionrecall
   val FDR_CUTOFF
+  val final_params
+
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   stdout()
@@ -41,6 +44,9 @@ process cluster {
   path scored
   val scorethreshold
   val final_params
+
+
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   path "clustering.csv"

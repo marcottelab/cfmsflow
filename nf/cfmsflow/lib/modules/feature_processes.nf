@@ -9,9 +9,11 @@ process corr_process {
 
   input:
   tuple elut_id,corr 
+  val final_params
+
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
-  // path "${elut_id.baseName}.${corr}.feat" 
   tuple file("${elut_id.baseName}.${corr}.feat"),corr
 
   script:
@@ -30,8 +32,10 @@ process rescale_process {
 
   input:
   tuple file(feat),corr 
-
+  val final_params
     
+  publishDir "${final_params.output_dir}", mode: 'link'
+
   output:
   path "${feat}.*scaled" 
 
@@ -63,7 +67,9 @@ process alph_process {
   input:
   path feat
   val sep 
+  val final_params
 
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   path "${feat}.ordered"  

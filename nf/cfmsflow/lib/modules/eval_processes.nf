@@ -13,7 +13,9 @@ process cfmsinfer_eval {
   path negtrain
   path postest
   path negtest
+  val final_params
 
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   path "precisionrecall"
@@ -25,8 +27,5 @@ process cfmsinfer_eval {
 
       python /project/cmcwhite/pipelines/cfmsinfer/scripts/prcurve_rewrite.py --results_wprob $scored --input_positives $postrain $postest --input_negatives $negtrain $negtest --labels train test --output_file precisionrecall --id_cols 0 --prob_col 1 --ppi_sep ' ' --results_delim "\t" --labels_delim ' ' --header  --plot False
    
-
-
-
   """
 }

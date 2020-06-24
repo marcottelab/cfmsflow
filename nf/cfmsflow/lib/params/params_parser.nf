@@ -10,14 +10,16 @@ def check_params(Map params, String version) {
     def input_dir = check_mandatory_parameter(params, 'input_dir') - ~/\/$/
 
     //  check a pattern has been specified
-    def elution_pattern = check_mandatory_parameter(params, 'elution_pattern')
+    // def elution_pattern = check_mandatory_parameter(params, 'elution_pattern')
+
+
 
     // set up output directory
     final_params.output_dir = check_mandatory_parameter(params, 'output_dir') - ~/\/$/
 
 
-    final_params.elutions_path = input_dir + "/" + elution_pattern
-
+    final_params.elutions_path = input_dir + "/" + params.elution_pattern
+    final_params.features_path = input_dir + "/" + params.features_entrypoint2
     //final_params.feature_matrix = file(params.feature_matrix)
     //final_params.goldstandard = file(params.goldstandard_complexes)
 

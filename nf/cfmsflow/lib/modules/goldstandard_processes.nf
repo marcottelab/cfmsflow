@@ -9,13 +9,11 @@ process split_traintest {
   tag { goldstandard }
 
   input:
-  path goldstandard
-  val MERGE_THRESHOLD
-  val COMPLEX_SIZE_THRESHOLD
+  val final_params
 
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
-  //path  "goldstandard_filt.*_ppis.txt"
   path "goldstandard_filt.train_ppis.ordered", emit: 'postrain'
   path "goldstandard_filt.test_ppis.ordered", emit: 'postest'
   path "goldstandard_filt.neg_train_ppis.ordered", emit: 'negtrain'
@@ -25,7 +23,7 @@ process split_traintest {
   script:
   """
    # Filter and organize subcomplexes
-     python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/complex_merge.py --cluster_filename $goldstandard --output_filename goldstandard_filt.txt --merge_threshold $MERGE_THRESHOLD --complex_size_threshold $COMPLEX_SIZE_THRESHOLD --remove_largest --remove_large_subcomplexes
+     python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/complex_merge.py --cluster_filename $final_params.goldstandard_complexes --output_filename goldstandard_filt.txt --merge_threshold $final_params.merge_threshold --complex_size_threshold $final_params.complex_size_threshold  --remove_largest --remove_large_subcomplexes
 
    # Split complexes to training and test complexes 
    python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/split_complexes.py --input_complexes goldstandard_filt.txt
@@ -54,7 +52,9 @@ process get_negatives_from_observed {
   path featmat
   path postrain
   path postest
+  val final_params
 
+  publishDir "${final_params.output_dir}", mode: 'link'
 
   output:
   path "negtrain.randsort", emit: 'negtrain'
@@ -64,7 +64,6 @@ process get_negatives_from_observed {
 
   script:
   """
-  pwd
   # "all ID pairs from the feature matrix (remove header with tail)"
   awk -F',' '{print \$1}' $featmat |  tail -n +2 > identifiers_infeatmat
 
@@ -95,7 +94,10 @@ process limit_negatives {
   input:
   path negtrain
   path negtest
-  val NEGATIVE_LIMIT
+  val final_params
+   
+  publishDir "${final_params.output_dir}", mode: 'link'
+
 
   output:
   path "negtrain", emit: 'negtrain'
@@ -105,8 +107,8 @@ process limit_negatives {
   """
   head *    
 
-  sort -R $negtrain | head -$NEGATIVE_LIMIT > negtrain
-  sort -R $negtest | head -$NEGATIVE_LIMIT > negtest
+  sort -R $negtrain | head -$final_params.negative_limit > negtrain
+  sort -R $negtest | head -$final_params.negative_limit > negtest
 
 
   """

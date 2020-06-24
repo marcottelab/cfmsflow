@@ -7,7 +7,6 @@ include { alph_process } from './feature_processes'
 
 // Calculate correlation and distance-based features
 workflow cfmsinfer_corr {
-  // take: elutions_and_corrs
   take: final_params
 
   main:
@@ -22,9 +21,9 @@ workflow cfmsinfer_corr {
      elutions.combine(corrs).set { elutions_and_corrs }
 
 
-    output_corrs = corr_process(elutions_and_corrs) 
-    output_corrs = rescale_process(output_corrs)
-    output_corrs = alph_process(output_corrs, ",")
+    output_corrs = corr_process(elutions_and_corrs, final_params) 
+    output_corrs = rescale_process(output_corrs, final_params)
+    output_corrs = alph_process(output_corrs, ",", final_params)
 
     features = output_corrs.collect()
 
