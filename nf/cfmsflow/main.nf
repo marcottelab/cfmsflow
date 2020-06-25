@@ -33,25 +33,32 @@ include { cluster } from './lib/modules/cluster_processes'
 
 
 /*
- * SET UP CONFIGURATION VARIABLES
+ * SET UP PARAMETERS
  */
 
-// setup params
 
-
-final_params = check_params(params, version)
-
-paramsWithUsage = readParamsFromJsonSettings(params)
-validate_params(params, paramsWithUsage)
-exit 0
-
-
-// Show help emssage
+// Show help message
 if (params.help){
     helpMessage(paramsWithUsage)
     exit 0
 }
 
+// Not going to be necessary?
+final_params = check_params(params, version)
+
+// Very slightly modifies from hlatyping to not access config directly (deprecated)
+// The path to the parameter json with definitions is a parameter
+paramsWithUsage = readParamsFromJsonSettings(params)
+
+// CDM new process, mini argparse checks for type and for choices
+errors = validate_params(params, paramsWithUsage)
+
+if (errors){
+  
+  println errors
+  exit 0
+
+}
 
 
 workflow {
