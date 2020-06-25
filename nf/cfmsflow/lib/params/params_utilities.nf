@@ -1,14 +1,11 @@
-
-
-
+// CDM
 def validate_params(Map params, List paramsWithUsage){
-    //println params
-    //println paramsWithUsage
-    valuesWithUsage = get_usage(params, paramsWithUsage)
-    println valuesWithUsage
 
+    // Combine user params with parameter usage definitions
+    valuesWithUsage = get_usage(params, paramsWithUsage)
     errors = []
-    
+   
+    // Check that usage is correct 
     valuesWithUsage.each { p ->
   
         choices = p.find{ it.key == "choices" }?.value  
@@ -28,14 +25,13 @@ def validate_params(Map params, List paramsWithUsage){
             if (error != null){errors += error}
         } 
 
-
     }    
 
     return errors
 
 }
 
-
+// CDM
 def get_usage(Map params, List paramsWithUsage){
     // https://stackoverflow.com/a/49674409
     def appliedMap = {property, idValue-> 
@@ -44,9 +40,9 @@ def get_usage(Map params, List paramsWithUsage){
 
     def valuesWithUsage = []
    
-    // Find each param in the paramsWithUsage Json
+    // Find each user param in the parameter definitions
     def usage = params.each { first ->
-       def p = appliedMap('name', first.key) ?: ["none":"none"]
+       def p = appliedMap('name', first.key) ?: ["none":"none"] // change this
 
        // Combine input param (first.value) with usage values
        // Making a new list of lists
@@ -118,7 +114,7 @@ def check_mandatory_parameter(Map params, String parameter_name){
 ----------------------------------------------------------------------------------------
 */
 
-
+// Modified by CDM to not access config (Deprecated)
 def readParamsFromJsonSettings(Map params) {
     List paramsWithUsage
     try {
@@ -129,8 +125,9 @@ def readParamsFromJsonSettings(Map params) {
     }
     return paramsWithUsage
 
-
 }
+
+// Modified by CDM to not access config (Deprecated)
 def tryReadParamsFromJsonSettings(String params_description) throws Exception{
     def paramsContent = new File(params_description).text
     def paramsWithUsage = new groovy.json.JsonSlurper().parseText(paramsContent)
