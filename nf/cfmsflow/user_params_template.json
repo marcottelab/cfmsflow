@@ -1,10 +1,10 @@
 
 {
-  "params_description":"$baseDir/parameters.settings.json",
+  "params_description":"parameters.settings.json",
 
  
-  "entrypoint": "itsastring",
-  "exitpoint": 1,
+  "entrypoint": 1,
+  "exitpoint": 2,
 
 
   "help": false,

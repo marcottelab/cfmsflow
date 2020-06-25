@@ -51,19 +51,7 @@ def rename_params_keys(Map params_to_rename, Map old_and_new_names) {
     return params_to_rename
 }
 
-def testfunc(Map params) {
-    List paramsWithUsage
-    println params['params_description']
-    try {
-        paramsWithUsage = tryReadParamsFromJsonSettings(params['params_description'])
-    } catch (Exception e) {
-        println "Could not read parameters settings from Json. $e"
-        paramsWithUsage = Collections.emptyMap()
-    }
-    return paramsWithUsage
 
-
-}
 
 /*
 ========================================================================================
@@ -79,14 +67,20 @@ def testfunc(Map params) {
 */
 
 
+def readParamsFromJsonSettings(Map params) {
+    List paramsWithUsage
+    try {
+        paramsWithUsage = tryReadParamsFromJsonSettings(params['params_description'])
+    } catch (Exception e) {
+        println "Could not read parameters settings from Json. $e"
+        paramsWithUsage = Collections.emptyMap()
+    }
+    return paramsWithUsage
 
 
+}
 def tryReadParamsFromJsonSettings(String params_description) throws Exception{
     def paramsContent = new File(params_description).text
-    println "test2"
-    println paramsContent
-    println "test3"
-
     def paramsWithUsage = new groovy.json.JsonSlurper().parseText(paramsContent)
     return paramsWithUsage.get('parameters')
 }
