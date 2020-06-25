@@ -15,11 +15,12 @@ include { complete_message } from './lib/params/messages'
 include { error_message } from './lib/params/messages'
 
 
-//include { default_params } from './lib/params/params_parser'
 include { check_params } from './lib/params/params_parser'
 
-include { help_or_version } from './lib/params/params_utilities'
+include { readParamsFromJsonSettings } from './lib/params/params_utilities'
+include { validate_params } from './lib/params/params_utilities'
 
+include { helpMessage } from './lib/params/params_utilities'
 include { cfmsinfer_corr } from './lib/modules/feature_workflows'
 include { build_featmat } from './lib/modules/featmat_processes'
 include { format_goldstandards} from './lib/modules/goldstandard_workflows' 
@@ -31,18 +32,34 @@ include { get_fdr_threshold } from './lib/modules/cluster_processes'
 include { cluster } from './lib/modules/cluster_processes'
 
 
+/*
+ * SET UP PARAMETERS
+ */
 
-// setup params
-//default_params = default_params()
-//merged_params = default_params + params
 
-// help and version messages
-//help_or_version(merged_params, version)
+// Very slightly modifies from hlatyping to not access config directly (deprecated)
+// The path to the parameter json with definitions is a parameter
+paramsWithUsage = readParamsFromJsonSettings(params)
 
-//final_params = check_params(merged_params, version)
 
-help_or_version(params, version)
+// Show help message
+if (params.help){
+    helpMessage(paramsWithUsage)
+    exit 0
+}
+
+// Not going to be necessary?
 final_params = check_params(params, version)
+
+// CDM new process, mini argparse checks for type and for choices
+errors = validate_params(params, paramsWithUsage)
+
+if (errors){
+  
+  println errors
+  exit 0
+
+}
 
 
 workflow {
@@ -70,7 +87,7 @@ workflow {
 
 
      //// Get or load gold standards (generate_labels = true to generate)
-     if (final_params.generate_labels == true){
+     if (final_params.exitpoint >= 2 && final_params.generate_labels == true){
          labels = format_goldstandards(featmat, final_params)
          postrain = labels[0]
          negtrain = labels[1]

@@ -1,59 +1,107 @@
+// CDM
+def validate_params(Map params, List paramsWithUsage){
 
-// From GHRU MLST Pipeline
+    // Combine user params with parameter usage definitions
+    valuesWithUsage = get_usage(params, paramsWithUsage)
+    errors = []
+   
+    // Check that usage is correct 
+    valuesWithUsage.each { p ->
+  
+        choices = p.find{ it.key == "choices" }?.value  
+        input_value = p.find{ it.key == "input_value" }?.value 
+        name = p.find{ it.key == "name" }?.value 
+        type = p.find{ it.key == "type" }?.value 
 
-def help_or_version(Map params, String version){
-    // Show help message
-    if (params.help){
-        version_message(version)
-        help_message()
-        System.exit(0)
-    }
+        // check choices 
+        if(choices){
+            error = check_parameter_choices(name, input_value, choices)
+            if (error != null){errors += error}
+        }
 
-    // Show version number
-    if (params.version){
-        version_message(version)
-        System.exit(0)
+        // check typing
+        if(type){
+            error = check_parameter_typing(name, input_value, type)
+            if (error != null){errors += error}
+        } 
+
+    }    
+
+    return errors
+
+}
+
+// CDM
+def get_usage(Map params, List paramsWithUsage){
+    // https://stackoverflow.com/a/49674409
+    def appliedMap = {property, idValue-> 
+        return paramsWithUsage.find{it[property] == idValue}
+    }   
+
+    def valuesWithUsage = []
+   
+    // Find each user param in the parameter definitions
+    def usage = params.each { first ->
+       def p = appliedMap('name', first.key) ?: ["none":"none"] // change this
+
+       // Combine input param (first.value) with usage values
+       // Making a new list of lists
+       def p2 = [
+           'name':first.key,
+           'input_value':first.value,
+           'label': p.find{ it.key == "label" }?.value ,
+           'choices': p.find{ it.key == "choices" }?.value,
+       'type': p.find{ it.key == "type" }?.value 
+       ]
+       valuesWithUsage += p2
+        
+    } 
+
+    return valuesWithUsage
+}
+
+
+// CDM
+def check_parameter_typing(String parameter_name, value, type){
+    if ( ( value instanceof String && type != "string"   ) ||
+         ( value instanceof Integer && type != "integer" ) ||
+         ( value instanceof Boolean && type != "boolean" ) ||
+         ( value instanceof List && type != "list"       ) ){
+
+        return "The value (" + value + ")  supplied for " + parameter_name + " is not valid. It must be of type " + type
     }
 }
 
+// Modified from MLST
+def check_parameter_choices(String parameter_name, value, List value_options){
+    if ( ! value_options.any{ it == value }){
+        return "The value (" + value + ")  supplied for " + parameter_name + " is not valid. It must be one of " + value_options.join(", ")
+    }
+}
+
+
+// Unused at the moment
+def check_optional_parameters(Map params, List parameter_names){
+    if (parameter_names.collect{name -> params[name]}.every{param_value -> param_value == false}){
+        println "You must specify at least one of these options: " + parameter_names.join(", ")
+        System.exit(1)
+    }
+}
+
+// From GHRU MLST Pipeline
 def check_mandatory_parameter(Map params, String parameter_name){
     if ( !params[parameter_name]){
-        println "You must specifiy a " + parameter_name
+        println "You must specify a " + parameter_name
         System.exit(1)
     } else {
         return params[parameter_name]
     }
 }
 
-def check_optional_parameters(Map params, List parameter_names){
-    if (parameter_names.collect{name -> params[name]}.every{param_value -> param_value == false}){
-        println "You must specifiy at least one of these options: " + parameter_names.join(", ")
-        System.exit(1)
-    }
-}
-
-def check_parameter_value(String parameter_name, String value, List value_options){
-    if (value_options.any{ it == value }){
-        return value
-    } else {
-        println "The value (" + value + ")  supplied for " + parameter_name + " is not valid. It must be one of " + value_options.join(", ")
-        System.exit(1)
-    }
-}
-
-def rename_params_keys(Map params_to_rename, Map old_and_new_names) {
-    old_and_new_names.each{ old_name, new_name ->
-        if (params_to_rename.containsKey(old_name))  {
-            params_to_rename.put( new_name, params_to_rename.remove(old_name ) )
-        }
-    }
-    return params_to_rename
-}
 
 
 
-
-
+/*
 ========================================================================================
  nf-core/hlatyping Analysis Pipeline.
  #### Homepage / Documentation
@@ -65,19 +113,23 @@ def rename_params_keys(Map params_to_rename, Map old_and_new_names) {
  Alexander Peltzer <alexander.peltzer@qbic.uni-tuebingen.de> - https://github.com/apeltzer
 ----------------------------------------------------------------------------------------
 */
-def readParamsFromJsonSettings() {
+
+// Modified by CDM to not access config (Deprecated)
+def readParamsFromJsonSettings(Map params) {
     List paramsWithUsage
     try {
-        paramsWithUsage = tryReadParamsFromJsonSettings()
+        paramsWithUsage = tryReadParamsFromJsonSettings(params['params_description'])
     } catch (Exception e) {
         println "Could not read parameters settings from Json. $e"
         paramsWithUsage = Collections.emptyMap()
     }
     return paramsWithUsage
+
 }
 
-def tryReadParamsFromJsonSettings() throws Exception{
-    def paramsContent = new File(config.params_description.path).text
+// Modified by CDM to not access config (Deprecated)
+def tryReadParamsFromJsonSettings(String params_description) throws Exception{
+    def paramsContent = new File(params_description).text
     def paramsWithUsage = new groovy.json.JsonSlurper().parseText(paramsContent)
     return paramsWithUsage.get('parameters')
 }
@@ -123,12 +175,12 @@ def helpMessage(paramsWithUsage) {
 		def helpMessage = String.format(
 		"""\
     =========================================
-     nf-core/hlatyping v${workflow.manifest.version}
+     cfmsflow v${workflow.manifest.version}
     =========================================
     Usage:
 
     The typical command for running the pipeline is as follows:
-    nextflow run nf-core/hlatyping --reads '*_R{1,2}.fastq.gz' -profile docker
+    nextflow main.nf -params-file user_params_template.json 
 
     Options:
 
@@ -137,13 +189,3 @@ def helpMessage(paramsWithUsage) {
     log.info helpMessage
 }
 
-/*
- * SET UP CONFIGURATION VARIABLES
- */
-def paramsWithUsage = readParamsFromJsonSettings()
-
-// Show help emssage
-if (params.help){
-    helpMessage(paramsWithUsage)
-    exit 0
-}

@@ -1,8 +1,10 @@
 
 {
+  "params_description":"parameters.settings.json",
 
+ 
   "entrypoint": 1,
-  "exitpoint": 5,
+  "exitpoint": 2,
 
 
   "help": false,
