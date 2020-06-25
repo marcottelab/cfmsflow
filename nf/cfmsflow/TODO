@@ -1,3 +1,5 @@
+<script src="https://ideone.com/e.js/CI2iuQ" type="text/javascript" ></script>
+
 Clean up params
 
 Add option to plot or not
@@ -16,5 +18,28 @@ Contrive example ( or do three tries from gold standard set?)
 Add final optional annotation
 walktrap,and optional elution and annotations
 
+editsList = [
+[name:'a', FlagMnemonic:'REB', Action:'deny'],
+[name:'b', FlagMnemonic:'TRA', Action:'review'],
+[name:'c', FlagMnemonic:'UNB', Action:'deny'],
+[name:'d', FlagMnemonic:'REB', Action:'deny']
+]
 
+param = [a:'1', b:'2', c:'1']  
+
+def thisValue2 = appliedEditsMap('name', 'a') ?: "default"
+println thisValue2
+
+def appliedEditsMap = {property,idValue->
+     return editsList.find{it[property] == idValue}
+}
+
+
+
+param.each { first ->
+    println("$first");
+    def p = appliedEditsMap('name', first.key) ?: "default"
+    println p.find{ it.key == "FlagMnemonic" }?.value
+
+}
 

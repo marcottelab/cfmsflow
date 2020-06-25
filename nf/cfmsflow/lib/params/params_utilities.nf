@@ -1,22 +1,4 @@
-include { version_message } from './messages'
-include { help_message } from './messages'
 // From GHRU MLST Pipeline
-
-def help_or_version(Map params, String version){
-    // Show help message
-    if (params.help){
-        version_message(version)
-        help_message()
-        System.exit(0)
-    }
-
-    // Show version number
-    if (params.version){
-        version_message(version)
-        System.exit(0)
-    }
-}
-
 def check_mandatory_parameter(Map params, String parameter_name){
     if ( !params[parameter_name]){
         println "You must specify a " + parameter_name
@@ -26,6 +8,39 @@ def check_mandatory_parameter(Map params, String parameter_name){
     }
 }
 
+def validate_params(Map params, List paramsWithUsage){
+    //println params
+    //println paramsWithUsage
+
+    // https://stackoverflow.com/a/49674409
+    def appliedMap = {property, idValue-> 
+        return paramsWithUsage.find{it[property] == idValue}
+    }   
+
+    def valuesWithUsage = []
+   
+    // Find each param in the paramsWithUsage Json
+    def usage = params.each { first ->
+       def p = appliedMap('name', first.key) ?: ["none":"none"]
+
+       // Combine input param (first.value) with usage values
+       // Making a new list of lists
+       def p2 = [
+           'name':first.key,
+           'input_value':first.value,
+           'label': p.find{ it.key == "label" }?.value ?: "none",
+           'choices': p.find{ it.key == "choices" }?.value ?: "none",
+       'type': p.find{ it.key == "type" }?.value ?: "none"
+       ]
+       valuesWithUsage += p2
+        
+    } 
+
+    return valuesWithUsage
+}
+
+
+// Do this one for the inputs!
 def check_optional_parameters(Map params, List parameter_names){
     if (parameter_names.collect{name -> params[name]}.every{param_value -> param_value == false}){
         println "You must specify at least one of these options: " + parameter_names.join(", ")
@@ -126,12 +141,12 @@ def helpMessage(paramsWithUsage) {
 		def helpMessage = String.format(
 		"""\
     =========================================
-     nf-core/hlatyping v${workflow.manifest.version}
+     cfmsflow v${workflow.manifest.version}
     =========================================
     Usage:
 
     The typical command for running the pipeline is as follows:
-    nextflow run nf-core/hlatyping --reads '*_R{1,2}.fastq.gz' -profile docker
+    nextflow main.nf -params-file user_params_template.json 
 
     Options:
 

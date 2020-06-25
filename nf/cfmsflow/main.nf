@@ -17,9 +17,9 @@ include { error_message } from './lib/params/messages'
 
 include { check_params } from './lib/params/params_parser'
 
-include { help_or_version } from './lib/params/params_utilities'
-//include { readParamsFromJsonSettings } './lib/params/params_utilities'
 include { readParamsFromJsonSettings } from './lib/params/params_utilities'
+include { validate_params } from './lib/params/params_utilities'
+
 include { helpMessage } from './lib/params/params_utilities'
 include { cfmsinfer_corr } from './lib/modules/feature_workflows'
 include { build_featmat } from './lib/modules/featmat_processes'
@@ -37,22 +37,13 @@ include { cluster } from './lib/modules/cluster_processes'
  */
 
 // setup params
-//default_params = default_params()
-//merged_params = default_params + params
 
-// help and version messages
-//help_or_version(merged_params, version)
 
-//final_params = check_params(merged_params, version)
+final_params = check_params(params, version)
 
 paramsWithUsage = readParamsFromJsonSettings(params)
-
-//help_or_version(params, version)
-final_params = check_params(params, version)
-println "test"
-println "test_over"
-
-//paramsWithUsage = readParamsFromJsonSettings(params)
+validate_params(params, paramsWithUsage)
+exit 0
 
 
 // Show help emssage
