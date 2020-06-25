@@ -1,4 +1,5 @@
-
+include { version_message } from './messages'
+include { help_message } from './messages'
 // From GHRU MLST Pipeline
 
 def help_or_version(Map params, String version){
@@ -18,7 +19,7 @@ def help_or_version(Map params, String version){
 
 def check_mandatory_parameter(Map params, String parameter_name){
     if ( !params[parameter_name]){
-        println "You must specifiy a " + parameter_name
+        println "You must specify a " + parameter_name
         System.exit(1)
     } else {
         return params[parameter_name]
@@ -27,7 +28,7 @@ def check_mandatory_parameter(Map params, String parameter_name){
 
 def check_optional_parameters(Map params, List parameter_names){
     if (parameter_names.collect{name -> params[name]}.every{param_value -> param_value == false}){
-        println "You must specifiy at least one of these options: " + parameter_names.join(", ")
+        println "You must specify at least one of these options: " + parameter_names.join(", ")
         System.exit(1)
     }
 }
@@ -50,10 +51,21 @@ def rename_params_keys(Map params_to_rename, Map old_and_new_names) {
     return params_to_rename
 }
 
+def testfunc(Map params) {
+    List paramsWithUsage
+    println params['params_description']
+    try {
+        paramsWithUsage = tryReadParamsFromJsonSettings(params['params_description'])
+    } catch (Exception e) {
+        println "Could not read parameters settings from Json. $e"
+        paramsWithUsage = Collections.emptyMap()
+    }
+    return paramsWithUsage
 
 
+}
 
-
+/*
 ========================================================================================
  nf-core/hlatyping Analysis Pipeline.
  #### Homepage / Documentation
@@ -65,19 +77,16 @@ def rename_params_keys(Map params_to_rename, Map old_and_new_names) {
  Alexander Peltzer <alexander.peltzer@qbic.uni-tuebingen.de> - https://github.com/apeltzer
 ----------------------------------------------------------------------------------------
 */
-def readParamsFromJsonSettings() {
-    List paramsWithUsage
-    try {
-        paramsWithUsage = tryReadParamsFromJsonSettings()
-    } catch (Exception e) {
-        println "Could not read parameters settings from Json. $e"
-        paramsWithUsage = Collections.emptyMap()
-    }
-    return paramsWithUsage
-}
 
-def tryReadParamsFromJsonSettings() throws Exception{
-    def paramsContent = new File(config.params_description.path).text
+
+
+
+def tryReadParamsFromJsonSettings(String params_description) throws Exception{
+    def paramsContent = new File(params_description).text
+    println "test2"
+    println paramsContent
+    println "test3"
+
     def paramsWithUsage = new groovy.json.JsonSlurper().parseText(paramsContent)
     return paramsWithUsage.get('parameters')
 }
@@ -137,13 +146,3 @@ def helpMessage(paramsWithUsage) {
     log.info helpMessage
 }
 
-/*
- * SET UP CONFIGURATION VARIABLES
- */
-def paramsWithUsage = readParamsFromJsonSettings()
-
-// Show help emssage
-if (params.help){
-    helpMessage(paramsWithUsage)
-    exit 0
-}

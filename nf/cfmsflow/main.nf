@@ -15,11 +15,12 @@ include { complete_message } from './lib/params/messages'
 include { error_message } from './lib/params/messages'
 
 
-//include { default_params } from './lib/params/params_parser'
 include { check_params } from './lib/params/params_parser'
 
 include { help_or_version } from './lib/params/params_utilities'
-
+//include { readParamsFromJsonSettings } './lib/params/params_utilities'
+include { testfunc } from './lib/params/params_utilities'
+include { helpMessage } from './lib/params/params_utilities'
 include { cfmsinfer_corr } from './lib/modules/feature_workflows'
 include { build_featmat } from './lib/modules/featmat_processes'
 include { format_goldstandards} from './lib/modules/goldstandard_workflows' 
@@ -31,6 +32,9 @@ include { get_fdr_threshold } from './lib/modules/cluster_processes'
 include { cluster } from './lib/modules/cluster_processes'
 
 
+/*
+ * SET UP CONFIGURATION VARIABLES
+ */
 
 // setup params
 //default_params = default_params()
@@ -41,8 +45,22 @@ include { cluster } from './lib/modules/cluster_processes'
 
 //final_params = check_params(merged_params, version)
 
-help_or_version(params, version)
+paramsWithUsage = testfunc(params)
+
+//help_or_version(params, version)
 final_params = check_params(params, version)
+println "test"
+println "test_over"
+
+//paramsWithUsage = readParamsFromJsonSettings(params)
+
+
+// Show help emssage
+if (params.help){
+    helpMessage(paramsWithUsage)
+    exit 0
+}
+
 
 
 workflow {
