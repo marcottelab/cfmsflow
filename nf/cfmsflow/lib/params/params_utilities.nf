@@ -3,6 +3,7 @@ def validate_params(Map params, List paramsWithUsage){
 
     // Combine user params with parameter usage definitions
     valuesWithUsage = get_usage(params, paramsWithUsage)
+    
     errors = []
    
     // Check that usage is correct 
@@ -26,34 +27,27 @@ def validate_params(Map params, List paramsWithUsage){
         } 
 
     }    
-
     return errors
-
 }
 
 // CDM
 def get_usage(Map params, List paramsWithUsage){
-    // https://stackoverflow.com/a/49674409
+
+    // Function from https://stackoverflow.com/a/49674409
     def appliedMap = {property, idValue-> 
         return paramsWithUsage.find{it[property] == idValue}
     }   
 
     def valuesWithUsage = []
    
-    // Find each user param in the parameter definitions
-    def usage = params.each { first ->
-       def p = appliedMap('name', first.key) ?: ["none":"none"] // change this
+    // Match user params with parameter definitions
+    params.each { first ->
+       def param_usage = appliedMap('name', first.key) ?: ["none":"none"] // change this
 
-       // Combine input param (first.value) with usage values
-       // Making a new list of lists
-       def p2 = [
-           'name':first.key,
-           'input_value':first.value,
-           'label': p.find{ it.key == "label" }?.value ,
-           'choices': p.find{ it.key == "choices" }?.value,
-       'type': p.find{ it.key == "type" }?.value 
-       ]
-       valuesWithUsage += p2
+       // Combine param definition with user input value
+       def usage = param_usage + ['input_value':first.value]
+
+       valuesWithUsage += usage
         
     } 
 
@@ -80,7 +74,7 @@ def check_parameter_choices(String parameter_name, value, List value_options){
 }
 
 
-// Unused at the moment
+// Unused at the moment from MLST
 def check_optional_parameters(Map params, List parameter_names){
     if (parameter_names.collect{name -> params[name]}.every{param_value -> param_value == false}){
         println "You must specify at least one of these options: " + parameter_names.join(", ")
