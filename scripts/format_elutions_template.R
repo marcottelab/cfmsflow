@@ -7,10 +7,10 @@
 library(tidyverse)
 
 # Functions
-read_elut <- function(data_path, elut_files){
+read_elut <- function(data_path, elut_files, delim){
   
     elut <- tibble(filename = elut_files) %>%
-               mutate(file_contents = map(filename, ~ read_csv(file.path(data_path, .)))) %>%
+               mutate(file_contents = map(filename, ~ read_csv(delim = delim, file.path(data_path, .)))) %>%
                unnest(cols = c(file_contents))
     return(elut)
 }
@@ -99,7 +99,7 @@ print(elut_filenames)
 
 print("Reading all elution files")
 
-elut <- read_elut(data_path, elut_filenames)
+elut <- read_elut(data_path, elut_filenames, delim = ",")
 
 
 #check names of columns
