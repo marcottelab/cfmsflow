@@ -18,7 +18,16 @@ process corr_process {
 
   script:
   """
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id
+  echo "TEST"
+  if [ $final_params.add_poisson_noise == 'true' ]
+  then
+  echo "Poisson noise added"
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id -r poisson_noise -i $final_params.poisson_reps
+  else
+
+      python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id
+  fi
+
   """
 } 
 

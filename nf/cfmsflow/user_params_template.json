@@ -20,6 +20,9 @@
 
   "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps",
 
+  "add_poisson_noise" : true,
+  "poisson_reps" : 5,
+
   "goldstandard_complexes": "/project/cmcwhite/pipelines/cfmsinfer/accessory_files/allComplexesCore_photo_euktovirNOG_expansion.txt",
   "generate_labels": true,
 
