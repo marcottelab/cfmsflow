@@ -76,7 +76,7 @@ process alph_process {
 
   script:
   """
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs $feat --outfile ${feat}.ordered --sep $sep --chunksize 10
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs $feat --outfile ${feat}.ordered --sep $sep --chunksize 10000
 
   """
 } 
