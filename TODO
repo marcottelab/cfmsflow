@@ -1,14 +1,42 @@
-TODO Give option to substitute own positive and negative interactions
 
-Break up records and running of gold standard script into multiple records
+Check with python2 and python3
 
-Add check of labeled matrix for any positive values? 
+<script src="https://ideone.com/e.js/CI2iuQ" type="text/javascript" ></script>
 
-Or filter gold standards positives first?
+Clean up params
 
- 
-# Change alphabetize check to work with new pandas
-# Rewrite alphabetize to parallelize very slow
+Add option to plot or not
 
-write make test train annotation script and add into pipeline
+Add path to githubs to params
+
+
+Contrive example ( or do three tries from gold standard set?)
+
+Add final optional annotation
+walktrap,and optional elution and annotations
+
+editsList = [
+[name:'a', FlagMnemonic:'REB', Action:'deny'],
+[name:'b', FlagMnemonic:'TRA', Action:'review'],
+[name:'c', FlagMnemonic:'UNB', Action:'deny'],
+[name:'d', FlagMnemonic:'REB', Action:'deny']
+]
+
+param = [a:'1', b:'2', c:'1']  
+
+def thisValue2 = appliedEditsMap('name', 'a') ?: "default"
+println thisValue2
+
+def appliedEditsMap = {property,idValue->
+     return editsList.find{it[property] == idValue}
+}
+
+
+
+param.each { first ->
+    println("$first");
+    def p = appliedEditsMap('name', first.key) ?: "default"
+    println p.find{ it.key == "FlagMnemonic" }?.value
+
+}
 
