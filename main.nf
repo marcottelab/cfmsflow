@@ -13,7 +13,6 @@ include { complete_message } from './lib/params/messages'
 include { error_message } from './lib/params/messages'
 
 
-include { check_params } from './lib/params/params_parser'
 
 include { readParamsFromJsonSettings } from './lib/params/params_utilities'
 include { validate_params } from './lib/params/params_utilities'
@@ -46,8 +45,6 @@ if (params.help){
     exit 0
 }
 
-// Not going to be necessary?
-// params = check_params(params, version)
 
 // CDM new process, mini argparse checks for type and for choices
 errors = validate_params(params, paramsWithUsage)

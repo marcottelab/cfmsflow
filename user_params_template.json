@@ -1,7 +1,5 @@
 
 {
-  "params_description":"lib/params/parameters.settings.json",
-
  
   "entrypoint": 1,
   "exitpoint": 5,
@@ -9,21 +7,22 @@
 
   "help": false,
   "version": false,
-  "input_dir": "input_files/",
-  "output_dir": "output/",
 
+  "input_dir": "test/test_input/",
+  "output_dir": "test/test_output/",
   "elution_pattern": "*.wide",
   "features_entrypoint2":"*ordered",
-  "feature_matrix_entrypoint3": "/project/cmcwhite/pipelines/cfmsinfer/feature_matrix/testrun.featmat",
-  "feature_matrix_labeled_entrypoint4": "/project/cmcwhite/pipelines/cfmsinfer/feature_matrix/testrun.featmat.labeled",
-  "scored_interactions_entrypoint5": "/project/cmcwhite/pipelines/cfmsinfer/training/tpot_testrun_scored.txt",
+
+  "feature_matrix_entrypoint3": "test/test_input/featmat",
+  "feature_matrix_labeled_entrypoint4": "test/test_input/featmat_labeled",
+  "scored_interactions_entrypoint5": "test/test_input/scored_interactions",
 
   "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps",
 
   "add_poisson_noise" : true,
   "poisson_reps" : 5,
 
-  "goldstandard_complexes": "/project/cmcwhite/pipelines/cfmsinfer/accessory_files/allComplexesCore_photo_euktovirNOG_expansion.txt",
+  "goldstandard_complexes": "test/test_input/goldstandard_complexes.txt",
   "generate_labels": true,
 
   "merge_threshold": 0.6,
@@ -31,24 +30,26 @@
   "negatives_from_observed": true,
   "negative_limit": 20000,
 
-  "postrain": "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/pos_train.txt",
-  "negtrain":  "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/neg_train.txt",
-  "postest": "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/pos_test.txt",
-  "negtest":  "/project/cmcwhite/pipelines/cfmsinfer/gold_standards/neg_test.txt",
+  "postrain": "test/test_input/postrain",
+  "negtrain":  "test_test_input/negtrain",
+  "postest": "postest",
+  "negtest":  "negtest",
    
 
-
-  "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsinfer/accessory_files/classifier_subset.txt",
+  "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_subset.txt",
   "generations": 10,
   "population": 20,
   "n_jobs": 20,
 
   "walktrap_steps": 3,
-  "annotation_file": "/project/cmcwhite/pipelines/cfmsinfer/accessory_files/virNOG_collapse_annotations.txt",
+  "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
   "elution_file": "",
 
   "plot_pr": "False",
-  "fdr_cutoff": 0.2,
+
+  "params_description":"lib/params/parameters.settings.json"
+
+
 }
 
 
