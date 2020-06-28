@@ -6,6 +6,9 @@ process split_traintest {
   // copy input file to work directory
   scratch false
 
+  input:
+  file goldstandard_complexes
+
   tag { goldstandard }
 
   publishDir "${params.output_dir}", mode: 'link'
@@ -20,7 +23,7 @@ process split_traintest {
   script:
   """
    # Filter and organize subcomplexes
-     python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/complex_merge.py --cluster_filename $params.goldstandard_complexes --output_filename goldstandard_filt.txt --merge_threshold $params.merge_threshold --complex_size_threshold $params.complex_size_threshold  --remove_largest --remove_large_subcomplexes
+     python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/complex_merge.py --cluster_filename $goldstandard_complexes --output_filename goldstandard_filt.txt --merge_threshold $params.merge_threshold --complex_size_threshold $params.complex_size_threshold  --remove_largest --remove_large_subcomplexes
 
    # Split complexes to training and test complexes 
    python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/split_complexes.py --input_complexes goldstandard_filt.txt

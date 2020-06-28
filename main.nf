@@ -84,7 +84,7 @@ workflow {
 
      //// Get or load gold standards (generate_labels = true to generate)
      if (params.exitpoint >= 2 && params.generate_labels == true){
-         labels = format_goldstandards(featmat)
+         labels = format_goldstandards(file(params.goldstandard_complexes), featmat)
          postrain = labels[0]
          negtrain = labels[1]
          postest = labels[2]
@@ -92,10 +92,10 @@ workflow {
 
      }
      else {
-         postrain = params.postrain
-         negtrain = params.negtrain
-         postest = params.postest
-         negtest = params.negtest
+         postrain = file(params.postrain)
+         negtrain = file(params.negtrain)
+         postest = file(params.postest)
+         negtest = file(params.negtest)
      }
 
 

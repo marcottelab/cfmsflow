@@ -7,11 +7,12 @@ include { limit_negatives } from './goldstandard_processes'
 // Calculate correlation and distance-based features
 workflow format_goldstandards {
 
+  take: goldstandard_complexes
   take: featmat
 
   main:
 
-    split_traintest()
+    split_traintest(goldstandard_complexes)
 
  
     postrain = split_traintest.out.postrain

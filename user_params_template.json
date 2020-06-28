@@ -31,9 +31,9 @@
   "negative_limit": 20000,
 
   "postrain": "test/test_input/postrain",
-  "negtrain":  "test_test_input/negtrain",
-  "postest": "postest",
-  "negtest":  "negtest",
+  "negtrain":  "test/test_input/negtrain",
+  "postest": "test/test_input/postest",
+  "negtest":  "test/test_input/negtest",
    
 
   "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_subset.txt",
