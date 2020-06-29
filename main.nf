@@ -69,6 +69,7 @@ workflow {
          Channel
           .fromPath( features_path, checkIfExists: true )
           .set { features }    
+         features = features.collect()
 
      }
 

@@ -1,8 +1,8 @@
 
 {
  
-  "entrypoint": 1,
-  "exitpoint": 5,
+  "entrypoint": 2,
+  "exitpoint": 2,
 
 
   "help": false,
@@ -11,7 +11,7 @@
   "input_dir": "test/test_input/",
   "output_dir": "test/test_output/",
   "elution_pattern": "*.wide",
-  "features_entrypoint2":"*ordered",
+  "features_entrypoint2":"*scaled.ordered",
 
   "feature_matrix_entrypoint3": "test/test_input/featmat",
   "feature_matrix_labeled_entrypoint4": "test/test_input/featmat_labeled",
