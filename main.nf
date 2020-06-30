@@ -26,7 +26,7 @@ include { get_labeled_rows } from './lib/modules/featmat_processes'
 include { training } from './lib/modules/training_workflows'
 include { cfmsinfer_eval } from './lib/modules/eval_processes'
 include { get_fdr_threshold } from './lib/modules/cluster_processes'
-include { cluster } from './lib/modules/cluster_processes'
+include { cluster_interactions } from './lib/modules/cluster_workflows'
 
 
 /*
@@ -78,13 +78,13 @@ workflow {
      if (params.entrypoint <=2 && params.exitpoint >= 2) {
          featmat = build_featmat(features)
      }
-     else if (params.entrypoint == 3){
+     else if (params.entrypoint == 3 ){
           featmat = file(params.feature_matrix_entrypoint3)
      }
 
 
      //// Get or load gold standards (generate_labels = true to generate)
-     if (params.exitpoint >= 2 && params.generate_labels == true){
+     if (params.exitpoint >= 2 && params.exitpoint < 4 && params.generate_labels == true){
          labels = format_goldstandards(file(params.goldstandard_complexes), featmat)
          postrain = labels[0]
          negtrain = labels[1]
@@ -92,7 +92,7 @@ workflow {
          negtest = labels[3]
 
      }
-     else {
+     else if (params.generate_labels == false){
          postrain = file(params.postrain)
          negtrain = file(params.negtrain)
          postest = file(params.postest)
@@ -131,7 +131,8 @@ workflow {
      if (params.exitpoint == 5) {    
          precisionrecall = cfmsinfer_eval(scored_interactions, postrain, negtrain, postest, negtest)  
          scorethreshold = get_fdr_threshold(precisionrecall[0])
-         clustering = cluster(scored_interactions, scorethreshold[0])
+
+         clustering = cluster_interactions(scored_interactions, scorethreshold[0])
     }
 
 

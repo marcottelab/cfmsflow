@@ -43,7 +43,7 @@
 
   "walktrap_steps": 3,
   "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
-  "elution_file": "",
+  "elution_file": "test/test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
 
   "plot_pr": "False",
 
