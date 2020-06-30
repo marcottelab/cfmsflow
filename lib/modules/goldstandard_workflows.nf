@@ -37,7 +37,7 @@ workflow format_goldstandards {
         negtest = limit_negatives.out.negtest
     }    
 
-   
+    //Confirm that positive and negatives are both in featmat   
 
 
   emit:

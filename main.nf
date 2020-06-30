@@ -79,7 +79,7 @@ workflow {
          featmat = build_featmat(features)
      }
      else if (params.entrypoint == 3){
-          featmat = params.feature_matrix_entrypoint3
+          featmat = file(params.feature_matrix_entrypoint3)
      }
 
 
@@ -106,8 +106,10 @@ workflow {
          featmat_labeled = label_featmat(featmat, postrain, negtrain)
      }
 
+     // Add warning if only positive or negative labels found
+
      else if (params.entrypoint == 4){
-          featmat_labeled = params.feature_matrix_entrypoint4
+          featmat_labeled = file(params.feature_matrix_entrypoint4)
 
      }
 
@@ -121,7 +123,7 @@ workflow {
      }
      else if(params.entrypoint == 5){
 
-         scored_interactions = params.scored_interactions_entrypoint5
+         scored_interactions = file(params.scored_interactions_entrypoint5)
 
      }
 

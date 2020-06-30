@@ -1,8 +1,8 @@
 
 {
  
-  "entrypoint": 2,
-  "exitpoint": 2,
+  "entrypoint": 1,
+  "exitpoint": 5,
 
 
   "help": false,
