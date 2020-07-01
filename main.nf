@@ -78,7 +78,7 @@ workflow {
      if (params.entrypoint <=2 && params.exitpoint >= 2) {
          featmat = build_featmat(features)
      }
-     else if (params.entrypoint == 3 ){
+     else if (params.entrypoint == 3 || params.entrypoint == 4){
           featmat = file(params.feature_matrix_entrypoint3)
      }
 
@@ -92,7 +92,7 @@ workflow {
          negtest = labels[3]
 
      }
-     else if (params.generate_labels == false){
+     else if (params.generate_labels == false && ( params.entrypoint == 3 || params.entrypoint == 5)){
          postrain = file(params.postrain)
          negtrain = file(params.negtrain)
          postest = file(params.postest)
@@ -109,7 +109,7 @@ workflow {
      // Add warning if only positive or negative labels found
 
      else if (params.entrypoint == 4){
-          featmat_labeled = file(params.feature_matrix_entrypoint4)
+          featmat_labeled = file(params.feature_matrix_labeled_entrypoint4)
 
      }
 
