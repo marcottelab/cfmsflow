@@ -1,16 +1,15 @@
+Check required parameters by step range
+
+Get list of required params per step
+Might be able to use paramsWusage and a list of required parameters per step to show a subset of help message. 
  
 Break out gold standard step
-
-Make it so relative input paths work
 
 Check with python2 and python3
 
 Clean up params
 
 Add option to plot or not
-
-Add path to githubs to params
-
 
 Contrive example ( or do three tries from gold standard set?)
 

@@ -36,6 +36,8 @@ include { cluster_interactions } from './lib/modules/cluster_workflows'
  */
 
 
+// Here is where I could filter parameters to only those that need to be used
+
 // Very slightly modifies from hlatyping to not access config directly (deprecated)
 // The path to the parameter json with definitions is a parameter
 paramsWithUsage = readParamsFromJsonSettings(params)
@@ -49,6 +51,8 @@ if (params.help){
 
 
 // CDM new process, mini argparse checks for type and for choices
+// Potential filter to only steps chosen to run?
+
 errors = validate_params(params, paramsWithUsage)
 
 if (errors){

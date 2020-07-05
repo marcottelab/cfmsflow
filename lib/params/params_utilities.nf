@@ -1,10 +1,14 @@
 // CDM
 def validate_params(Map params, List paramsWithUsage){
 
+    // This is where I'd filter params to only those needed for the steps chosen
+
     // Combine user params with parameter usage definitions
     valuesWithUsage = get_usage(params, paramsWithUsage)
     
     errors = []
+    
+
    
     // Check that usage is correct 
     valuesWithUsage.each { p ->
