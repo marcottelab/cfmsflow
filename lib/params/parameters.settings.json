@@ -23,12 +23,12 @@
 
 
         {
-            "name": "elutions",
-            "label": "Path to elution files",
+            "name": "elution_pattern",
+            "label": "Bash pattern matching elution files",
             "usage": "HLA typing workflow input data.",
             "type": "string",
             "render": "file",
-            "default_value": "path/to/*reads.wide",
+            "default_value": "path/to/*.csv",
             "group": "input"
         },
 

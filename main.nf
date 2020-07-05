@@ -19,6 +19,8 @@ include { validate_params } from './lib/params/params_utilities'
 
 include { helpMessage } from './lib/params/params_utilities'
 include { cfmsinfer_corr } from './lib/modules/feature_workflows'
+include { load_features } from './lib/modules/feature_workflows'
+
 include { build_featmat } from './lib/modules/featmat_processes'
 include { format_goldstandards} from './lib/modules/goldstandard_workflows' 
 include { label_featmat } from './lib/modules/featmat_processes'
@@ -61,31 +63,39 @@ workflow {
 
      def user_steps = params.entrypoint..params.exitpoint
 
-
-     ////   Get or load features (entrypoint = 1 to start with elution profiles, entrypoint = 2 to load existing features)    
-
-     if (1 in user_steps){
+     //////////////////////////////////////////////////////
+     ////  Get or load features         
+     
+     // Calculate features from elution profiles
+     if ( 1 in user_steps ) {
          features = cfmsinfer_corr()
      }
-     else if (params.entrypoint == 2) {
-         features_path = params.input_dir + "/" + params.features_entrypoint2
-         Channel
-          .fromPath( features_path, checkIfExists: true )
-          .set { features }    
-         features = features.collect()
 
+     // Load existing already generated features
+     else if ( params.entrypoint == 2 ) {
+         features = load_features()
      }
+     ////
+     //////////////////////////////////////////////////////
 
 
-     ////   Get or load feature matrix ( entrypoint = 3 or 4 to load) 
+     //////////////////////////////////////////////////////
+     ////   Get or load feature matrix 
      if (2 in user_steps){
          featmat = build_featmat(features)
      }
      else if (params.entrypoint == 3 || params.entrypoint == 4){
-          featmat = file(params.feature_matrix_entrypoint3)
+          featmat = file(params.existing_feature_matrix)
      }
+     else {
+       println "Entering pipeline at step 3 requires existing_feature_matrix parameter"
+       System.exit(1)
+     }
+     ////
+     /////////////////////////////////////////////////////
 
 
+     ////////////////////////////////////////////////////
      //// Get or load gold standards (generate_labels = true to generate)
        if ( 3 in user_steps || 5 in user_steps ){
   
@@ -105,9 +115,11 @@ workflow {
              negtest = file(params.negtest)
          }
      }
+     ////
+     //////////////////////////////////////////////////////
 
-
-
+     
+     //////////////////////////////////////////////////////
      //// Get or load labeled feature matrix ( entrypoint = 4 to load)
      if ( 3 in user_steps){
          featmat_labeled = label_featmat(featmat, postrain, negtrain)
@@ -116,12 +128,17 @@ workflow {
      // Add warning if only positive or negative labels found
 
      else if (params.entrypoint == 4){
-          featmat_labeled = file(params.feature_matrix_labeled_entrypoint4)
-
+          featmat_labeled = file(params.existing_feature_matrix_labeled)
      }
+     else {
+       println "Entering pipeline at step 4 requires existing_feature_matrix_labeled parameter"
+       System.exit(1)
+     }
+     ////
+     //////////////////////////////////////////////////////
 
 
-
+     //////////////////////////////////////////////////////
      //// Get or load scored interactions ( entrypoint = 5 to load)
 
      if ( 4 in user_steps ) {
@@ -130,9 +147,16 @@ workflow {
      }
      else if(params.entrypoint == 5){
 
-         scored_interactions = file(params.scored_interactions_entrypoint5)
+         scored_interactions = file(params.scored_interactions)
 
      }
+     else {
+       println "Entering pipeline at step 5 requires scored_interactions parameter"
+       System.exit(1)
+     }
+ 
+
+
 
      //// Cluster scored interactions
 

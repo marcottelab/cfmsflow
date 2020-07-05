@@ -1,18 +1,18 @@
 
 {
- 
 
-  "input_dir": "test_input/",
-  "output_dir": "test_output/",
-  "elution_pattern": "*.wide",
+  "input_elution_pattern" : "test_input/*wide",
+  "input_elution_file" : "",
+
+
   "goldstandard_complexes": "test_input/goldstandard_complexes.txt",
   "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
   "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
   "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps",
+   "output_dir": "test_output/",
 
   "entrypoint": 1,
   "exitpoint": 5,
-
 
   "generate_labels": true,
   "postrain": "test_input/postrain",
@@ -20,10 +20,11 @@
   "postest": "test_input/postest",
   "negtest":  "test_input/negtest",
 
-  "features_entrypoint2":"*scaled.ordered",
-  "feature_matrix_entrypoint3": "test_input/featmat",
-  "feature_matrix_labeled_entrypoint4": "test_input/featmat_labeled",
-  "scored_interactions_entrypoint5": "test_input/scored_interactions",
+  "features_pattern":"",
+  "features_file":"test_input/featurelist.txt",
+  "existing_feature_matrix": "test_input/featmat",
+  "existing_feature_matrix_labeled": "test_input/featmat_labeled",
+  "scored_interactions": "test_input/scored_interactions",
 
   "add_poisson_noise" : true,
   "poisson_reps" : 5,
@@ -44,8 +45,9 @@
   "walktrap_steps": 3,
   "plot_pr": "False",
 
-  "params_description":"lib/params/parameters.settings.json"
-
+  "params_description":"lib/params/parameters.settings.json",
+  "help" : false,
+  "version" : false
 
 }
 
