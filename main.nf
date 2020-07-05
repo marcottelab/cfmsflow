@@ -87,7 +87,7 @@ workflow {
 
 
      //// Get or load gold standards (generate_labels = true to generate)
-       if (3 in user_steps || 5 in user_steps){
+       if ( 3 in user_steps || 5 in user_steps ){
   
          if (params.generate_labels == true ){
 
