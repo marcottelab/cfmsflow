@@ -59,9 +59,12 @@ if (errors){
 
 workflow {
 
+     def user_steps = params.entrypoint..params.exitpoint
 
-     ////   Get or load features (entrypoint = 1 to start with elution profiles, entrypoint = 2 to load)    
-     if (params.entrypoint == 1) {
+
+     ////   Get or load features (entrypoint = 1 to start with elution profiles, entrypoint = 2 to load existing features)    
+
+     if (1 in user_steps){
          features = cfmsinfer_corr()
      }
      else if (params.entrypoint == 2) {
@@ -74,8 +77,8 @@ workflow {
      }
 
 
-     ////   Get or load feature matrix ( entrypoint = 3 to load) 
-     if (params.entrypoint <=2 && params.exitpoint >= 2) {
+     ////   Get or load feature matrix ( entrypoint = 3 or 4 to load) 
+     if (2 in user_steps){
          featmat = build_featmat(features)
      }
      else if (params.entrypoint == 3 || params.entrypoint == 4){
@@ -84,25 +87,29 @@ workflow {
 
 
      //// Get or load gold standards (generate_labels = true to generate)
-     if (params.exitpoint >= 2 && params.exitpoint < 4 && params.generate_labels == true){
-         labels = format_goldstandards(file(params.goldstandard_complexes), featmat)
-         postrain = labels[0]
-         negtrain = labels[1]
-         postest = labels[2]
-         negtest = labels[3]
+       if (3 in user_steps || 5 in user_steps){
+  
+         if (params.generate_labels == true ){
 
-     }
-     else if (params.generate_labels == false && ( params.entrypoint == 3 || params.entrypoint == 5)){
-         postrain = file(params.postrain)
-         negtrain = file(params.negtrain)
-         postest = file(params.postest)
-         negtest = file(params.negtest)
+             labels = format_goldstandards(file(params.goldstandard_complexes), featmat)
+             postrain = labels[0]
+             negtrain = labels[1]
+             postest = labels[2]
+             negtest = labels[3]
+
+         }
+         else {
+             postrain = file(params.postrain)
+             negtrain = file(params.negtrain)
+             postest = file(params.postest)
+             negtest = file(params.negtest)
+         }
      }
 
 
 
      //// Get or load labeled feature matrix ( entrypoint = 4 to load)
-     if (params.entrypoint <= 3 && params.exitpoint >= 3) {
+     if ( 3 in user_steps){
          featmat_labeled = label_featmat(featmat, postrain, negtrain)
      }
 
@@ -116,8 +123,8 @@ workflow {
 
 
      //// Get or load scored interactions ( entrypoint = 5 to load)
-     if (params.entrypoint <= 4 && params.exitpoint >=4) {
 
+     if ( 4 in user_steps ) {
          featmat_labeled1 = get_labeled_rows(featmat_labeled)
          scored_interactions = training(featmat_labeled1, featmat) 
      }
@@ -128,7 +135,8 @@ workflow {
      }
 
      //// Cluster scored interactions
-     if (params.exitpoint == 5) {    
+
+     if ( 5 in user_steps) {
          precisionrecall = cfmsinfer_eval(scored_interactions, postrain, negtrain, postest, negtest)  
          scorethreshold = get_fdr_threshold(precisionrecall[0])
 
