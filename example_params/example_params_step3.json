@@ -1,0 +1,22 @@
+
+{
+ 
+  "entrypoint": 3,
+  "exitpoint": 3,
+
+  "feature_matrix": "test_input/featmat",
+
+  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps",
+
+  "goldstandard_complexes": "test_input/goldstandard_complexes.txt",
+  "generate_labels": true,
+
+  "merge_threshold": 0.6,
+  "complex_size_threshold": 30,
+  "negatives_from_observed": true,
+  "negative_limit": 20000
+
+
+}
+
+

@@ -1,0 +1,17 @@
+
+{
+ 
+  "entrypoint": 1,
+  "exitpoint": 1,
+
+  "output_dir": "test_output/",
+  "elution_pattern": "test_input/*.wide",
+
+  "add_poisson_noise" : true,
+  "poisson_reps" : 5,
+
+  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps"
+
+}
+
+

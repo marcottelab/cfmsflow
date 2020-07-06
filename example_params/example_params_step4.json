@@ -1,0 +1,17 @@
+
+{
+ 
+  "entrypoint": 4,
+  "exitpoint": 4,
+
+
+  "feature_matrix_labeled": "test_input/featmat_labeled",
+
+  "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_subset.txt",
+  "generations": 10,
+  "population": 20,
+  "n_jobs": 20
+
+}
+
+
