@@ -91,10 +91,10 @@ workflow {
      else if (params.entrypoint == 3 || params.entrypoint == 4){
           featmat = file(params.existing_feature_matrix)
      }
-     else {
-       println "Entering pipeline at step 3 requires existing_feature_matrix parameter"
-       System.exit(1)
-     }
+     //else {
+     //  println "Entering pipeline at step 3 requires existing_feature_matrix parameter"
+     //  System.exit(1)
+    // }
      ////
      /////////////////////////////////////////////////////
 
@@ -134,10 +134,10 @@ workflow {
      else if (params.entrypoint == 4){
           featmat_labeled = file(params.existing_feature_matrix_labeled)
      }
-     else {
-       println "Entering pipeline at step 4 requires existing_feature_matrix_labeled parameter"
-       System.exit(1)
-     }
+     //else {
+     //  println "Entering pipeline at step 4 requires existing_feature_matrix_labeled parameter"
+     //  System.exit(1)
+    // }
      ////
      //////////////////////////////////////////////////////
 
@@ -154,10 +154,10 @@ workflow {
          scored_interactions = file(params.scored_interactions)
 
      }
-     else {
-       println "Entering pipeline at step 5 requires scored_interactions parameter"
-       System.exit(1)
-     }
+     //else {
+     //  println "Entering pipeline at step 5 requires scored_interactions parameter"
+     //  System.exit(1)
+     //}
  
 
 
