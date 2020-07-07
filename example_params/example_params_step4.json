@@ -4,10 +4,13 @@
   "entrypoint": 4,
   "exitpoint": 4,
 
+  "tpot_dir" : "/project/cmcwhite/github/run_TPOT/",
+  "existing_feature_matrix_labeled": "test_input/featmat_labeled",
+  "existing_feature_matrix" : "test_input/featmat",
+  "output_dir": "test_output",
 
-  "feature_matrix_labeled": "test_input/featmat_labeled",
 
-  "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_subset.txt",
+  "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_example.txt",
   "generations": 10,
   "population": 20,
   "n_jobs": 20

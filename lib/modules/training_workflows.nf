@@ -15,7 +15,7 @@ workflow training {
     pipeline = cfmsinfer_scan(featmat_labeled1) 
     model = cfmsinfer_train(pipeline, featmat_labeled1)
 
-    scored = cfmsinfer_score(model, featmat)
+    scored = cfmsinfer_score(model[0], featmat)
 
   emit:
     scored

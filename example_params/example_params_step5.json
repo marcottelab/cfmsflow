@@ -4,17 +4,17 @@
   "entrypoint": 5,
   "exitpoint": 5,
 
-  "scored_interactions_entrypoint5": "test/test_input/scored_interactions",
+  "scored_interactions_entrypoint5": "test_input/scored_interactions",
 
 
-  "postrain": "test/test_input/postrain",
-  "negtrain":  "test/test_input/negtrain",
-  "postest": "test/test_input/postest",
-  "negtest":  "test/test_input/negtest",
+  "postrain": "test_input/postrain",
+  "negtrain":  "test_input/negtrain",
+  "postest": "test_input/postest",
+  "negtest":  "test_input/negtest",
    
   "walktrap_steps": 3,
   "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
-  "elution_file": "test/test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
+  "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
 
   "plot_pr": "False",
 

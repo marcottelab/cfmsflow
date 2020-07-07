@@ -1,3 +1,12 @@
+#Change training output to named objects
+
+# example training still taking > 2 minutes
+Add option to limit featsel, and scaling
+
+Something changed between TPOT 0.9.3 and 0.10.0 to slow it down. Probably scanning more things. Explore ways to speed up
+
+Now requires TPOT >= 0.10.0 
+
 Check required parameters by step range
 
 Get list of required params per step
