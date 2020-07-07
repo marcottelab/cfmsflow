@@ -1,18 +1,20 @@
 #Change training output to named objects
 
 # example training still taking > 2 minutes
-Add option to limit featsel, and scaling
+Add option to limit featsel, and scalingto tpot
 
 Something changed between TPOT 0.9.3 and 0.10.0 to slow it down. Probably scanning more things. Explore ways to speed up
 
 Now requires TPOT >= 0.10.0 
+
+Break up model and applying model steps (break step 4 into two steps)
 
 Check required parameters by step range
 
 Get list of required params per step
 Might be able to use paramsWusage and a list of required parameters per step to show a subset of help message. 
  
-Break out gold standard step
+Break out gold standard step - OK
 
 Check with python2 and python3
 
