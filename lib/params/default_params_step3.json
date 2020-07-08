@@ -1,0 +1,13 @@
+
+{
+ 
+
+  "merge_threshold": 0.6,
+  "complex_size_threshold": 30,
+  "negatives_from_observed": true,
+  "negative_limit": 20000
+
+
+}
+
+

@@ -1,0 +1,13 @@
+
+{
+ 
+  "entrypoint": 1,
+  "exitpoint": 5,
+
+  "output_dir": "output",
+
+  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps"
+
+}
+
+

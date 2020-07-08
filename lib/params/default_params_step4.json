@@ -1,0 +1,14 @@
+
+{
+ 
+
+  "tpot_dir" : "/project/cmcwhite/github/run_TPOT/",
+
+  "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_example.txt",
+  "generations": 10,
+  "population": 20,
+  "n_jobs": 20
+
+}
+
+
