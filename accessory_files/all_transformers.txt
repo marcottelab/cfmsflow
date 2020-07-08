@@ -1,0 +1,14 @@
+sklearn.preprocessing.Binarizer
+sklearn.decomposition.FastICA
+sklearn.cluster.FeatureAgglomeration
+sklearn.preprocessing.MaxAbsScaler
+sklearn.preprocessing.MinMaxScaler
+sklearn.preprocessing.Normalizer
+sklearn.kernel_approximation.Nystroem
+sklearn.decomposition.PCA
+sklearn.preprocessing.PolynomialFeatures
+sklearn.kernel_approximation.RBFSampler
+sklearn.preprocessing.RobustScaler
+sklearn.preprocessing.StandardScaler
+tpot.builtins.ZeroCount
+tpot.builtins.OneHotEncoder

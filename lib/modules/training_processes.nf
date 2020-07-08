@@ -3,7 +3,7 @@
 process cfmsinfer_scan {
 
   // Don't copy input file to work directory
-  scratch true
+  scratch false
 
   tag { scan_parameters }
 
@@ -21,10 +21,17 @@ process cfmsinfer_scan {
   script:
 
   """
+  SELECTORS_FORMATTED=\$(cat $params.selectors_to_scan | tr '\n' ' ')
+  TRANSFORMERS_FORMATTED=\$(cat $params.transformers_to_scan | tr '\n' ' ')
   CLASSIFIERS_FORMATTED=\$(cat $params.classifiers_to_scan | tr '\n' ' ')
+  
+  echo \$SELECTORS_FORMATTED
+  echo \$TRANSFORMERS_FORMATTED
+  echo \$CLASSIFIERS_FORMATTED
+  echo $params.tpot_template
 
   mkdir tpot.tmp
-  python $params.tpot_dir/train_TPOT.py --training_data featmat_labeled1 --outfile pipeline.py --classifier_subset \$CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs $params.n_jobs --generations $params.generations --population_size $params.population --labels -1 1 --temp_dir training/tpot.tmp
+  python $params.tpot_dir/train_TPOT.py --training_data featmat_labeled1 --outfile pipeline.py --template $params.tpot_template --selector_subset \$SELECTORS_FORMATTED --transformer_subset \$TRANSFORMERS_FORMATTED --classifier_subset \$CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs $params.n_jobs --generations $params.generations --population_size $params.population --labels -1 1 --temp_dir training/tpot.tmp
 
   """
 }

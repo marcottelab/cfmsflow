@@ -1,3 +1,5 @@
+#Change TPOT to GroupKFold
+
 #Change training output to named objects
 
 # example training still taking > 2 minutes

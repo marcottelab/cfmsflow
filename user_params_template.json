@@ -37,7 +37,9 @@
   "negatives_from_observed": true,
   "negative_limit": 20000,
   
-
+  "tpot_template" : "Selector-Transformer-Classifier",
+  "selectors_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/selector_subset.txt",
+  "transformers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/all_transformers.txt",
   "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_subset.txt",
   "generations": 10,
   "population": 20,
