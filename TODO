@@ -1,3 +1,6 @@
+jq -s 'reduce .[] as $item ({}; . * $item)' json_files/*
+
+
 #Change TPOT to GroupKFold
 
 #Change training output to named objects
