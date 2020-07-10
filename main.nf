@@ -25,6 +25,8 @@ include { build_featmat } from './lib/modules/featmat_processes'
 include { format_goldstandards} from './lib/modules/goldstandard_workflows' 
 include { label_featmat } from './lib/modules/featmat_processes'
 include { get_labeled_rows } from './lib/modules/featmat_processes'
+include { add_group_column } from './lib/modules/featmat_processes'
+
 include { training } from './lib/modules/training_workflows'
 include { cfmsinfer_eval } from './lib/modules/eval_processes'
 include { get_fdr_threshold } from './lib/modules/cluster_processes'
@@ -110,13 +112,17 @@ workflow {
              negtrain = labels[1]
              postest = labels[2]
              negtest = labels[3]
-
+             traincomplexgroups = labels[4]
          }
          else {
              postrain = file(params.postrain)
              negtrain = file(params.negtrain)
              postest = file(params.postest)
              negtest = file(params.negtest)
+ 
+             traincomplexgroups = file(params.groups)          
+             
+
          }
      }
      ////
@@ -147,6 +153,8 @@ workflow {
 
      if ( 4 in user_steps ) {
          featmat_labeled1 = get_labeled_rows(featmat_labeled)
+         featmat_labeled1 = add_group_column(featmat_labeled1, traincomplexgroups)[0]
+         
          scored_interactions = training(featmat_labeled1, featmat) 
      }
      else if(params.entrypoint == 5){
@@ -154,13 +162,6 @@ workflow {
          scored_interactions = file(params.scored_interactions)
 
      }
-     //else {
-     //  println "Entering pipeline at step 5 requires scored_interactions parameter"
-     //  System.exit(1)
-     //}
- 
-
-
 
      //// Cluster scored interactions
 

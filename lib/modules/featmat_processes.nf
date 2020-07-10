@@ -75,7 +75,34 @@ process get_labeled_rows {
   """
 }
 
+// Add group column 
+process add_group_column {
 
+  // Don't copy input file to work directory
+  scratch false
+
+  tag { add_group_column }
+
+
+  input:
+  path featmat_labeled1
+  path traincomplexgroups
+
+  publishDir "${params.output_dir}", mode: 'link'
+
+  output:
+  path "featmat_labeled1"
+  path "featmat_labeled1_nogroups"
+
+  script:
+  """
+  cp $featmat_labeled1 featmat_labeled1_nogroups 
+
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/build_feature_matrix.py --prev_feature_matrix $featmat_labeled1 --input_pairs_files $traincomplexgroups --output_file featmat_labeled1 --sep ',' --jointype "left" --mod_featname False
+
+  """
+
+}
 
 
 

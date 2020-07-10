@@ -18,15 +18,17 @@ process split_traintest {
   path "goldstandard_filt.test_ppis.ordered", emit: 'postest'
   path "goldstandard_filt.neg_train_ppis.ordered", emit: 'negtrain'
   path "goldstandard_filt.neg_test_ppis.ordered", emit: 'negtest'
-
+  path "goldstandard_filt.all_train.txt", emit: 'postraincomplexes'
+  path "goldstandard_filt.all_test.txt", emit: 'postestcomplexes'
+ 
 
   script:
   """
    # Filter and organize subcomplexes
-     python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/complex_merge.py --cluster_filename $goldstandard_complexes --output_filename goldstandard_filt.txt --merge_threshold $params.merge_threshold --complex_size_threshold $params.complex_size_threshold  --remove_largest --remove_large_subcomplexes
+     python $params.protein_complex_maps_dir/protein_complex_maps/preprocessing_util/complexes/complex_merge.py --cluster_filename $goldstandard_complexes --output_filename goldstandard_filt.txt --merge_threshold $params.merge_threshold --complex_size_threshold $params.complex_size_threshold  --remove_largest --remove_large_subcomplexes
 
    # Split complexes to training and test complexes 
-   python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/preprocessing_util/complexes/split_complexes.py --input_complexes goldstandard_filt.txt
+   python $params.protein_complex_maps_dir/protein_complex_maps/preprocessing_util/complexes/split_complexes2.py --input_complexes goldstandard_filt.txt
 
 
    # Figure out where commas are coming from
@@ -34,7 +36,7 @@ process split_traintest {
    for gs in goldstandard_filt.*_ppis.txt;
    do
      sed -i 's/\t/ /' \$gs
-     python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs \$gs --outfile \${gs%.txt}.ordered --sep "\$sep" --chunksize 1000
+     python $params.protein_complex_maps_dir/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs \$gs --outfile \${gs%.txt}.ordered --sep "\$sep" --chunksize 1000
    done
 
   """
@@ -111,6 +113,52 @@ process limit_negatives {
 
   """
 
+}
+
+/// Create mapping between training interactions and complexes for GroupKFold cross validation
+
+process get_cv_groups {
+
+  input:
+  path postrain
+  path postraincomplexes
+  path negtrain
+
+  publishDir "${params.output_dir}", mode: 'link'
+
+  output:
+    path "traincomplexgroups"
+
+  script:
+  """
+  echo "ID1,ID2,Group" > traincomplexgroups
+ 
+  #Assign all positive ppi to a complex 
+  #This allows GroupKFold cross validation to
+  #  avoid having complex members in different cv sets
+  #If ppi in multiple training complexes, given first complex id
+  while read ppi;
+  do
+  
+    p1=`echo \$ppi | cut -d' ' -f1`
+    p2=`echo \$ppi | cut -d' ' -f2`
+  
+    linenum=`grep -n \$p1 $postraincomplexes | grep \$p2 | cut -d":" -f1 | head -1`
+    echo "\$p1,\$p2,\$linenum"  >> traincomplexgroups
+  
+  done < $postrain
+  
+  numcomplexes=`wc -l < $postraincomplexes`
+
+  #Assign all negative ppi a group number 
+  #   not overlapping train complex numbers
+  echo "test"
+  awk -v n=\$numcomplexes 'BEGIN { OFS = "," }{print \$1,\$2,NR+n}' $negtrain >> traincomplexgroups   
+  echo "trash"
+  """
+ 
+
+ 
 }
 
 

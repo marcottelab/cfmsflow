@@ -11,12 +11,12 @@
   "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps",
   "output_dir": "test_output/",
   "tpot_dir" : "/project/cmcwhite/github/run_TPOT/",
-
+  
 
   "entrypoint": 1,
   "exitpoint": 5,
 
-  "generate_labels": true,
+  "generate_labels": false,
   "postrain": "test_input/postrain",
   "negtrain":  "test_input/negtrain",
   "postest": "test_input/postest",
@@ -44,6 +44,9 @@
   "generations": 10,
   "population": 20,
   "n_jobs": 20,
+  "cv": 5,
+  "groups": "test_input/traincomplexgroups",
+
 
   "fdr_cutoff": 0.5,
   "walktrap_steps": 3,

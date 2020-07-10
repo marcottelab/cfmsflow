@@ -3,6 +3,9 @@
 include { split_traintest } from './goldstandard_processes'
 include { get_negatives_from_observed } from './goldstandard_processes'
 include { limit_negatives } from './goldstandard_processes'
+include { get_cv_groups } from './goldstandard_processes'
+
+
 
 // Calculate correlation and distance-based features
 workflow format_goldstandards {
@@ -17,6 +20,8 @@ workflow format_goldstandards {
  
     postrain = split_traintest.out.postrain
     postest = split_traintest.out.postest
+    postraincomplexes= split_traintest.out.postraincomplexes
+    postestcomplexes= split_traintest.out.postestcomplexes
 
 
     if(params.negatives_from_observed == false){
@@ -37,7 +42,8 @@ workflow format_goldstandards {
         negtest = limit_negatives.out.negtest
     }    
 
-    //Confirm that positive and negatives are both in featmat   
+     
+    traincomplexgroups = get_cv_groups(postrain, postraincomplexes, negtrain)
 
 
   emit:
@@ -45,7 +51,7 @@ workflow format_goldstandards {
     negtrain
     postest
     negtest
-
+    traincomplexgroups
 
 }
 
