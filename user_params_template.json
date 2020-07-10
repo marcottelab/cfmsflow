@@ -5,7 +5,7 @@
   "input_elution_file" : "",
 
 
-  "goldstandard_complexes": "test_input/goldstandard_complexes.txt",
+  "goldstandard_complexes": "test_input/goldstandard_contrived.txt",
   "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
   "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
   "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps",
@@ -16,7 +16,7 @@
   "entrypoint": 1,
   "exitpoint": 5,
 
-  "generate_labels": false,
+  "generate_labels": true,
   "postrain": "test_input/postrain",
   "negtrain":  "test_input/negtrain",
   "postest": "test_input/postest",
@@ -37,9 +37,9 @@
   "negatives_from_observed": true,
   "negative_limit": 20000,
   
-  "tpot_template" : "Selector-Transformer-Classifier",
+  "tpot_template" : "Selector-Classifier",
   "selectors_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/selector_subset.txt",
-  "transformers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/all_transformers.txt",
+  "transformers_to_scan": "",
   "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_subset.txt",
   "generations": 10,
   "population": 20,

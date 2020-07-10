@@ -14,6 +14,9 @@
   "selectors_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/selector_subset.txt",
   "transformers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/all_transformers.txt",
 
+  "generate_labels":false,
+ 
+  "groups":"test_input/traincomplexgroups",
   "classifiers_to_scan": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/classifier_example.txt",
   "generations": 10,
   "population": 20,
