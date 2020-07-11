@@ -119,8 +119,8 @@ workflow {
              negtrain = file(params.negtrain)
              postest = file(params.postest)
              negtest = file(params.negtest)
- 
-             traincomplexgroups = file(params.groups)          
+             if (4 in user_steps){                                                                                                                            traincomplexgroups = file(params.groups)
+             } 
              
 
          }
