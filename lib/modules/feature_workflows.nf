@@ -59,12 +59,13 @@ workflow load_features {
          else if ( params.features_pattern ) { 
            Channel.fromPath( params.features_pattern, checkIfExists: true )
             .set { features }
-          features = features.collect()
          }
          else {
            println "Entering pipeline at step 2 requires either parameter features_pattern or features_file"
          System.exit(1)
          }
+         
+         features = features.collect()
 
     emit:
       features
