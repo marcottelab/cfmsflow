@@ -22,7 +22,14 @@ process get_fdr_threshold {
   """
   # Get the score where FDR is at desired threshold
   # TODO: Add assert to header here
-  score=`grep 'test' $precisionrecall | awk -F"," '\$NF>=$params.fdr_cutoff {print \$6}' | tail -1`
+
+  # Get column number that contains the FDR
+  fdr_colnum=`head -1 $precisionrecall | tr ',' '\n' | grep -n "FDR" | cut -d':' -f1`
+
+  # Get column number that contains the threshold
+  threshold_colnum=`head -1 $precisionrecall | tr ',' '\n' | grep -n "threshold" | cut -d':' -f1`
+
+  score=`grep 'test' $precisionrecall | awk -F"," -v fdr_colnum=\$fdr_colnum -v threshold_colnum=\$threshold_colnum '\$fdr_colnum>=$params.fdr_cutoff {print \$threshold_colnum}' | tail -1`
   echo \$score > scorethreshold.txt 
   printf \$score
   """

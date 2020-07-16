@@ -55,7 +55,7 @@ process label_featmat {
 process get_labeled_rows {
 
   // Don't copy input file to work directory
-  scratch false
+  scratch true
 
   tag { get_labeled_rows }
 
