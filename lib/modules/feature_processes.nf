@@ -20,7 +20,7 @@ process corr_process {
   if [ $params.add_poisson_noise == 'true' ]
   then
   echo "Poisson noise added"
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id -r poisson_noise -i $params.poisson_reps
+  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id -r poisson_noise -i $params.poisson_reps 
   else
 
       python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id

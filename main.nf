@@ -12,8 +12,6 @@ version = '1.0'
 include { complete_message } from './lib/params/messages'
 include { error_message } from './lib/params/messages'
 
-
-
 include { readParamsFromJsonSettings } from './lib/params/params_utilities'
 include { validate_params } from './lib/params/params_utilities'
 

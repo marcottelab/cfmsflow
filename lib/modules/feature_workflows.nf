@@ -30,8 +30,9 @@ workflow cfmsinfer_corr {
       .from( "pearsonR", "spearmanR", "euclidean", "braycurtis" )
       .set { corrs }
 
-    elutions.combine(corrs).set { elutions_and_corrs }
-
+    elutions
+      .combine(corrs)
+      .set { elutions_and_corrs }
 
     output_corrs = corr_process(elutions_and_corrs) 
     output_corrs = rescale_process(output_corrs)

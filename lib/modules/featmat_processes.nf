@@ -70,7 +70,7 @@ process get_labeled_rows {
   script:
 
   """
-  grep -v ",0.0\$" $featmat_labeled > featmat_labeled1
+  grep -v ',0.0\$' $featmat_labeled > featmat_labeled1
 
   """
 }

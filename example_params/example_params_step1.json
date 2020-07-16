@@ -5,7 +5,7 @@
   "exitpoint": 1,
 
   "output_dir": "test_output/",
-  "elution_pattern": "test_input/*.wide",
+  "input_elution_pattern": "test_input/*.wide",
 
   "add_poisson_noise" : true,
   "poisson_reps" : 5,

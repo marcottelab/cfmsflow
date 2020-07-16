@@ -17,16 +17,6 @@
   "exitpoint": 5,
 
   "generate_labels": true,
-  "postrain": "test_input/postrain",
-  "negtrain":  "test_input/negtrain",
-  "postest": "test_input/postest",
-  "negtest":  "test_input/negtest",
-
-  "features_pattern":"",
-  "features_file":"test_input/featurelist.txt",
-  "existing_feature_matrix": "test_input/featmat",
-  "existing_feature_matrix_labeled": "test_input/featmat_labeled",
-  "scored_interactions": "test_input/scored_interactions",
 
   "add_poisson_noise" : true,
   "poisson_reps" : 5,
