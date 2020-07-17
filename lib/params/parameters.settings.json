@@ -118,7 +118,7 @@
             "type": "string",
             "render": "file",
             "default_value": "",
-            "group": "input"
+            "group": "input_goldstandard"
         },
 
       {
@@ -127,7 +127,7 @@
             "type": "string",
             "render": "file",
             "default_value": "",
-            "group": "input"
+            "group": "input_goldstandard"
         },
 
       {
@@ -136,7 +136,7 @@
             "type": "string",
             "render": "file",
             "default_value": "",
-            "group": "input"
+            "group": "input_goldstandard"
         },
 
       {
@@ -145,7 +145,7 @@
             "type": "string",
             "render": "file",
             "default_value": "",
-            "group": "input"
+            "group": "input_goldstandard"
         },
 
       {
@@ -154,7 +154,7 @@
             "type": "string",
             "render": "file",
             "default_value": "",
-            "group": "input"
+            "group": "input_goldstandard"
         },
 
 
@@ -185,6 +185,17 @@
             "default_value": 5,
             "group": "settings_features"
         },
+
+
+        {
+            "name": "generate_labels",
+            "usage": "Set as false to use existing gold standard labels, --help --generate_labels false to see relevant parameters",
+            "type": "boolean",
+            "render": "check-box",
+            "default_value": false,
+            "group": "input_goldstandard"
+        },
+
 
         {
             "name": "merge_threshold",
@@ -313,10 +324,8 @@
             "type": "string",
             "render": "file",
             "default_value": "",
-            "group": "input"
+            "group": "input_goldstandard"
         },
-
-
 
 
 
