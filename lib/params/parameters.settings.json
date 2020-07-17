@@ -42,7 +42,7 @@
 
 
         {
-            "name": "elution_pattern",
+            "name": "input_elution_pattern",
             "label": "Bash pattern matching elution files (.csv)",
             "usage": "Bash pattern matching elution files (.csv)",
             "type": "string",
@@ -52,7 +52,7 @@
         },
 
         {
-            "name": "elution_file",
+            "name": "input_elution_file",
             "usage": "File containing one path per line to an elution file (.csv)",
             "type": "string",
             "render": "file",
@@ -73,7 +73,7 @@
         },
  
        {
-            "name": "features_pattern",
+            "name": "features_file",
             "usage": "File containing one path per line to a feature file (.csv)",
             "type": "string",
             "render": "file",
