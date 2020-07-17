@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+import groovy.json.JsonSlurper
+
 // DSL2
 nextflow.preview.dsl=2
 version = '1.0'
@@ -11,7 +13,7 @@ version = '1.0'
 // include helper functions
 include { complete_message } from './lib/params/messages'
 include { error_message } from './lib/params/messages'
-
+include { combine_params } from './lib/params/params_utilities'
 include { readParamsFromJsonSettings } from './lib/params/params_utilities'
 include { validate_params } from './lib/params/params_utilities'
 
@@ -38,9 +40,13 @@ include { cluster_interactions } from './lib/modules/cluster_workflows'
 
 // Here is where I could filter parameters to only those that need to be used
 
+def user_steps = params.entrypoint..params.exitpoint 
+
+def relevantParams = combine_params(user_steps, params)
+
 // Very slightly modifies from hlatyping to not access config directly (deprecated)
 // The path to the parameter json with definitions is a parameter
-paramsWithUsage = readParamsFromJsonSettings(params)
+paramsWithUsage = readParamsFromJsonSettings(params, relevantParams)
 
 
 // Show help message
@@ -53,6 +59,7 @@ if (params.help){
 // CDM new process, mini argparse checks for type and for choices
 // Potential filter to only steps chosen to run?
 
+
 errors = validate_params(params, paramsWithUsage)
 
 if (errors){
@@ -61,11 +68,10 @@ if (errors){
   exit 0
 
 }
-
+exit 0
 
 workflow {
 
-     def user_steps = params.entrypoint..params.exitpoint
 
      //////////////////////////////////////////////////////
      ////  Get or load features         

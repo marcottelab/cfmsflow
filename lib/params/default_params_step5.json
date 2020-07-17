@@ -1,13 +1,11 @@
 
 {
- 
-   
+  
+  "annotation_file": "",
+  "elution_file": "",
   "walktrap_steps": 3,
-  "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
-  "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
-
   "plot_pr": "False",
-  "fdr_cutoff": 0.5,
+  "fdr_cutoff": 0.1
 
 }
 

@@ -21,16 +21,301 @@
             "group": "control"
         },
 
+        {
+            "name": "help",
+            "usage": "Flag --help to display help",
+            "type": "boolean",
+            "render": "check-box",
+            "default_value": false,
+            "group": "control"
+        },
+
+        {
+            "name": "output_json",
+            "usage": "Flag to output a template json with necessary parameters for selected steps. Fill in and use with -params-file",
+            "type": "boolean",
+            "render": "check-box",
+            "default_value": false,
+            "group": "control"
+        },
+
+
 
         {
             "name": "elution_pattern",
-            "label": "Bash pattern matching elution files",
-            "usage": "HLA typing workflow input data.",
+            "label": "Bash pattern matching elution files (.csv)",
+            "usage": "Bash pattern matching elution files (.csv)",
             "type": "string",
             "render": "file",
-            "default_value": "path/to/*.csv",
+            "default_value": "",
             "group": "input"
         },
+
+        {
+            "name": "elution_file",
+            "usage": "File containing one path per line to an elution file (.csv)",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+
+
+        {
+            "name": "features_pattern",
+            "label": "Bash pattern matching feature files",
+            "usage": "Bash pattern matching feature files (.csv)",
+            "type": "string",
+            "render": "file",
+            "default_value": "path/to/*.ordered.csv",
+            "group": "input"
+        },
+ 
+       {
+            "name": "features_pattern",
+            "usage": "File containing one path per line to a feature file (.csv)",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+
+
+       {
+            "name": "existing_feature_matrix",
+            "usage": "Feature matrix (first column ID) (.csv)",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+       {
+            "name": "existing_feature_matrix_labele",
+            "usage": "Feature matrix already labeled with gold standard training interactions and optionally complex membership groups (.csv)",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+ 
+      {
+            "name": "scored_interactions",
+            "usage": "File containing scored interactions",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+
+      {
+            "name": "postrain",
+            "usage": "Positive training interactions",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+      {
+            "name": "postest",
+            "usage": "Positive withheld test interactions",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+      {
+            "name": "negtrain",
+            "usage": "Negative training interactions",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+      {
+            "name": "negtest",
+            "usage": "Negative withheld test interactions",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+      {
+            "name": "groups",
+            "usage": "Mapping between training interactions and complex number, if present crossvalidation will not split interactions from the same complex into different folds",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
+
+
+        {
+            "name": "tpot_dir",
+            "usage": "Path to marcottelab/run_TPOT directory",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "repositories"
+        },
+
+        {
+            "name": "add_poisson_noise",
+            "usage": "Flag true if input elution is count data",
+            "type": "boolean",
+            "render": "check-box",
+            "default_value": false,
+            "group": "settings_features"
+        },
+
+        {
+            "name": "poisson_reps",
+            "usage": "Number of poisson reps for count data",
+            "type": "integer",
+            "render": "textfield",
+            "default_value": 5,
+            "group": "settings_features"
+        },
+
+        {
+            "name": "merge_threshold",
+            "usage": "Merge threshold for input goldstandard complexes",
+            "type": "numeric",
+            "render": "textfield",
+            "default_value": 0.6,
+            "group": "input_goldstandard"
+        },
+
+        {
+            "name": "complex_size_threshold",
+            "usage": "Maximum goldstandard complex size",
+            "type": "integer",
+            "render": "textfield",
+            "default_value": 30,
+            "group": "input_goldstandard"
+        },
+
+        {
+            "name": "negatives_from_observed",
+            "usage": "When true, generates negatives from observed interactions. When false, generates negatives between different gold standard complexes ",
+            "type": "boolean",
+            "render": "check-box",
+            "default_value": true,
+            "group": "input_goldstandard"
+        },
+
+
+        {
+            "name": "negative_limit",
+            "usage": "Maximum number of negative interactions per negative set",
+            "type": "integer",
+            "render": "textfield",
+            "default_value": 20000,
+            "group": "input_goldstandard"
+        },
+
+
+
+        {
+            "name": "classifiers_to_scan",
+            "usage": "The set of sklearn classifiers to scan",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "settings_training"
+        },
+
+        {
+            "name": "generations",
+            "usage": "TPOT generations",
+            "type": "integer",
+            "render": "textfield",
+            "default_value": 10,
+            "group": "settings_training"
+        },
+
+        {
+            "name": "population",
+            "usage": "TPOT population",
+            "type": "integer",
+            "render": "textfield",
+            "default_value": 20,
+            "group": "settings_training"
+        },
+
+        {
+            "name": "n_jobs",
+            "usage": "TPOT n_jobs",
+            "type": "integer",
+            "render": "textfield",
+            "default_value": 20,
+            "group": "settings_training"
+        },
+
+        {
+            "name": "annotation_file",
+            "usage": "An annotation file with ID column matching identifiers (.csv)",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "settings_clustering"
+        },
+
+        {
+            "name": "elution_file",
+            "usage": "A matrix containing elution profiles (.csv)",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "settings_clustering"
+        },
+
+        {
+            "name": "walktrap_steps",
+            "usage": "Number of walksteps for walktrap clustering",
+            "type": "integer",
+            "render": "textfield",
+            "default_value": 3,
+            "group": "settings_clustering"
+        },
+
+        {
+            "name": "fdr_cutoff",
+            "usage": "Only include interactions in clustering below this false discovery rate",
+            "type": "numeric",
+            "render": "textfield",
+            "default_value": 0.1,
+            "group": "settings_clustering"
+        },
+
+
+        {
+            "name": "protein_complex_maps_dir",
+            "usage": "Path to marcottelab/protein_complex_maps directory",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "repositories"
+        },
+
+        {
+            "name": "goldstandard_complexes",
+            "usage": "Path to gold standard complexes, one per line, with space separated members",
+            "type": "string",
+            "render": "file",
+            "default_value": "",
+            "group": "input"
+        },
+
 
 
 

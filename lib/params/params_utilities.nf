@@ -1,7 +1,63 @@
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
+
+def readJson(String fname){
+
+    def jsonSlurper = new JsonSlurper()
+    String string_JSON = new File(fname).text
+    json = jsonSlurper.parseText(string_JSON) 
+    return json
+ 
+
+
+}
+
+
+def combine_params(List user_steps, Map params){
+
+
+   
+    def all_json = readJson("lib/params/global_params.json")
+    entry_fname = "lib/params/entry_params_step" + user_steps[0] + ".json"
+    def entry_json = readJson(entry_fname)
+    all_json = all_json + entry_json
+   
+    if ( 3 in user_steps || 5 in user_steps ){
+
+         if (params.generate_labels == true ){
+             gs_json = readJson("lib/params/default_params_gen_labels.json")
+         }
+         if (params.generate_labels == false){
+             gs_json = readJson("lib/params/default_params_old_labels.json")
+         }
+      all_json = all_json + gs_json
+    }
+
+
+    for (String step : user_steps) {
+        System.out.println(step)
+        fname = "lib/params/default_params_step" + step + ".json"
+        def step_json = readJson(fname) 
+        all_json = all_json + step_json
+        println all_json 
+    }
+
+    if ( params.output_json == true ) {
+       def json = JsonOutput.toJson(all_json)
+       def pretty_json = JsonOutput.prettyPrint(json)
+       new File("output.json").write(pretty_json)
+       exit 0
+    } 
+ 
+    return(all_json)
+
+
+}
+
+
 // CDM
 def validate_params(Map params, List paramsWithUsage){
-
-    // This is where I'd filter params to only those needed for the steps chosen
 
     // Combine user params with parameter usage definitions
     valuesWithUsage = get_usage(params, paramsWithUsage)
@@ -113,7 +169,7 @@ def check_mandatory_parameter(Map params, String parameter_name){
 */
 
 // Modified by CDM to not access config (Deprecated)
-def readParamsFromJsonSettings(Map params) {
+def readParamsFromJsonSettings(Map params, Map relevantParams) {
     List paramsWithUsage
     try {
         paramsWithUsage = tryReadParamsFromJsonSettings(params['params_description'])
@@ -121,6 +177,11 @@ def readParamsFromJsonSettings(Map params) {
         println "Could not read parameters settings from Json. $e"
         paramsWithUsage = Collections.emptyMap()
     }
+
+    // This is where I'd filter params to only those needed for the steps chosen
+
+    paramsWithUsage = paramsWithUsage.findAll { it.name in relevantParams.keySet() }
+
     return paramsWithUsage
 
 }
@@ -147,13 +208,19 @@ String prettyFormatParamGroupWithPaddingAndIndent (List paramGroup,
         def paramChoices = paramGroup.findAll{ it.choices }.collect { it.choices }
         def maxChoiceStringLength = paramChoices.collect { it.toString().size()}.max()
         def maxTypeLength = paramGroup.collect { (it.type as String).size() }.max()
-
+        print "bet this is "
         print maxChoiceStringLength
 
+        // Added because if a group has no parameters with choices, erorr out 
+        if ( maxChoiceStringLength == null){ 
+          maxChoiceStringLength = 0
+        }
+
+// Added one point of padding
 	    def paramsFormattedList = paramGroup.sort { it.name }.collect {
 				Map param ->
 					paramHelpData = formatParameterHelpData(param)
-					sprintf("%${indent}s%-${maxParamNameLength + padding}s%-${maxChoiceStringLength + padding}s %s\n", "", "--${paramHelpData.name}","${paramHelpData.value}", "${paramHelpData.usage}")
+					sprintf("%${indent}s%-${maxParamNameLength + padding + 1 }s%-${maxChoiceStringLength + padding}s %s\n", "", "--${paramHelpData.name}","${paramHelpData.value}", "${paramHelpData.usage}")
 			}
 		return String.format("%s:\n%s", groupName.toUpperCase(), paramsFormattedList.join()).stripIndent()
 }
