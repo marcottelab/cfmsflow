@@ -21,8 +21,8 @@
   "generations": 10,
   "population": 20,
   "n_jobs": 20,
-  "cv": 5
-
+  "cv": 5,
+  "n_features_to_select" : 2
 
 }
 

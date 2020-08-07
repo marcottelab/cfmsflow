@@ -36,7 +36,7 @@
   "n_jobs": 20,
   "cv": 5,
   "groups": "test_input/traincomplexgroups",
-
+  "n_features_to_select" : 2,
 
   "fdr_cutoff": 0.5,
   "walktrap_steps": 3,
@@ -44,7 +44,8 @@
 
   "params_description":"lib/params/parameters.settings.json",
   "help" : false,
-  "version" : false
+  "version" : false,
+  "output_json" : false
 
 }
 

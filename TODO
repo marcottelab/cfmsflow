@@ -1,4 +1,13 @@
-jq -s 'reduce .[] as $item ({}; . * $item)' json_files/*
+
+# Test that feature selection worked
+
+Where are defaults coming from?
+
+Change help to show default values
+
+Fix excel rpy2 error
+
+#jq -s 'reduce .[] as $item ({}; . * $item)' json_files/*
 
 
 #Change TPOT to GroupKFold
@@ -16,9 +25,6 @@ Break up model and applying model steps (break step 4 into two steps)
 
 Check required parameters by step range
 
-Get list of required params per step
-Might be able to use paramsWusage and a list of required parameters per step to show a subset of help message. 
- 
 Break out gold standard step - OK
 
 Check with python2 and python3
