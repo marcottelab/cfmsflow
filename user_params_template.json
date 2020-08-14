@@ -8,13 +8,13 @@
   "goldstandard_complexes": "test_input/goldstandard_contrived.txt",
   "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
   "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
-  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps",
+  "protein_complex_maps_dir": "/opt/protein_complex_maps",
   "output_dir": "test_output/",
   "tpot_dir" : "/project/cmcwhite/github/run_TPOT/",
   
 
   "entrypoint": 1,
-  "exitpoint": 5,
+  "exitpoint": 1,
 
   "generate_labels": true,
 

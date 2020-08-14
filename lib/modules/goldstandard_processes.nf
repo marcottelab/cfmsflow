@@ -36,7 +36,7 @@ process split_traintest {
    for gs in goldstandard_filt.*_ppis.txt;
    do
      sed -i 's/\t/ /' \$gs
-     python $params.protein_complex_maps_dir/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs \$gs --outfile \${gs%.txt}.ordered --sep "\$sep" --chunksize 1000
+     python $params.protein_complex_maps_dir/protein_complex_maps/features/alphabetize_pairs_chunks.py --feature_pairs \$gs --outfile \${gs%.txt}.ordered --sep "\$sep" --chunksize 1000
    done
 
   """

@@ -20,10 +20,10 @@ process corr_process {
   if [ $params.add_poisson_noise == 'true' ]
   then
   echo "Poisson noise added"
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id -r poisson_noise -i $params.poisson_reps 
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id -r poisson_noise -i $params.poisson_reps 
   else
 
-      python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id
+      python ${params.protein_complex_maps_dir}/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id
   fi
 
   """
@@ -50,7 +50,7 @@ process rescale_process {
   if (corr == "euclidean" || corr == "braycurtis")
 
   """
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/normalize_features.py --input_feature_matrix $feat --output_filename ${feat}.rescaled --features $corr --min 0 --sep , --inverse
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/normalize_features.py --input_feature_matrix $feat --output_filename ${feat}.rescaled --features $corr --min 0 --sep , --inverse
 
   """
 
@@ -81,7 +81,7 @@ process alph_process {
 
   script:
   """
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/alphabetize_pairs2.py --feature_pairs $feat --outfile ${feat}.ordered --sep $sep --chunksize 1000000
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/alphabetize_pairs_chunks.py --feature_pairs $feat --outfile ${feat}.ordered --sep $sep --chunksize 1000000
 
   """
 } 
