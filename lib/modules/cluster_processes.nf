@@ -59,7 +59,7 @@ process cluster {
 
   script:
   """
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/postprocessing_util/diffusion_clustering.py --input_edges $scored --threshold $scorethreshold --method walktrap --use_scores --outfile clustering --header --id_cols ID --id_sep ' ' --weight_col P_1  --steps $params.walktrap_steps --input_elution $elution_file --annotation_file $annotation_file 
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/postprocessing_util/diffusion_clustering.py --input_edges $scored --threshold $scorethreshold --method walktrap --use_scores --outfile clustering --header --id_cols ID --id_sep ' ' --weight_col P_1  --steps $params.walktrap_steps --input_elution $elution_file --annotation_file $annotation_file 
 
   """
 }

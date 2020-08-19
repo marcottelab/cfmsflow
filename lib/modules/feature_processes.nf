@@ -8,7 +8,7 @@ process corr_process {
   tag { elut_id }
 
   input:
-  tuple elut_id,corr 
+  tuple file(elut_id),corr 
 
   publishDir "${params.output_dir}", mode: 'link'
 

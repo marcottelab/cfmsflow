@@ -1,0 +1,11 @@
+argparse
+pandas == 1.1.0
+scipy
+
+# TPOT greater than 0.10.0 required for template option to control pipeline structure
+tpot == 0.11.2
+
+# TPOT currently requires scikit-learn 0.22 because of deprecated joblib import from sklearn.externals
+scikit-learn == 0.22
+
+joblib

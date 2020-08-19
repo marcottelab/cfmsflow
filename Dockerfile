@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
    wget \
    git \
    python3 \
-   python3-pip
+   python3-pip 
    #r-base
 
 # Have python command run python3
@@ -58,6 +58,13 @@ COPY . .
 #RUN R -e 'install.packages("igraph", repos="http://cloud.r-project.org/"); install.packages("dendextend",repos="http://cloud.r-project.org/"); install.packages("dplyr",repos="http://cloud.r-project.org/")'
 #RUN git clone https://github.com/marcottelab/run_TPOT.git /opt/run_TPOT
 
-RUN git clone https://github.com/marcottelab/protein_complex_maps.git /opt/protein_complex_maps
+RUN git clone --single-branch --branch pandas_update_fix https://github.com/marcottelab/protein_complex_maps.git /opt/protein_complex_maps
+
+RUN git clone --single-branch --branch master https://github.com/marcottelab/run_TPOT.git /opt/run_TPOT
+
+
+
+
+
 ENV PYTHONPATH "${PYTHONPATH}:/opt/protein_complex_maps"
 

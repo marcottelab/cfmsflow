@@ -19,7 +19,7 @@ process build_featmat {
   script:
 
   """
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/build_feature_matrix.py --input_pairs_files $features --store_interval 10 --output_file featmat --sep ','
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/build_feature_matrix.py --input_pairs_files $features --store_interval 10 --output_file featmat --sep ','
 
   """
 }
@@ -47,7 +47,7 @@ process label_featmat {
   """
 
   head $positives
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/add_label.py --input_feature_matrix $featmat --input_positives $positives --input_negatives $negatives --sep , --ppi_sep ' ' --id_column ID --output_file featmat_labeled --fillna 0 --id_sep ' ' 
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/add_label.py --input_feature_matrix $featmat --input_positives $positives --input_negatives $negatives --sep , --ppi_sep ' ' --id_column ID --output_file featmat_labeled --fillna 0 --id_sep ' ' 
   """
 }
 
@@ -98,7 +98,7 @@ process add_group_column {
   """
   cp $featmat_labeled1 featmat_labeled1_nogroups 
 
-  python /project/cmcwhite/github/for_pullreqs/protein_complex_maps/protein_complex_maps/features/build_feature_matrix.py --prev_feature_matrix $featmat_labeled1 --input_pairs_files $traincomplexgroups --output_file featmat_labeled1 --sep ',' --jointype "left" --mod_featname False
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/build_feature_matrix.py --prev_feature_matrix $featmat_labeled1 --input_pairs_files $traincomplexgroups --output_file featmat_labeled1 --sep ',' --jointype "left" --mod_featname False
 
   """
 

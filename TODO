@@ -1,3 +1,5 @@
+To access local files, wrap them in file() in the process definition. As in the feature_processes.nf
+See https://groups.google.com/forum/#!topic/nextflow/KjTp_M4VyKg
 
 
 FYI  docker build -t clairemcwhite/cfmsflow:latest . 

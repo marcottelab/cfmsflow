@@ -22,9 +22,14 @@ workflow cfmsinfer_corr {
 
      elutions_path = params.input_elution_pattern
  
+     println(elutions_path)
+
      Channel
        .fromPath( elutions_path, checkIfExists: true )
        .set { elutions }
+
+     println(elutions)
+
    }
     Channel
       .from( "pearsonR", "spearmanR", "euclidean", "braycurtis" )
