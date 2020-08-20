@@ -12,7 +12,7 @@ workflow training {
 
   main:
 
-    pipeline = cfmsinfer_scan(featmat_labeled1) 
+    pipeline = cfmsinfer_scan(featmat_labeled1, file(params.selectors_to_scan), file(params.classifiers_to_scan))
     model = cfmsinfer_train(pipeline, featmat_labeled1)
 
     scored = cfmsinfer_score(model[0], featmat)

@@ -11,7 +11,8 @@ process cfmsinfer_scan {
 
   input:
   path featmat_labeled1
-
+  path selectors_to_scan
+  path classifiers_to_scan
 
   output:
   path "pipeline.py"
@@ -21,8 +22,8 @@ process cfmsinfer_scan {
   script:
 
   """
-  SELECTORS_FORMATTED=\$(cat $params.selectors_to_scan | tr '\n' ' ')
-  CLASSIFIERS_FORMATTED=\$(cat $params.classifiers_to_scan | tr '\n' ' ')
+  SELECTORS_FORMATTED=\$(cat $selectors_to_scan | tr '\n' ' ')
+  CLASSIFIERS_FORMATTED=\$(cat $classifiers_to_scan | tr '\n' ' ')
   
   echo \$SELECTORS_FORMATTED
   echo \$CLASSIFIERS_FORMATTED

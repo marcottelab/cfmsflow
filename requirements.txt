@@ -1,6 +1,12 @@
-argparse
+
+# Current used version, may not be critical
+argparse == 1.4.0
+
+
 pandas == 1.1.0
-scipy
+
+# Current used version, may not be critical
+scipy == 1.5.2
 
 # TPOT greater than 0.10.0 required for template option to control pipeline structure
 tpot == 0.11.2
@@ -8,4 +14,16 @@ tpot == 0.11.2
 # TPOT currently requires scikit-learn 0.22 because of deprecated joblib import from sklearn.externals
 scikit-learn == 0.22
 
-joblib
+# For TPOT wrapper scripts in run_TPOT
+# Current used version, may not be critical
+joblib == 0.16.0
+
+# For prcurve plot output
+# Current used version, may not be critical
+matplotlib == 3.3.1
+
+# For diffusion clustering pending fix to python igraph  
+# rpy2 v.3.0 has breaking changes in name of ri2py -> rpy2py
+# rpy2 > 3.0 won't work with py2.7. rpy2 < 3.0 won't work wity py3
+rpy2 == 3.3.5
+ 

@@ -59,6 +59,19 @@ process cluster {
 
   script:
   """
+  echo \$R_LIBS_SITE
+
+  
+
+  export LD_LIBRARY_PATH="\$(python -m rpy2.situation LD_LIBRARY_PATH)"
+  #:\${LD_LIBRARY_PATH}
+
+  echo \$LD_LIBRARY_PATH
+
+  R -e 'library("dplyr")'
+
+  R -e 'library("igraph")' 
+
   python ${params.protein_complex_maps_dir}/protein_complex_maps/postprocessing_util/diffusion_clustering.py --input_edges $scored --threshold $scorethreshold --method walktrap --use_scores --outfile clustering --header --id_cols ID --id_sep ' ' --weight_col P_1  --steps $params.walktrap_steps --input_elution $elution_file --annotation_file $annotation_file 
 
   """
