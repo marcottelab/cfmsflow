@@ -9,8 +9,6 @@ def readJson(String fname){
     json = jsonSlurper.parseText(string_JSON) 
     return json
  
-
-
 }
 
 
@@ -43,7 +41,7 @@ def combine_params(List user_steps, Map params){
         println all_json 
     }
 
-    if ( params.output_json == true ) {
+    if ( params.make_parameter_json == true ) {
        def json = JsonOutput.toJson(all_json)
        def pretty_json = JsonOutput.prettyPrint(json)
        new File("output.json").write(pretty_json)
@@ -57,12 +55,13 @@ def combine_params(List user_steps, Map params){
 
 
 // CDM
-def validate_params(Map params, List paramsWithUsage){
+def validate_params(Map params, List paramsWithUsage, errors){
+
+
 
     // Combine user params with parameter usage definitions
     valuesWithUsage = get_usage(params, paramsWithUsage)
     
-    errors = []
     
 
    
@@ -89,6 +88,51 @@ def validate_params(Map params, List paramsWithUsage){
     }    
     return errors
 }
+
+def check_mutually_exclusive_params(Map params, errors){
+  def mes = ""  
+  
+ 
+  if(params.goldstandard_complexes && 
+       (params.postrain ||
+        params.negtrain ||
+        params.postest ||
+        params.negtest ||
+        traincomplexgroups
+       )
+   ){
+ 
+      mes = "Can't provide both goldstandard complexes and already generative training labels. If goldstandard_complexes are provided, training and test sets will be generated from them. Otherwise, provide postrain, postest, negtrain, negtest, and traincomplexgroups files" 
+    errors = errors + mes 
+  }
+
+
+  if (params.input_elution_pattern &&
+      params.input_elution_file)
+     {
+
+     mes = "To start pipeline at step 1, either set input_elution_pattern or input_elution_file in user parameters file, but not both. Help: input_elution_pattern is regex pattern matching input files, e.g. input_files/*csv, input_elution_file is a path to a text file containing the paths to each input file, one per line" 
+    errors = errors + mes 
+
+
+   }
+
+  if (params.input_features_pattern &&
+      params.input_features_file)
+     {
+
+     mes = "To start pipeline at step 1, either set input_features_pattern or input_features_file in user parameters file, but not both. Help: input_features_pattern is regex pattern matching input files, e.g. input_files/*csv, input_features_file is a path to a text file containing the paths to each input file, one per line" 
+    errors = errors + mes 
+
+
+   }
+ 
+  return errors
+
+}
+
+
+
 
 // CDM
 def get_usage(Map params, List paramsWithUsage){

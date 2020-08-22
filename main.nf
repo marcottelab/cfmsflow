@@ -16,6 +16,7 @@ include { error_message } from './lib/params/messages'
 include { combine_params } from './lib/params/params_utilities'
 include { readParamsFromJsonSettings } from './lib/params/params_utilities'
 include { validate_params } from './lib/params/params_utilities'
+include { check_mutually_exclusive_params } from './lib/params/params_utilities'
 
 include { helpMessage } from './lib/params/params_utilities'
 include { cfmsinfer_corr } from './lib/modules/feature_workflows'
@@ -38,7 +39,15 @@ include { cluster_interactions } from './lib/modules/cluster_workflows'
  */
 
 
-// Here is where I could filter parameters to only those that need to be used
+// CDM new process, mini argparse checks for type and for choices
+
+if ( !(params.entrypoint instanceof Integer) ||
+     !(params.exitpoint instanceof Integer)){
+
+  println("Error: entrypoint and exitpoint parameters must both be integers between 1 and 5")
+  exit 0
+}
+
 
 def user_steps = params.entrypoint..params.exitpoint 
 
@@ -55,12 +64,11 @@ if (params.help){
     exit 0
 }
 
+errors = []
 
-// CDM new process, mini argparse checks for type and for choices
-// Potential filter to only steps chosen to run?
+errors = check_mutually_exclusive_params(params, errors)
 
-
-errors = validate_params(params, paramsWithUsage)
+errors = validate_params(params, paramsWithUsage, errors)
 
 if (errors){
   
@@ -68,6 +76,12 @@ if (errors){
   exit 0
 
 }
+
+
+// remove this
+exit 0
+
+
 
 workflow {
 
@@ -108,7 +122,7 @@ workflow {
      //// Get or load gold standards (generate_labels = true to generate)
        if ( 3 in user_steps || 5 in user_steps ){
   
-         if (params.generate_labels == true ){
+         if (params.goldstandard_complexes){
 
              labels = format_goldstandards(file(params.goldstandard_complexes), featmat)
              postrain = labels[0]

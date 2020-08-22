@@ -16,7 +16,6 @@
   "entrypoint": 1,
   "exitpoint": 1,
 
-  "generate_labels": true,
 
   "add_poisson_noise" : true,
   "poisson_reps" : 5,

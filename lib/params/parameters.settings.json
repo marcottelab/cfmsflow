@@ -31,9 +31,9 @@
         },
 
         {
-            "name": "output_json",
+            "name": "make_parameter_json",
             "usage": "Flag to output a template json with necessary parameters for selected steps. Fill in and use with -params-file",
-            "type": "boolean",
+            "type": "string",
             "render": "check-box",
             "default_value": false,
             "group": "control"

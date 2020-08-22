@@ -2,8 +2,8 @@
 {
  
 
-  "features_pattern":"",
-  "features_file" : ""
+  "input_features_pattern":"",
+  "input_features_file" : ""
 
 }
 

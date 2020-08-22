@@ -6,7 +6,7 @@
 
   "output_dir": "output",
 
-  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps"
+  "protein_complex_maps_dir": "opt/protein_complex_maps"
 
 }
 

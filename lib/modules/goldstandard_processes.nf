@@ -77,7 +77,6 @@ process get_negatives_from_observed {
   mv xaa negtrain.randsort 
   mv xab negtest.randsort
   
-  head *
 
   """
 
