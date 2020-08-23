@@ -1,12 +1,12 @@
 
 {
  
-  "entrypoint": 1,
-  "exitpoint": 5,
+  "entrypoint": "",
+  "exitpoint": "",
 
   "output_dir": "output",
 
-  "protein_complex_maps_dir": "opt/protein_complex_maps"
+  "protein_complex_maps_dir": "/opt/protein_complex_maps"
 
 }
 

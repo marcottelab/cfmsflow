@@ -7,10 +7,9 @@
   "output_dir": "test_output/",
   "input_elution_pattern": "test_input/*.wide",
 
-  "add_poisson_noise" : true,
-  "poisson_reps" : 5,
+  "added_poisson_reps" : 5,
 
-  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps"
+  "protein_complex_maps_dir": "/opt/protein_complex_maps"
 
 }
 

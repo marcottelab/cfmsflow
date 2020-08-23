@@ -1,9 +1,8 @@
 {
   "entrypoint":1,
   "exitpoint":5,
-
   "using_existing_goldstandards":false,
-
   "expose_docker_paths": false,
+  "using_count_observations" : false,
   "make_parameter_json":true 
 }

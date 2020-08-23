@@ -55,14 +55,14 @@ workflow cfmsinfer_corr {
 workflow load_features {
     main:
          // Replace with features = load_features()   
-         if ( params.features_file ) {
-            Channel.fromPath( params.features_file, checkIfExists: true )
+         if ( params.input_features_file ) {
+            Channel.fromPath( params.input_features_file, checkIfExists: true )
              .splitText() 
              .map { file( it.replaceFirst(/\n/, '' )) }    
              .set { features }                                         
          }
-         else if ( params.features_pattern ) { 
-           Channel.fromPath( params.features_pattern, checkIfExists: true )
+         else if ( params.input_features_pattern ) { 
+           Channel.fromPath( params.input_features_pattern, checkIfExists: true )
             .set { features }
          }
          else {

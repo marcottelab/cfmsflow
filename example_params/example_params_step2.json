@@ -6,9 +6,9 @@
 
   "output_dir": "test_output/",
 
-  "features_pattern":"test_input/*scaled.ordered",
+  "input_features_pattern":"test_input/*scaled.ordered",
 
-  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps"
+  "protein_complex_maps_dir": "/opt/protein_complex_maps"
 
 }
 

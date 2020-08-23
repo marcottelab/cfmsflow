@@ -23,28 +23,33 @@ def combine_params(List user_steps, Map params){
    
     if ( 3 in user_steps || 5 in user_steps ){
 
-         if (params.generate_labels == true ){
+         if (params.using_existing_goldstandards == false ){
              gs_json = readJson("lib/params/default_params_gen_labels.json")
          }
-         if (params.generate_labels == false){
+         if (params.using_existing_goldstandards == true){
              gs_json = readJson("lib/params/default_params_old_labels.json")
          }
       all_json = all_json + gs_json
     }
 
+    all_json.put("entrypoint", user_steps[0])
+    all_json.put("exitpoint", user_steps[-1])
+
+
+
 
     for (String step : user_steps) {
-        System.out.println(step)
+    //     System.out.println(step)
         fname = "lib/params/default_params_step" + step + ".json"
         def step_json = readJson(fname) 
         all_json = all_json + step_json
-        println all_json 
     }
+    println all_json 
 
     if ( params.make_parameter_json == true ) {
        def json = JsonOutput.toJson(all_json)
        def pretty_json = JsonOutput.prettyPrint(json)
-       new File("output.json").write(pretty_json)
+       new File("parameters.json").write(pretty_json)
        exit 0
     } 
  

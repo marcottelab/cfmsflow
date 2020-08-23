@@ -1,8 +1,7 @@
 
 {
 
-  "add_poisson_noise" : true,
-  "poisson_reps" : 5
+  "added_poisson_reps" : 5
 
 }
 

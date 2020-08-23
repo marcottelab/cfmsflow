@@ -78,8 +78,6 @@ if (errors){
 }
 
 
-// remove this
-exit 0
 
 
 

@@ -17,10 +17,11 @@ process corr_process {
 
   script:
   """
-  if [ $params.add_poisson_noise == 'true' ]
+  if [ $params.added_poisson_reps ]
   then
   echo "Poisson noise added"
-  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id -r poisson_noise -i $params.poisson_reps 
+  echo "Poisson reps are appropriate for count data"
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id -r poisson_noise -i $params.added_poisson_reps 
   else
 
       python ${params.protein_complex_maps_dir}/protein_complex_maps/features/ExtractFeatures/canned_scripts/extract_features.py --format csv --normalize row_max -f $corr -o ${elut_id.baseName}.${corr}.feat $elut_id
