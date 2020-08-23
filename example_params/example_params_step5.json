@@ -7,20 +7,19 @@
 
   "scored_interactions": "test_input/scored_interactions",
 
-  "generate_labels": false,
   "postrain": "test_input/postrain",
   "negtrain":  "test_input/negtrain",
   "postest": "test_input/postest",
   "negtest":  "test_input/negtest",
    
   "walktrap_steps": 3,
-  "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
+  "annotation_file": "accessory_files/virNOG_collapse_annotations.txt",
   "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
 
-  "plot_pr": "False",
-  "fdr_cutoff": 0.5,
+  "plot_pr": "True",
+  "fdr_cutoff": 0.1,
 
-  "protein_complex_maps_dir": "/project/cmcwhite/github/for_pullreqs/protein_complex_maps"
+  "protein_complex_maps_dir": "/indocker_repos/protein_complex_maps"
 
 }
 

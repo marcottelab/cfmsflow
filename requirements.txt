@@ -21,9 +21,15 @@ joblib == 0.16.0
 # For prcurve plot output
 # Current used version, may not be critical
 matplotlib == 3.3.1
+seaborn == 0.8.1 
+
+
 
 # For diffusion clustering pending fix to python igraph  
 # rpy2 v.3.0 has breaking changes in name of ri2py -> rpy2py
 # rpy2 > 3.0 won't work with py2.7. rpy2 < 3.0 won't work wity py3
 rpy2 == 3.3.5
+
+
+
  

@@ -8,7 +8,7 @@
 
   "input_features_pattern":"test_input/*scaled.ordered",
 
-  "protein_complex_maps_dir": "/opt/protein_complex_maps"
+  "protein_complex_maps_dir": "/indocker_repos/protein_complex_maps"
 
 }
 

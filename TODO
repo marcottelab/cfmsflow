@@ -1,5 +1,10 @@
+pipeline_type parameter currently doesn't do anything
+
+
+
 Check required parameters by step...
 
+convert docker to singularity image
 
 
 To access local files, wrap them in file() in the process definition. As in the feature_processes.nf
@@ -8,9 +13,10 @@ See https://groups.google.com/forum/#!topic/nextflow/KjTp_M4VyKg
 
 FYI  docker build -t clairemcwhite/cfmsflow:latest . 
 
-Progress on docker... 
-   Start with just getting everything installed
-   Then worry about the external github repositories
+# Docker done
+#Progress on docker... 
+#   Start with just getting everything installed
+#   Then worry about the external github repositories
 
 
 
@@ -20,7 +26,6 @@ Where are defaults coming from?
 
 Change help to show default values
 
-Fix excel rpy2 error
 
 #jq -s 'reduce .[] as $item ({}; . * $item)' json_files/*
 

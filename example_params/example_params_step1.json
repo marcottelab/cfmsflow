@@ -9,7 +9,7 @@
 
   "added_poisson_reps" : 5,
 
-  "protein_complex_maps_dir": "/opt/protein_complex_maps"
+  "protein_complex_maps_dir": "/indocker_repos/protein_complex_maps"
 
 }
 

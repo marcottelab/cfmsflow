@@ -44,7 +44,7 @@ def combine_params(List user_steps, Map params){
         def step_json = readJson(fname) 
         all_json = all_json + step_json
     }
-    println all_json 
+    //println all_json 
 
     if ( params.make_parameter_json == true ) {
        def json = JsonOutput.toJson(all_json)
@@ -103,7 +103,7 @@ def check_mutually_exclusive_params(Map params, errors){
         params.negtrain ||
         params.postest ||
         params.negtest ||
-        traincomplexgroups
+        params.traincomplexgroups
        )
    ){
  
@@ -166,10 +166,12 @@ def get_usage(Map params, List paramsWithUsage){
 
 // CDM
 def check_parameter_typing(String parameter_name, value, type){
-    if ( ( value instanceof String && type != "string"   ) ||
+    if ( value &&
+        (( value instanceof String && type != "string"   ) ||
          ( value instanceof Integer && type != "integer" ) ||
          ( value instanceof Boolean && type != "boolean" ) ||
-         ( value instanceof List && type != "list"       ) ){
+         ( value instanceof List && type != "list"       )) 
+       ){
 
         return "The value (" + value + ")  supplied for " + parameter_name + " is not valid. It must be of type " + type
     }

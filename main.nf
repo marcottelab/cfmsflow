@@ -134,12 +134,13 @@ workflow {
              negtrain = file(params.negtrain)
              postest = file(params.postest)
              negtest = file(params.negtest)
-             if (4 in user_steps){                                                                                                                            traincomplexgroups = file(params.groups)
-             } 
-             
+            
 
          }
      }
+
+
+
      ////
      //////////////////////////////////////////////////////
 
@@ -167,6 +168,11 @@ workflow {
      //// Get or load scored interactions ( entrypoint = 5 to load)
 
      if ( 4 in user_steps ) {
+             if (params.traincomplexgroups){      
+                 traincomplexgroups = file(params.traincomplexgroups)
+             } 
+ 
+
          featmat_labeled1 = get_labeled_rows(featmat_labeled)
          featmat_labeled1 = add_group_column(featmat_labeled1, traincomplexgroups)[0]
          

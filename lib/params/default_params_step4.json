@@ -1,7 +1,7 @@
 
 {
  
-  "tpot_dir" : "/opt/run_TPOT/",
+  "tpot_dir" : "/indocker_repos/run_TPOT/",
   "classifiers_to_scan": "accessory_files/classifier_example.txt",
   "generations": 10,
   "population": 20,
