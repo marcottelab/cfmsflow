@@ -1,0 +1,42 @@
+
+{
+
+  "entrypoint": 1,
+  "exitpoint": 5,
+
+
+  "input_elution_file" : "test_input/elutionlist.txt",
+
+
+  "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
+  "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
+  "output_dir": "test_output/",
+
+
+  "added_poisson_reps" : 5,
+
+  "postrain":"test_input/postrain",
+  "negtrain":"test_input/negtrain",
+  "postest":"test_input/postest",
+  "negtest":"test_input/negtest",
+  "traincomplexgroups": "test_input/traincomplexgroups",
+  
+  "tpot_template" : "Selector-Classifier",
+  "selectors_to_scan": "accessory_files/selector_subset.txt",
+  "transformers_to_scan": "",
+  "classifiers_to_scan": "accessory_files/classifier_subset.txt",
+  "generations": 10,
+  "population": 20,
+  "n_jobs": 20,
+  "cv": 5,
+  "max_features_to_select" : 2,
+
+  "fdr_cutoff": 0.5,
+  "walktrap_steps": 3,
+  "plot_pr": "True",
+
+  "tpot_dir" : "/indocker_repos/run_TPOT/",
+  "protein_complex_maps_dir": "/indocker_repos/protein_complex_maps"
+ }
+
+

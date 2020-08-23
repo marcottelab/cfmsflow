@@ -29,8 +29,7 @@ process cfmsinfer_scan {
   echo \$CLASSIFIERS_FORMATTED
   echo $params.tpot_template
 
-  mkdir tpot.tmp
-  python $params.tpot_dir/train_TPOT.py --training_data featmat_labeled1 --outfile pipeline.py --template $params.tpot_template --selector_subset \$SELECTORS_FORMATTED --classifier_subset \$CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs $params.n_jobs --generations $params.generations --population_size $params.population --labels -1 1 --temp_dir training/tpot.tmp --groupcol traincomplexgroups --max_features_to_select $params.max_features_to_select
+  python $params.tpot_dir/train_TPOT.py --training_data featmat_labeled1 --outfile pipeline.py --template $params.tpot_template --selector_subset \$SELECTORS_FORMATTED --classifier_subset \$CLASSIFIERS_FORMATTED --id_cols 0 --n_jobs $params.n_jobs --generations $params.generations --population_size $params.population --labels -1 1 --temp_dir auto --groupcol traincomplexgroups --max_features_to_select $params.max_features_to_select
 
   """
 }

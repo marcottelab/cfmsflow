@@ -5,7 +5,12 @@ pipeline_type parameter currently doesn't do anything
 Check required parameters by step...
 
 convert docker to singularity image
-
+docker run \
+>     -v /var/run/docker.sock:/var/run/docker.sock \
+>     -v $PWD:/output \
+>     --privileged -t --rm \
+>     singularityware/docker2singularity \
+>     kdrew/msblender
 
 To access local files, wrap them in file() in the process definition. As in the feature_processes.nf
 See https://groups.google.com/forum/#!topic/nextflow/KjTp_M4VyKg
