@@ -47,7 +47,7 @@ process label_featmat {
   """
 
   head $positives
-  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/add_label.py --input_feature_matrix $featmat --input_positives $positives --input_negatives $negatives --sep , --ppi_sep ' ' --id_column ID --output_file featmat_labeled --fillna 0 --id_sep ' ' 
+  python ${params.protein_complex_maps_dir}/protein_complex_maps/features/add_label2.py --input_feature_matrix $featmat --input_positives $positives --input_negatives $negatives --sep , --ppi_sep ' ' --id_column ID --output_file featmat_labeled --fillna 0 --id_sep ' ' --chunksize 1000000 
   """
 }
 

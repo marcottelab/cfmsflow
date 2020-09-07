@@ -1,3 +1,5 @@
+If score threshold doesn't exist in file, the step 5 breaks
+
 pipeline_type parameter currently doesn't do anything
 
 
