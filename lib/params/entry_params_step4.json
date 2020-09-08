@@ -4,8 +4,10 @@
 
   "existing_feature_matrix_labeled": "",
   "existing_feature_matrix" : "",
-  "traincomplexgroups" :""
-
+  "traincomplexgroups" :"",
+  "tpot_template":"Selector-Classifier",
+  "selectors_to_scan": "accessory_files/selector_subset.txt",
+  "classifiers_to_scan": "accessory_files/classifier_subset.txt"
 
 }
 
