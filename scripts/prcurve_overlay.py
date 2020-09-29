@@ -40,12 +40,12 @@ def main():
     parser.add_argument("--threshold", action="store", type=float, dest="threshold", required=False, 
                                     help="Only tally predictions above probability threshold")
     parser.add_argument("--plot_thresholds", action="store_true", dest="plot_thresholds", required=False, default=False,
-                                    help="Add probability threshold markers to plot")
+                                    help="Add probability threshold markers to plot (default False)")
     parser.add_argument("--average_probs", action="store_true", dest="avg_probs", required=False, default=False,
-                                    help="Average a set of result_wprob instead of plotting individually")
+                                    help="Average a set of result_wprob instead of plotting individually (default False)")
 
     parser.add_argument("--header", action="store_true", dest="header", required=False, default=False,
-                                    help="Set true in results_wprob has a header")
+                                    help="Set true if results_wprob has a header (default False)")
 
     args = parser.parse_args()
 
