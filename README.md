@@ -12,7 +12,9 @@ By default, the pipeline begins at step 1 (calculating protein profile similarit
 ## Installation
 
 
-1. Install nextflow onto a Linux-based operating system Install [nextflow(dsl2)](https://www.nextflow.io/docs/latest/getstarted.html)
+1. Install nextflow onto a Linux-based operating system 
+
+Install [nextflow (dsl2)](https://www.nextflow.io/docs/latest/getstarted.html)
 
 2. Clone this repository
 ```
@@ -20,15 +22,15 @@ git clone https://github.com/marcottelab/cfmsflow.git
 ```
 
 
- Elution files from one or more separation experiments are the main data inputs to cfmsflow.
-Check the notes and critical points below carefully before proceeding to step 1 of the pipeline.
 
-Note: Note: For discrete count-based measures such as peptide-spectral matches (PSMs), correlations may be run for N repetitions with poisson noise, and scores averaged, controlled by the parameter `added_poisson_reps = N`. Intensity-based measures should not be run with added poisson noise. 
 
-Examples of all input file formats are provided in the test_input directory.
 
 
 ## Usage
+
+Elution files from one or more separation experiments are the main data inputs to cfmsflow.
+
+Examples of all input file formats are provided in the test_input directory.
 
 First test your local pipeline by running examples. Look for successfuly completion of the following command in 5-10 minutes, with output in the test_output directory. 
 ```
@@ -57,6 +59,8 @@ nextflow main.nf -params-file generate_params.sh --entrypoint 4 --exitpoint 5 --
 
  - To resume running a pipeline after fixing an error or changing a parameter value, run the same command as above with additionally –resume to run all steps downstream of the parameter change. 
  - After errors, check format of input files against format of corresponding files in test_input/
+ - For discrete count-based measures such as peptide-spectral matches (PSMs), correlations may be run for N repetitions with poisson noise, and scores averaged, controlled by the parameter `added_poisson_reps = N`. Intensity-based measures should use the default value of add_poisson_reps = 0. 
+
 
 ### Examples of workflows
 
