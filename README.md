@@ -2,14 +2,14 @@
 
 cfmsflow is a Nextflow pipeline to determine protein-protein interactions and complexes from protein elution profiles.  
 
-<img src="pipeline_overview-01.png">
+<img src="accessory_files/pipeline_overview-01.png">
 
 The pipeline is divided into 5 main steps. To summarize, these steps are to 1) Calculate similarities between protein elution profiles, 2) Combine similarity scores into a feature matrix, 3) Label the feature matrix with gold standard protein-protein interactions, 4) Train a model to detect and score pairwise protein interactions, 5) Cluster the resulting protein interaction network into complexes.  
 
 By default, the pipeline begins at step 1 (calculating protein profile similarities) and continues through step 5 (detect complexes), however, a subset of steps or individual steps may be run as set in the user parameter file. 
 
 
-### Installation
+## Installation
 
 
 1. Install nextflow onto a Linux-based operating system Install [nextflow(dsl2)](https://www.nextflow.io/docs/latest/getstarted.html)
@@ -28,7 +28,7 @@ Note: Note: For discrete count-based measures such as peptide-spectral matches (
 Examples of all input file formats are provided in the test_input directory.
 
 
-### Usage
+## Usage
 
 First test your local pipeline by running examples. Look for successfuly completion of the following command in 5-10 minutes, with output in the test_output directory. 
 ```
@@ -69,10 +69,10 @@ A user would first run the entire pipeline. Then..
 - Finding too few or too many proteins in the clustered output, run just step 5, increasing or decreasing the fdr_cutoff value. 
 
 
-# Parameters
+## Parameters
    
 
-## Parameters to control generating parameters (generate_params.sh)
+### Parameters to control generating parameters (generate_params.sh)
 
 #### entrypoint
 Which step in the pipeline to begin. Default: 1
@@ -91,7 +91,7 @@ Whether to save a json file of generated paramters. Default:true
 Whether to show paths used to access elements of the Docker environment. Default: false
 
 
-## User parameters
+### User parameters
 
 #### output_dir
 Where to put output. Suggested to making unique to each run to avoid overwriting output from previous run. Default: output/
