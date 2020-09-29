@@ -2,7 +2,7 @@
 
 cfmsflow is a Nextflow pipeline to determine protein-protein interactions and complexes from protein elution profiles.  
 
-<img src="accessory_files/pipeline_overview-01.png">
+<img src="accessory_files/pipeline_overview-01.png" width = 200>
 
 The pipeline is divided into 5 main steps. To summarize, these steps are to 1) Calculate similarities between protein elution profiles, 2) Combine similarity scores into a feature matrix, 3) Label the feature matrix with gold standard protein-protein interactions, 4) Train a model to detect and score pairwise protein interactions, 5) Cluster the resulting protein interaction network into complexes.  
 
