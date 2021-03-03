@@ -38,21 +38,28 @@ nextflow main.nf –params-file example_params/example_wholepipeline.json
 ```
 
 
-If running the whole pipeline using default settings, modify user_parameters.json, filling out all empty parameters with local files and modifying any desired default parameter values. 
-
-Then run with:. 
-```
-nextflow main.nf –params-file user_parameters.json 
-```
-
 Due to variability in parameters needed to run different portions of the pipeline, we provide a script that will generated a parameters json file containing only parameters that are required for the selected steps. 
 
-For example, to generated parameters for only steps 4 and 5 using already already generated positive and negative ppi sets. 
+To generate a template parameters file for all steps, use
+```
+nextflow main.nf -params-file generate_params.sh --entrypoint 1 --exitpoint 5 
+```
+
+This will create a file called user_parameters.json, which should be renamed to avoid overwritting. 
+
+As another example, to generate parameters for only steps 4 and 5 using already already generated positive and negative ppi sets from a previous run. 
 
 ```
 nextflow main.nf -params-file generate_params.sh --entrypoint 4 --exitpoint 5 --using_existing_goldstandard true
 ```
 
+
+Modify the generated user_parameters.json, filling out all empty parameters with local files and modifying any desired default parameter values. 
+
+Then run with:
+```
+nextflow main.nf –params-file user_parameters.json 
+```
 
 
 ### Notes
@@ -66,9 +73,12 @@ nextflow main.nf -params-file generate_params.sh --entrypoint 4 --exitpoint 5 --
 
 A user would first run the entire pipeline. Then..
 
-- Finding the model overtrained, run just steps 4 and 5 on the labeled feature matrix produced in the initial run, reducing the value of max_features_to_select value. 
+- Finding the model overtrained, run just steps 4 and 5 on the labeled feature matrix produced in the initial run, reducing the value of max_features_to_select.
 
-- Finding poor performance, run steps 3 through 5, using a different set of gold standard and the feature matrix produced in the initial run. 
+To do this, you would first run `nextflow main.nf -params-file generate_params.sh --entrypoint 4 --exitpoint 5 --using_existing_goldstandard true`. Then fill in the input parameters with the path to the labeled feature matrix and gold standard sets produced in the initial run. Note: change output_dir parameter to compare new training to previous output. Rename the user_parameters.json and then run `nextflow main.nf –params-file user_parameters_XX_XX_XX.json`
+
+
+- Finding poor protein interaction quality, run steps 3 through 5, using a different set of gold standard and the feature matrix produced in the initial run. 
 
 - Finding too few or too many proteins in the clustered output, run just step 5, increasing or decreasing the fdr_cutoff value. 
 

@@ -43,8 +43,11 @@ include { cluster_interactions } from './lib/modules/cluster_workflows'
 
 if ( !(params.entrypoint instanceof Integer) ||
      !(params.exitpoint instanceof Integer)){
+  
 
   println("Error: entrypoint and exitpoint parameters must both be integers between 1 and 5")
+  println(params.entrypoint)
+  println(params.exitpoint)
   exit 0
 }
 
