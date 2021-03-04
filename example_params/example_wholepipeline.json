@@ -5,22 +5,24 @@
   "exitpoint": 5,
 
 
-  "input_elution_file" : "test_input/elutionlist.txt",
+  "input_elution_file" : "example_input/elutionlist.txt",
 
 
   "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
-  "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
-  "output_dir": "test_output/",
+  "output_dir": "example_output/",
 
+  "elution_file" : "example_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
 
   "added_poisson_reps" : 5,
 
-  "postrain":"test_input/postrain",
-  "negtrain":"test_input/negtrain",
-  "postest":"test_input/postest",
-  "negtest":"test_input/negtest",
-  "traincomplexgroups": "test_input/traincomplexgroups",
-  
+  "goldstandard_complexes": "example_input/goldstandard_complexes.txt",
+
+  "merge_threshold": 0.6,
+  "complex_size_threshold": 30,
+  "negatives_from_observed": true,
+  "negative_limit": 20000, 
+
+ 
   "tpot_template" : "Selector-Classifier",
   "selectors_to_scan": "accessory_files/selector_subset.txt",
   "transformers_to_scan": "",

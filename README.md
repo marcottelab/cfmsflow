@@ -82,6 +82,29 @@ To do this, you would first run `nextflow main.nf -params-file generate_params.s
 
 - Finding too few or too many proteins in the clustered output, run just step 5, increasing or decreasing the fdr_cutoff value. 
 
+### Troubleshooting 
+
+- First, check for any messages about missing parameters printed to screen
+
+- Confirm that formats of input files match example_input files
+
+
+
+Failure at TPOT training:cfmsinfer_scan
+
+"RuntimeError: There was an error in the TPOT optimization process. This could be because the data was not formatted properly (e.g. nan values became a third class) or because data for a regression problem was provided to the TPOTClassifier object. Please make sure you passed the data to TPOT correctly."
+
+Change to the stated work directory and confirm that training matrix contains both positive ",1.0," and negative ",-1.0," in the second to last column.
+
+
+
+
+
+
+
+
+
+
 
 ## Parameters
    
