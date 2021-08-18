@@ -1,0 +1,8 @@
+Recall,Precision,threshold,label,file,FDR
+1.0,0.012684989429175475,0.0,train,scored_interactions,0.9873150105708245
+0.75,0.07758620689655173,1.0,train,scored_interactions,0.9224137931034483
+0.0,1.0,1.0,train,scored_interactions,0.0
+1.0,0.01164021164021164,0.0,test,scored_interactions,0.9883597883597883
+0.0,0.0,3.239226195627519e-19,test,scored_interactions,1.0
+0.0,0.0,1.0,test,scored_interactions,1.0
+0.0,1.0,1.0,test,scored_interactions,0.0
