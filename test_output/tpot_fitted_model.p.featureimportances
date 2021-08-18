@@ -1,3 +1,2 @@
 rank,score,feature,featsel_method
-0,0.5106,ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.spearmanR.feat,rfe
-1,0.4894,ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.pearsonR.feat,rfe
+0,1.0,ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.euclidean.feat,rfe
