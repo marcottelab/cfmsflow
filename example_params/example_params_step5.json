@@ -3,18 +3,18 @@
  
   "entrypoint": 5,
   "exitpoint": 5,
-  "output_dir":"example_output/",
+  "output_dir":"test_output/",
 
-  "scored_interactions": "example_input/scored_interactions",
+  "scored_interactions": "test_input/scored_interactions",
 
-  "postrain": "example_input/postrain",
-  "negtrain":  "example_input/negtrain",
-  "postest": "example_input/postest",
-  "negtest":  "example_input/negtest",
+  "postrain": "test_input/postrain",
+  "negtrain":  "test_input/negtrain",
+  "postest": "test_input/postest",
+  "negtest":  "test_input/negtest",
    
   "walktrap_steps": 3,
   "annotation_file": "accessory_files/virNOG_collapse_annotations.txt",
-  "elution_file": "example_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
+  "elution_file": "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
 
   "plot_pr": "True",
   "fdr_cutoff": 0.1,

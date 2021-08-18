@@ -4,9 +4,9 @@
   "entrypoint": 2,
   "exitpoint": 2,
 
-  "output_dir": "example_output/",
+  "output_dir": "test_output/",
 
-  "input_features_pattern":"example_input/*scaled.ordered",
+  "input_features_pattern":"test_input/*scaled.ordered",
 
   "protein_complex_maps_dir": "/indocker_repos/protein_complex_maps"
 

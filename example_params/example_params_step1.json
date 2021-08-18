@@ -4,8 +4,8 @@
   "entrypoint": 1,
   "exitpoint": 1,
 
-  "output_dir": "example_output/",
-  "input_elution_pattern": "example_input/*.wide",
+  "output_dir": "test_output/",
+  "input_elution_pattern": "test_input/*.wide",
 
   "added_poisson_reps" : 5,
 

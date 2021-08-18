@@ -5,17 +5,17 @@
   "exitpoint": 5,
 
 
-  "input_elution_file" : "example_input/elutionlist.txt",
+  "input_elution_file" : "test_input/elutionlist.txt",
 
 
-  "annotation_file": "/project/cmcwhite/pipelines/cfmsflow/accessory_files/virNOG_collapse_annotations.txt",
-  "output_dir": "example_output/",
+  "annotation_file": "accessory_files/virNOG_collapse_annotations.txt",
+  "output_dir": "test_output/",
 
-  "elution_file" : "example_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
+  "elution_file" : "test_input/ex_wheat_OP_WheatGrassSEC_20170202_virNOG_singleexp_elut_expnormspeccounts.wide",
 
   "added_poisson_reps" : 5,
 
-  "goldstandard_complexes": "example_input/goldstandard_complexes.txt",
+  "goldstandard_complexes": "test_input/goldstandard_complexes.txt",
 
   "merge_threshold": 0.6,
   "complex_size_threshold": 30,

@@ -6,20 +6,20 @@
 
   "tpot_dir" : "/indocker_repos/run_TPOT/",
   "protein_complex_maps_dir" : "/indocker_repos/protein_complex_maps",
-  "existing_feature_matrix_labeled": "example_input/featmat_labeled",
-  "existing_feature_matrix" : "example_input/featmat",
-  "output_dir": "example_output",
+  "existing_feature_matrix_labeled": "test_input/featmat_labeled",
+  "existing_feature_matrix" : "test_input/featmat",
+  "output_dir": "test_output",
 
 
   "tpot_template" : "Selector-Classifier",
   "selectors_to_scan": "accessory_files/selector_subset.txt",
   "classifiers_to_scan": "accessory_files/classifier_subset.txt",
 
-  "postrain":"example_input/postrain",
-  "negtrain":"example_input/negtrain",
-  "postest":"example_input/postest",
-  "negtest":"example_input/negtest",
-  "traincomplexgroups":"example_input/traincomplexgroups",
+  "postrain":"test_input/postrain",
+  "negtrain":"test_input/negtrain",
+  "postest":"test_input/postest",
+  "negtest":"test_input/negtest",
+  "traincomplexgroups":"test_input/traincomplexgroups",
 
 
 

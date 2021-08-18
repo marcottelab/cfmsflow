@@ -4,13 +4,13 @@
   "entrypoint": 3,
   "exitpoint": 3,
 
-  "output_dir": "example_output/",
+  "output_dir": "test_output/",
 
-  "existing_feature_matrix": "example_input/featmat",
+  "existing_feature_matrix": "test_input/featmat",
 
   "protein_complex_maps_dir": "/indocker_repos/protein_complex_maps",
 
-  "goldstandard_complexes": "example_input/goldstandard_complexes.txt",
+  "goldstandard_complexes": "test_input/goldstandard_complexes.txt",
 
   "merge_threshold": 0.6,
   "complex_size_threshold": 30,
