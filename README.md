@@ -34,7 +34,7 @@ Examples of all input file formats are provided in the test_input directory.
 
 First test your local pipeline by running examples. Look for successfuly completion of the following command in 5-10 minutes, with output in the test_output directory. 
 ```
-nextflow main.nf –params-file example_params/example_wholepipeline.json 
+nextflow main.nf -params-file example_params/example_wholepipeline.json 
 ```
 
 
@@ -58,7 +58,7 @@ Modify the generated user_parameters.json, filling out all empty parameters with
 
 Then run with:
 ```
-nextflow main.nf –params-file user_parameters.json 
+nextflow main.nf -params-file user_parameters.json 
 ```
 
 
