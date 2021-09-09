@@ -37,12 +37,11 @@ First test your local pipeline by running examples. Look for successfuly complet
 nextflow main.nf -params-file example_params/example_wholepipeline.json 
 ```
 
-
 Due to variability in parameters needed to run different portions of the pipeline, we provide a script that will generated a parameters json file containing only parameters that are required for the selected steps. 
 
 To generate a template parameters file for all steps, use
 ```
-nextflow main.nf -params-file generate_params.sh --entrypoint 1 --exitpoint 5 
+nextflow main.nf -params-file generate_params.json --entrypoint 1 --exitpoint 5 
 ```
 
 This will create a file called user_parameters.json, which should be renamed to avoid overwritting. 
