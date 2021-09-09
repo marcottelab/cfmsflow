@@ -49,7 +49,7 @@ This will create a file called user_parameters.json, which should be renamed to 
 As another example, to generate parameters for only steps 4 and 5 using already already generated positive and negative ppi sets from a previous run. 
 
 ```
-nextflow main.nf -params-file generate_params.sh --entrypoint 4 --exitpoint 5 --using_existing_goldstandard true
+nextflow main.nf -params-file generate_params.json --entrypoint 4 --exitpoint 5 --using_existing_goldstandard true
 ```
 
 
@@ -74,7 +74,7 @@ A user would first run the entire pipeline. Then..
 
 - Finding the model overtrained, run just steps 4 and 5 on the labeled feature matrix produced in the initial run, reducing the value of max_features_to_select.
 
-To do this, you would first run `nextflow main.nf -params-file generate_params.sh --entrypoint 4 --exitpoint 5 --using_existing_goldstandard true`. Then fill in the input parameters with the path to the labeled feature matrix and gold standard sets produced in the initial run. Note: change output_dir parameter to compare new training to previous output. Rename the user_parameters.json and then run `nextflow main.nf –params-file user_parameters_XX_XX_XX.json`
+To do this, you would first run `nextflow main.nf -params-file generate_params.json --entrypoint 4 --exitpoint 5 --using_existing_goldstandard true`. Then fill in the input parameters with the path to the labeled feature matrix and gold standard sets produced in the initial run. Note: change output_dir parameter to compare new training to previous output. Rename the user_parameters.json and then run `nextflow main.nf –params-file user_parameters_XX_XX_XX.json`
 
 
 - Finding poor protein interaction quality, run steps 3 through 5, using a different set of gold standard and the feature matrix produced in the initial run. 
@@ -108,7 +108,7 @@ Change to the stated work directory and confirm that training matrix contains bo
 ## Parameters
    
 
-### Parameters to control generating parameters (generate_params.sh)
+### Parameters to control generating parameters (generate_params.json)
 
 #### entrypoint
 Which step in the pipeline to begin. Default: 1
