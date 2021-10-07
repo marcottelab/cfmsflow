@@ -44,7 +44,7 @@ To generate a template parameters file for all steps, use
 nextflow main.nf -params-file generate_params.json --entrypoint 1 --exitpoint 5 
 ```
 
-This will create a file called user_parameters.json, which should be renamed to avoid overwritting. 
+This will create a file called parameters.json, which should be renamed to avoid overwritting. 
 
 As another example, to generate parameters for only steps 4 and 5 using already already generated positive and negative ppi sets from a previous run. 
 
@@ -53,11 +53,11 @@ nextflow main.nf -params-file generate_params.json --entrypoint 4 --exitpoint 5 
 ```
 
 
-Modify the generated user_parameters.json, filling out all empty parameters with local files and modifying any desired default parameter values. 
+Modify the generated parameters.json, filling out all empty parameters with local files and modifying any desired default parameter values. 
 
 Then run with:
 ```
-nextflow main.nf -params-file user_parameters.json 
+nextflow main.nf -params-file parameters.json 
 ```
 
 
