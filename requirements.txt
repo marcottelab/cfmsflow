@@ -16,7 +16,7 @@ scikit-learn == 0.22
 
 # For TPOT wrapper scripts in run_TPOT
 # Current used version, may not be critical
-joblib == 0.16.0
+joblib == 1.2.0
 
 # For prcurve plot output
 # Current used version, may not be critical
